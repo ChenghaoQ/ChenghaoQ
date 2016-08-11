@@ -12,6 +12,7 @@ def main():
 			'git status']
 	for each in command_list:
 		os.system(each)
+		print('-----------------------------------')
 
 
 if __name__ == '__main__':
