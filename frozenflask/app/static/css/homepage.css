@@ -51,10 +51,11 @@ body
 #main-page nav ul
 {
     list-style: none;
-    float:right;
+    float: right;
     margin:0;
     height:inherit;
     margin-top:100px;
+    display:inline-block;
     
 }
 #main-page nav ul li 
@@ -78,6 +79,7 @@ body
     width:300px;
     text-align: center;
     padding-top:36px;
+    display:inline-block;
 }
 #main-page nav .logo a
 {
@@ -104,6 +106,7 @@ body
     color:white;
     margin-left:5px;
     font-size:19px;
+    transform:  rotate(-180deg);
     
 }
 .back-to-top
@@ -119,7 +122,11 @@ body
     color:white;
     margin-left:5px;
     font-size:19px;
-
+    transform: rotate(-90deg);
+}
+.menu_trigger
+{
+    display: none;
 }
 footer
 {

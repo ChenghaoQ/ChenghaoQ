@@ -8,7 +8,7 @@
 
     
     function run(){
-        window.location='posts';
+        window.location='posts.html';
     }
     
     $(function(){mask.fadeIn(4000)}) 

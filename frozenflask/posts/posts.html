@@ -3,11 +3,13 @@
     <head>
         <meta charset='utf-8'>
         <title>ChenghaoQ</title>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         
-<link rel='stylesheet' href='static/css/homepage.css'>
 <link rel='stylesheet' href='static/css/normalize.css'>
-<link rel='stylesheet' href='static/css/posts.css'>
+<link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/homepage.css'>
+<link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/posts.css'>
+<link rel='stylesheet' media="screen and (max-width:1024px)"  href='static/icss/ihomepage.css'>
+<link rel='stylesheet' media="screen and (max-width:1024px)"  href='static/icss/iposts.css'>
 
     
     
@@ -18,14 +20,16 @@
         <div id='main-page'>
             <header>
                 <nav>
-                    <ul>
+                    <div class="logo"><a href="#">老钱</a></div>
+                    <button class="menu_trigger">☰</button>
+                    <ul class="menu">
                         
                         <li><a href='../index.html'>首页</a></li>    
                         <li><a href='#'>文章</a></li> 
                         <li><a href='#'>归档</a></li> 
                         <li><a href='#'>关于</a></li>           
                     </ul>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    
                 </nav>
                 <div class="hr"></div>
             </header>
@@ -50,7 +54,6 @@
 
 </ul>
 
-
                 </div>
     
             </div>
@@ -69,8 +72,8 @@
 
             </footer>
         
-            <button id="sidebar-trigger">◀</button>
-            <button class="back-to-top">▲</button>
+            <button id="sidebar-trigger">➤</button>
+            <button class="back-to-top">➜</button>
 
         
         </div>
@@ -93,8 +96,12 @@
         
         </div>
         </div>
-        <script src="../static/js/jquery.js"></script>
-        <script src="../static/js/home.js"></script>
+        
+        <script src="static/js/jquery.js"></script>
+        <script media="screen and (min-width:1024px)" src="static/js/home.js"></script>
+        <script media="screen and (max-width:1024px)" src="static/ijs/ihome.js"></script>
+
+
     </body>
 
 
