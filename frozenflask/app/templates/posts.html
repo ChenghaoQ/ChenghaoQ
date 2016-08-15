@@ -15,7 +15,7 @@
         <div class="post_title">{{ page.meta.title }}</div>
         <div class="post_info">{{ page.meta.date }}</div>
     </div>
-    <div class="post_body">{{ page }}</div>
+    <div class="post_body">{{ page.meta.excerpt}}</div>
     <div class="more link_tag"><a href="{{ url_for('page', path=page.path) }}">More -></a></div>
 </li>
 {% endfor %}

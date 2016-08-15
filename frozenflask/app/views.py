@@ -18,9 +18,10 @@ def posts():
 			posts.append(article)
 
 	#sort posts by date,descending
-
+	
 	sorted_posts = sorted(posts,reverse = True,key = lambda page:page.meta['date'])#Because of key is date, so in .md file date cannot be write in wrong format like Date
 	#pages may related to template index.html
+
 	return render_template('posts.html',pages = sorted_posts)
 
 

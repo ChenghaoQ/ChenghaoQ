@@ -15,10 +15,18 @@
 		<div class="article_info">{{ page.meta.date }}</div>
 	</div>
 	<article>
+		{{ page.meta.excerpt }}
 		{{ page }}
 	</article>
 {% endblock %}
 
+{% block sidebar %}
+	<ul>
+	{% for item in page.sidebar %}
+		<li><a href='#'>{{ item.value }}</a></li>
+	{% endfor %}
+	</ul>
+{% endblock %}
 
 {% block js %}
         <script src="../../static/js/jquery.js"></script>

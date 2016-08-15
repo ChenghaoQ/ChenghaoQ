@@ -38,17 +38,71 @@
                 <div class="content_wrapper">
                     
     <div class="article_header">
-        <h1 class="article_title"><a>First-post.写在前面</a></h1>
+        <h1 class="article_title"><a>Flask-FlatPages (1) 安装与配置</a></h1>
                         
-		<div class="article_info">2016-08-10 23:00:00</div>
+		<div class="article_info">2016-08-15 12:00:01</div>
 	</div>
 	<article>
-		Hello World. 这是博客的第一句话，也是我接触计算机学到的第一句话。
-		<p>一直以来都想有一个自己的博客，尽管很久都没有写过什么东西。建一个独立博客对我来说也是挺遥远的事情。 机缘巧合吧，它现在有了。</p>
-<p>从无到有，聚少成多。从前端网页到后端生成器脚本（可能是对Python的迷之信仰，最后我用了基于Flask的Frozen-Flask为核心驱动，有机会后面会讲），从买域名到学会用Github，从头到尾都是自己一点点写出来的。从开始的两眼一抹黑到现在基本功能实现，整个过程还是挺有意思的。尽管它现在还是一个半成品，还有很多预想中的功能还没有实现。但即便是这样，</p>
-<p>这仍然是我之前从来没有想到过的事情。</p>
-<p>关于未来，我想借此博客作一个手边的备忘录，记录自己学习过程中遇到的问题和解决方案，总结学到的知识方便日后查阅，还有就是作为自己成长的记录吧。同时也希望可以更好地回馈开源社区，提供一些我的学习经验。</p>
-<p>摸着石头过河也是过河。共勉！</p>
+		Flask-FlatPages是Flask应用的一个小工具，规则基于YAML和Markdown，实现了文本文档和模板的结合。用户可以通过编写‘.md’（默认）文本文档即可轻松生成网页。
+		<h2>什么是Flask FlatPages</h2>
+<p>Flask-FlatPages 为你的<a href="http://flask.pocoo.org/">Flask</a>应用提供了一系列的网页，这些网页基于文本文档(flat text files)而不是关系型数据库。</p>
+<ul>
+<li>BSD licensed</li>
+<li>最新的文档在<a href="https://pythonhosted.org/Flask-FlatPages/">python.org</a></li>
+<li>源码，问题和访问请求在<a href="https://github.com/SimonSapin/Flask-FlatPages/">Github</a></li>
+<li>发行在<a href="https://pypi.python.org/pypi/Flask-FlatPages">PyPI</a></li>
+</ul>
+<h2>安装</h2>
+<p>通过其中一个以下的命令来安装本扩展</p>
+<div class="codehilite"><pre><span></span>$ easy_install Flask-FlatPages
+</pre></div>
+
+
+<p>如果你安装了pip</p>
+<div class="codehilite"><pre><span></span>$ pip install Flask-FlatPages
+</pre></div>
+
+
+<p>或者你可以通过Github获得<a href="https://github.com/SimonSapin/Flask-FlatPages">源代码</a></p>
+<h2>配置</h2>
+<p>首先你需要初始化一个<strong>FlatPages</strong>对象
+    from flask import Flask
+    from flask_flatpages import FlatPages</p>
+<div class="codehilite"><pre><span></span>app = Flask(__name__)#初始化Flask对象
+app.config.from_pyfile(&#39;mysettings.cfg&#39;)#引入配置文件
+pages = FlatPages(app)通过Flask对象创建Flask实例
+</pre></div>
+
+
+<p>同时你也可以稍后再通过<strong>init_app()</strong>引入Flask对象</p>
+<div class="codehilite"><pre><span></span>pages = FlatPages()
+
+def create_app(config=&#39;mysettings.cfg&#39;):
+app = Flask(__name__)
+app.config.from_pyfile(config)
+pages.init_app(app)
+return app
+</pre></div>
+
+
+<p>以下为Flask-FlatPages配置选项，它们都不是必选的。</p>
+<div class="codehilite"><pre><span></span>FLATPAGES_ROOT
+    查找page文件的目录，相对路径为应用根目录，同static/templates文件夹在一起，默认是pages
+
+FLATPAGES_EXTENSION
+    查找的文件的扩展名，FLATPAGES_ROOT下无后缀文件都会被忽略。默认为.html
+
+FLATPAGES_ENCODING
+    page文件编码，默认为utf-8
+
+FLATPAGES_HTML_RENDERER
+
+FLAT_PAGES_MARKDOWN_EXTENSIONS
+    一个列表的有着默认HTML渲染器的Markdown扩展。默认为[&#39;codehilite&#39;]
+
+FLAT_PAGES_AUTO_RELOAD
+    是否进行页面重载。默认为只在DEBUG模式下使用。详情见[Laziness and caching]()
+</pre></div>
 	</article>
 
                 </div>
@@ -85,6 +139,10 @@
         <div id='sidebar'>
             
 	<ul>
+	
+		<li><a href='#'>安装</a></li>
+	
+		<li><a href='#'>配置</a></li>
 	
 	</ul>
 
