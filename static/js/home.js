@@ -14,7 +14,7 @@
     
     function hidebutton()
     {
-        if($(window).scrollTop() > $(window).height())
+        if($(window).scrollTop() > $(window).height()/2)
             backbutton.fadeIn();
         else
             backbutton.fadeOut();
@@ -40,6 +40,8 @@
             else  
                 showSideBar();
     }
+    
+    $(function(){setTimeout(hideSideBar,600)})
     sidebar_trigger.on('click',showhideSideBar)
     backbutton.on('click',backback)
     $(window).on('scroll',hidebutton)

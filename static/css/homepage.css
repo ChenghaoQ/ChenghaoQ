@@ -8,12 +8,12 @@ body
     position:fixed;
     width:260px;
     top:0;
-    left:0;
+    left:0px;
     bottom:0;
     background:#333;
     color:#fff;
     float:left;
-    transition:left 0.6s;
+    transition:left 0.7s;
 
 }
 #sidebar ul
@@ -39,7 +39,7 @@ body
     background:white;
 
     margin-left:260px;
-    transition:left 0.5s;
+    transition:left 0.6s;
     min-height:100%;
 }
 #main-page nav

@@ -4,7 +4,13 @@
     var menu = $('.menu'),
         backbutton=$('.back-to-top'),
         menu_trigger = $('.menu_trigger');
-    
+    function hidebutton()
+    {
+        if($(window).scrollTop() > $(window).height()/2)
+            backbutton.fadeIn();
+        else
+            backbutton.fadeOut();
+    }
     function backback()
     {
         $('html,body').animate({
