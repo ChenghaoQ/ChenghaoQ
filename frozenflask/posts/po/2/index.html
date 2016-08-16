@@ -38,7 +38,7 @@
                 <div class="content_wrapper">
                     
     <div class="article_header">
-        <h1 class="article_title"><a>Flask-FlatPages (1) 安装与配置</a></h1>
+        <h1 class="article_title"><a>Flask-FlatPages 使用手册</a></h1>
                         
 		<div class="article_info">2016-08-15 12:00:01</div>
 	</div>
@@ -103,6 +103,147 @@ FLAT_PAGES_MARKDOWN_EXTENSIONS
 FLAT_PAGES_AUTO_RELOAD
     是否进行页面重载。默认为只在DEBUG模式下使用。详情见[Laziness and caching]()
 </pre></div>
+
+
+<h2><a name='3'>使用说明</a></h2>
+<p>当第一次使用（详见<a href="">Laziness and chaching</a> 了解更多), 该扩展从文件系统加载所有的pages:一个<strong>Page</strong>实例是被创建在FLATPAGES_ROOT下面的后缀为FLATPAGES_EXTENSION.</p>
+<p>每一个实例都和它的路劲相关联: 通过'/'划分开的相对于pages的根目录的路径（不包含扩展).例如，一个位于C:\myapp 有着默认设置的app实例。它的绝对路径是C:\myapp\pages\lorem\ipsum.html 但是它的路径是lorem/ipsum.</p>
+<p>每一个文件都是由<a href="http://www.yaml.org/">YAML</a>映射的元数据，空白行和内容首页。</p>
+<div class="codehilite"><pre><span></span><span class="n">title</span><span class="o">:</span> <span class="n">Hello</span>   <span class="c1">//page.meta.title 或者 page.meta[&#39;title&#39;]</span>
+<span class="n">published</span><span class="o">:</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span> <span class="c1">////page.meta.published 或者 page.meta[&#39;published&#39;]</span>
+
+<span class="n">Hello</span><span class="o">.</span> <span class="o">*</span><span class="n">World</span><span class="o">*!</span>
+
+<span class="n">Lorem</span> <span class="n">ipsum</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span><span class="o">,...</span>
+</pre></div>
+
+
+<p>文章主体格式默认使用<a href="http://daringfireball.net/projects/markdown/">Markdown</a>， 如果使用了的话<a href="http://pygments.org/">Pygments</a>也是默认选项，但是主要还是根据FLATPAGES_HTML_RENDERER里设置的值来决定。</p>
+<p>使用Pygments,你需要单独进行样式声明。你可以使用<a href="">pygments_style_defs():</a></p>
+<div class="codehilite"><pre><span></span>@app.route(&#39;/pygments.css&#39;)
+def pygments_css():
+    return pygments_style_defs(&#39;tango&#39;), 200, {&#39;Content-Type&#39;: &#39;text/css&#39;}
+</pre></div>
+
+
+<p>同时在模板里面：</p>
+<div class="codehilite"><pre><span></span><span class="x">&lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;pygments_css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
+</pre></div>
+
+
+<h2><a name='4'>使用定制Markdown扩展</a></h2>
+<p>默认情况下，Flask-FlatPages 通过<a href="http://daringfireball.net/projects/markdown/">Markdown</a>和<a href="http://pygments.org/">Pygments</a>来渲染文章主体。这也意味着将 ['codehilite']扩展列表传给markdown.markdown函数。</p>
+<p>但某些时间你需要定制文件，比如说使用其他扩展或禁用默认方法，这些可以通过传递特殊配置参数来实现。</p>
+<div class="codehilite"><pre><span></span>FLATPAGES_MARKDOWN_EXTENSIONS = [&#39;codehilite&#39;, &#39;headerid&#39;]
+</pre></div>
+
+
+<p>或者禁用默认配置</p>
+<div class="codehilite"><pre><span></span>FLATPAGES_MARKDOWN_EXTENSIONS = []
+</pre></div>
+
+
+<h2><a name='5'>偷懒和缓存</a></h2>
+<p><a href="https://pythonhosted.org/Flask-FlatPages/">FlatPages</a> 不会接触到文件系统直到需要的时候，但是如果它读取数据时，它会从磁盘一次性读取完毕。</p>
+<p>然后，pages 不会被再次加载 除非你明确地要求它使用<a href="">FlatPages.reload()</a>.或通过配置接受的新请求。（详见FLATPAGES_AUTO_RELOAD.)</p>
+<p>这个设计是在适配<a href="https://pythonhosted.org/Frozen-Flask/">Frozen-Flask</a>(Flask生成静态网页的工具)时使用，但是即便你不用他还是可以正常工作：你修改了代码并且已经重启了生产服务器，你只需要修改页面内容就好了。同样的，在版本控制系统下这依然有效。</p>
+<p>但是如果你有很多网页并且加载时间很长，你可以让它在初始化过程中强制加载，当第一个请求被使用。</p>
+<div class="codehilite"><pre><span></span>pages = FlatPages(app)
+pages.get(&#39;foo&#39;) # Force loading now. foo.html may not even exist.
+</pre></div>
+
+
+<p>每次全部都加载看起来很浪费，但是这种影响可以通过缓存来减轻：如果文件的修改时间并没有变化，它不会被再次重复加载，之前的Page实例也会被重复利用。</p>
+<p>同样地，YAML和Markdown的解析也是偷懒的和被缓存的：用不到的时候就不加载，没更改过就不会重复加载。</p>
+<h2><a name='6'>API</a></h2>
+<p>class flask_flatpages.FlatPages(app=None)</p>
+<blockquote>
+<p>一个page实例集合</p>
+<p>范例：</p>
+</blockquote>
+<p>```python
+pages = FlatPages(app)</p>
+<p>@app.route('/')
+def index():</p>
+<div class="codehilite"><pre><span></span>//Articles are pages with a publication date
+articles = (p for p in pages if &#39;published&#39; in p.meta)
+// Show the 10 most recent articles, most recent first.
+latest = sorted(articles, reverse=True,key=lambda p: p.meta[&#39;published&#39;])
+return render_template(&#39;articles.html&#39;, articles=latest[:10])
+</pre></div>
+
+
+<p>@app.route('/<path:path>/')
+def page(path):</p>
+<div class="codehilite"><pre><span></span>page = pages.get_or_404(path)
+template = page.meta.get(&#39;template&#39;, &#39;flatpage.html&#39;)
+return render_template(template, page=page)
+</pre></div>
+
+
+<p>```</p>
+<blockquote>
+<p><strong>__iter__()</strong>
+        对所有Page实例进行迭代</p>
+<p><strong>get(path, default=None)</strong>
+        返回路径下的Page实例，如果没有则返回默认(default)</p>
+<p><strong>get_or_404(path)</strong>
+        返回路径下的Page实例，或者raise一个Flask's的404 Error如果没有</p>
+<p><strong>init_app(app)</strong></p>
+<p><strong>reload()</strong>
+        统统忘记吧（Forget all pages）.
+        所有的Page都会被重新加载</p>
+</blockquote>
+<p>class flask_faltpages.<strong>Page</strong></p>
+<blockquote>
+<p>单一的类来储存所有必要的关于flatpage的信息</p>
+<p>主要目的是通过html_renderer函数来渲染页面内容</p>
+<p>需要先定义一个hello.html 页面</p>
+</blockquote>
+<div class="codehilite"><pre><span></span># hello.html
+title: Hello
+published: 2010-12-22
+
+Hello, *World*!
+
+Lorem ipsum dolor sit amet, …
+
+
+&gt;&gt;&gt; page = pages.get(&#39;hello&#39;)
+&gt;&gt;&gt; page.meta # PyYAML converts YYYY-MM-DD to a date object
+{&#39;title&#39;: u&#39;Hello&#39;, &#39;published&#39;: datetime.date(2010, 12, 22)}
+&gt;&gt;&gt; page[&#39;title&#39;]
+u&#39;Hello&#39;
+&gt;&gt;&gt; page.body
+u&#39;Hello, *World*!\n\nLorem ipsum dolor sit amet, \u2026&#39;
+&gt;&gt;&gt; page.html
+u&#39;<span class="nt">&lt;p&gt;</span>Hello, <span class="nt">&lt;em&gt;</span>World<span class="nt">&lt;/em&gt;</span>!<span class="nt">&lt;/p&gt;</span>\n<span class="nt">&lt;p&gt;</span>Lorem ipsum dolor sit amet, \u2026<span class="nt">&lt;/p&gt;</span>&#39;
+</pre></div>
+
+
+<blockquote>
+<p><strong>__getitem__(name)</strong>
+        使用元数据的快捷方式</p>
+<p><strong>__html__()</strong>
+        在模板中,{{ page }}等同于{{ page.html|safe }}.</p>
+<p><strong>html</strong>
+        网页内容，被渲染器渲染
+  <strong>meta</strong>
+        一个在页头被YAML解析的元数据的词典</p>
+<p><strong>path</strong>= None
+        path就是pages实例获得的地方，在pages.get(path)</p>
+</blockquote>
+<p>flask_flatpages.pygmented_markdown(text, flatpages=None)</p>
+<ul>
+<li>将markdown 文本变成HTML </li>
+<li>使用<a href="http://freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a>扩展当<a href="http://pygments.org/">Pygments</a>一起使用.但是如果<a href="http://pygments.org/">Pygments</a>不可以使用，就把“codehilite”从扩展列表移除。</li>
+<li>如果你需要其他的扩展，请在设置列表里面配置 FLATPAGES_MARKDOWN_EXTENSIONS.之后整个的FlatPages实例都会作为第二个参数被传递到FLATPAGES_HTML_RENDERER.</li>
+</ul>
+<p>flask_flatpages.pygments_style_defs(style='default')
+- Returns: <a href="http://freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a>Markdown插件的CSS定义
+- 参数： style - Pygments <a href="http://pygments.org/docs/styles/">style</a> 样式
+- 只有当<a href="http://pygments.org/">Pygments</a>可用的时候</p>
+<p>ChenghaoQ所有，转载请注明出处</p>
 	</article>
 
                 </div>
@@ -140,9 +281,17 @@ FLAT_PAGES_AUTO_RELOAD
             
 	<ul>
 	
-		<li><a href='#'>安装</a></li>
+		<li><a href='#'>&lt;a href=&#39;#1&#39;&gt;安装&lt;/a&gt;</a></li>
 	
-		<li><a href='#'>配置</a></li>
+		<li><a href='#'>&lt;a href=&#39;#2&#39;&gt;配置&lt;/a&gt;</a></li>
+	
+		<li><a href='#'>&lt;a href=&#39;#3&#39;&gt;使用说明&lt;/a&gt;</a></li>
+	
+		<li><a href='#'>&lt;a href=&#39;#4&#39;&gt;使用定制Markdown扩展&lt;/a&gt;</a></li>
+	
+		<li><a href='#'>&lt;a href=&#39;#5&#39;&gt;偷懒和缓存&lt;/a&gt;</a></li>
+	
+		<li><a href='#'>&lt;a href=&#39;#6&#39;&gt;API&lt;/a&gt;</a></li>
 	
 	</ul>
 
