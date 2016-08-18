@@ -40,12 +40,16 @@
             else  
                 showSideBar();
     }
-    
-    $(function(){setTimeout(hideSideBar,600)})
-    sidebar_trigger.on('click',showhideSideBar)
-    backbutton.on('click',backback)
-    $(window).on('scroll',hidebutton)
-    $(window).trigger('scroll')
+    $(function(){
+        if($(window).width()>1024){
+            $(function(){setTimeout(hideSideBar,600)});
+            sidebar_trigger.on('click',showhideSideBar);
+            backbutton.on('click',backback);
+            $(window).on('scroll',hidebutton);
+            $(window).trigger('scroll');
+        }
+    })
+        
     
     /*sidebar_trigger.on('click',showSideBar)*/
 })

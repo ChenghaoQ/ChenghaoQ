@@ -1,6 +1,6 @@
 .content_wrapper
 {
-    width:75%;
+    width:90%;
     margin:0 auto;
     background:#fefefe;
     color:#444;
@@ -33,4 +33,9 @@ article
 .article_title a
 {
     margin:0 auto;
+}
+
+.codehilite
+{
+    overflow: scroll;
 }
