@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>ChenghaoQ</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        
+<link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/homepage.css'>
+<link rel='stylesheet' href='../../static/css/normalize.css'>
+<link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/article.css'>
+
+<link rel='stylesheet' media="screen and (max-width:1024px)"  href='../../static/icss/ihomepage.css'>
+<link rel='stylesheet' media="screen and (max-width:1024px)"  href='../../static/icss/iarticle.css'>
+
+    
+    
+    </head>
+    
+    <body>
+        <div id="wrapper">
+        <div id='main-page'>
+            <header>
+                <nav>
+                    <div class="logo"><a href="#">老钱</a></div>
+                    <button class="menu_trigger">☰</button>
+                    <ul class="menu">
+                        
+                        <li><a href='../index.html'>首页</a></li>    
+                        <li><a href='#'>文章</a></li> 
+                        <li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>           
+                    </ul>
+                    
+                </nav>
+                <div class="hr"></div>
+            </header>
+            <div class='content'>
+                <div class="mask"></div>
+                <div class="content_wrapper">
+                    
+    <div class="article_header">
+        <h1 class="article_title"><a>Frozen-Flask说明（待续）</a></h1>
+                        
+		<div class="article_info">2016-08-15 11:21:05</div>
+	</div>
+	<article>
+		Frozen-Flask（原名Flask-Static)是一个基于[Flask]()的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。
+		<p>sidebar:
+- value:
+    title: 安装
+    id: 1
+- value:
+    title: 上下文
+    id: 2
+- value:
+    title: 开始吧
+    id: 3
+- value:
+    title: URL生成器
+    id: 4
+- value:
+    title: 测试URL生成器
+    id: 5
+- value:
+    title: 配置
+    id: 6
+- value:
+    title: 文件名和MIME类型
+    id: 7</p>
+<p>（翻译自官方文档，英文版请点击<a href="http://pythonhosted.org/Frozen-Flask/#flask_frozen.relative_url_for">这里</a></p>
+<h2><a name='1'>安装</a></h2>
+<p>通过以下其中一个安装本扩展</p>
+<div class="codehilite"><pre><span></span>$ easy_install Frozen-Flask
+</pre></div>
+
+
+<p>如果你安装了pip组件</p>
+<div class="codehilite"><pre><span></span>$ pip install Frozen-Flask
+</pre></div>
+
+
+<p>或者你可以从Github获得<a href="https://github.com/SimonSapin/Frozen-Flask">源代码</a></p>
+<h2><a name='2'>上下文</a></h2>
+<p>这篇文档假设你已经有一个工作中的<a href="http://flask.pocoo.org/">Flask</a>应用。你可以通过开发服务器运行测试</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Frozen-Flask用于部署：取代了安装python, WSGI服务器和Flask，你可以使用Frozen-Flask 来冻结你的应用并且可以只部署静态HTML文件在你的服务器上。</p>
+<h2><a name='3'>开始吧</a></h2>
+<p>创建一个<a href="">冻结器</a>实例和你的app对象放在一起，然后调用它的<a href="">freeze()</a>方法。将其放入一个freeze.py的脚本文件(名字无所谓其实)</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask_frozen</span> <span class="kn">import</span> <span class="n">Freezer</span>
+<span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="n">freezer</span> <span class="o">=</span> <span class="n">Freezer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">freezer</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
+</pre></div>
+
+
+<p>这样会在你的static和templates目录旁边创建一个build文件夹，里面放着创建出来的静态文件。</p>
+<div class="codehilite"><pre><span></span>Note
+
+Frozen-Flask considers it “owns” its build directory. By default, it will silently overwrite files in that directory, and remove those it did not create.
+
+The [configuration]() allows you to change the destination directory, or control what files are removed if at all.
+</pre></div>
+
+
+<p>This build will be most likely be partial since Frozen-Flask can only guess so much about your application.</p>
+<h2>寻找URL地址</h2>
+<p>Frozen-Flask 通过在WSGI层模拟请求并且写出返回信息给相应的文件。所以它需要知道在你的应用里面都有哪些URL链接。</p>
+<p>下列URLs可以被自动找到
+- 被你的Flask应用或者它的<a href="http://flask.pocoo.org/docs/0.11/blueprints/">蓝图</a>控制的静态文件
+- 没有变量的URL地址，如果它们接受GET方法
+- 0.6版新功能: 通过<a href="http://flask.pocoo.org/docs/0.11/api/#flask.url_for">flask.url_for()</a>请求的地址</p>
+<p>这意味着如果你的应用在URL地址（没有参数）有索引页并且其他所有的相关页面可以通过那个地址递归调用url_for()找到，那么Frozen-Flask就可以全部自动地找到。</p>
+<p>否则，你需要编写URL生成器</p>
+<h2><a name='4'>URL生成器</a></h2>
+<p>让我们假设你的应用看上去像这样</p>
+<div class="codehilite"><pre><span></span>@app.route(&#39;/&#39;)
+def products_list():
+    return render_template(&#39;index.html&#39;, products=models.Product.all())
+
+@app.route(&#39;/product_&lt;int:product_id&gt;/&#39;)
+def product_details():
+    product = models.Product.get_or_404(id=product_id)
+    return render_template(&#39;product.html&#39;, product=product)
+</pre></div>
+
+
+<p>如果因为某些原因，一些生产出来的页面不会被链接（或者它们不是通过url_for()调用）, Frozen-Flask 不会找到它们。</p>
+<p>为了告诉Frozen-Flask这些网页，在调用<a href="">freeze()</a>之前写一个URL生成器并且将它放在<a href="">Freezer</a>实例里面</p>
+<div class="codehilite"><pre><span></span>@freezer.register_generator
+def product_details():
+    for product in models.Product.all():
+        yield {&#39;product_id&#39;: product.id}
+</pre></div>
+
+
+<p>Frozen-Flask 会调用url_for(endpoint,**values),来找到URL地址，endpoint是生成器函数的名字，values是被生成器调用的每一个dict字典</p>
+<p>你可以指定一个不同的endpoint通过一个(endpoint,values)元组而不仅仅是values，或者你可以通过传递url_for 并且单单产生URLs字符串</p>
+<p>另外，生成器函数不需要使用<a href="https://docs.python.org/3/glossary.html#term-generator">Python generators</a>来使用yield，它们可以是可以被调用的 并且返回可迭代的对象</p>
+<p>下面的例子都是一样的</p>
+<div class="codehilite"><pre><span></span>@freezer.register_generator
+def product_details():  # endpoint defaults to the function name
+    # `values` dicts
+    yield {&#39;product_id&#39;: &#39;1&#39;}
+    yield {&#39;product_id&#39;: &#39;2&#39;}
+
+@freezer.register_generator
+def product_url_generator():  # Some other function name
+    # `(endpoint, values)` tuples
+    yield &#39;product_details&#39;, {&#39;product_id&#39;: &#39;1&#39;}
+    yield &#39;product_details&#39;, {&#39;product_id&#39;: &#39;2&#39;}
+
+@freezer.register_generator
+def product_url_generator():
+    # URLs as strings
+    yield &#39;/product_1/&#39;
+    yield &#39;/product_2/&#39;
+
+@freezer.register_generator
+def product_url_generator():
+    # Return a list. (Any iterable type will do.)
+    return [
+        &#39;/product_1/&#39;,
+        # Mixing forms works too.
+        (&#39;product_details&#39;, {&#39;product_id&#39;: &#39;2&#39;}),
+    ]
+</pre></div>
+
+
+<p>多次生成一个URL是Ok的，Frozen-Flask会只创建一次。给不同的函数起同样的名字并不是一个好的习惯，但是这里仍然可以使用，因为它们只被装饰器调用。你可能有一个模块for views，另一个模块for freezer 和 URL generator, 所以相同的名字不是问题。</p>
+<h2><a name='5'>测试URL生成器</a></h2>
+<p>Frozen Flask 背后的点子是你<a href="#2"><strong>可以直接使用Flask</strong></a>来开发并测试你的应用。况且在部署在服务器之前，非常有必要来测试你的URL生成器，以免有内容丢失。</p>
+<p>你可以在浏览器打开新生成的静态HTML文件，但是链接可能不能使用。FREEZER_RELATIVE_URLS<a href="">设置</a>可以修复这个问题，但是添加一个可见的index.html到链接。或者使用[run()]方法来使用生成的网页来大件一个HTTP服务器。这样一来你就可以在上传之前确认是否工作正常：</p>
+<div class="codehilite"><pre><span></span>if __name__ == &#39;__main__&#39;:
+    freezer.run(debug=True)
+</pre></div>
+
+
+<p><a href="">Freeze.run()</a>在服务前冻结你的应用并且当重载器kicks in.但是reloader只会查看Python的文件，而不是模板或静态文件。因为这样，你可能想要只用<a href="">Freeze.run()</a>来测试URL生成器，其他情况照常使用<a href="http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run">app.run()</a></p>
+<p><a href="http://flask-script.readthedocs.io/en/latest/"><strong>Flask-Script</strong></a>may come in handy here.</p>
+<h2><a name='6'>配置</a></h2>
+<p>Frozen-Flask可以通过Flask的<a href="http://flask.pocoo.org/docs/0.11/config/">配置系统</a>。下列是可用配置属性。</p>
+<p>FREEZER_BASE_URL</p>
+<blockquote>
+<p>你的App应该呗安装到的地址。这个会影响<a href="">flask.url_for()</a>的输出结果：absolute URLS(with_external = True) 或者如果你的应用不在你的域名根目录下。默认是'http://localhost/'.</p>
+</blockquote>
+<p>FREEZER_RELATIVE_URLS</p>
+<blockquote>
+<p>如果被设置为True，Frozen-Flask 会patch Jinja的环境，url_for()会返回相对路径的URLs.默认为False.除非你明确使用<a href="">relative_url_for()</a>，python的代码是不会被影响的。</p>
+</blockquote>
+<p>FREEZER_DEFAULT_MIMETYPE</p>
+<blockquote>
+<p>如果不能根据文件扩展名来决定MIME类型时MIME的默认类型。如果你在使用Apache Web Server. 这应该会与Apache配置里的默认DefaultType的值对应。默认是application/octet-stream.（0.7版更新)</p>
+</blockquote>
+<p>FREEZER_IGNORE_MIMETYPE_WARNINGS</p>
+<blockquote>
+<p>如果被设置为True,当服务器返回的MIME类型和文件名扩展衍生出的MIME类型不同，Frozen-Flask不会显示Warning.默认是False。（0.8版更新)</p>
+</blockquote>
+<p>FREEZER_DESTINATION</p>
+<blockquote>
+<p>到生成的静态网站的目录的路径。默认在build文件夹，static/templates文件夹旁边。</p>
+</blockquote>
+<p>FREEZER_REMOVE_EXTRA_FILES</p>
+<blockquote>
+<p>默认为True,Frozen-Flask将会把目标文件夹里面不是这次build的出来的文件删除。（就是删除原来的程序）。这是为了清除上次冻结器产生的文件，而这些文件已经不再需要了。将此项设置为False等同于设置FREEZER_DESTINATION_IGNORE为['*'].</p>
+</blockquote>
+<p>FREEZER_DESTINATION_IGNORE</p>
+<blockquote>
+<p>一个（默认为空的）列表的fnmatch patterns.目标路径内符合pattern的文件或文件夹不会被移除，即便是FREEZER_REMOVE_EXTRA_FILES 为True。就像 .gitignore文件一样，作用于整个路径如果它有一个/，而且作用于每一个被/分隔的部分,否则，比如，这会被设置成['.git*']如果默认是一个git仓库。</p>
+</blockquote>
+<p>FREEZER_STATIC_IGNORE</p>
+<blockquote>
+<p>一个（默认为空的）列表的fnmatch patterns，文件通过发送_static_文件that match any of the patterns are not coppied to the build directory. As in .gitignore files, patterns apply to the whole path if they contain a slash /, to each slash-separated part otherwise. For example, this could be set to ['*.scss'] to stop all SASS files from being frozen.</p>
+</blockquote>
+<p>FREEZER_IGNORE_404_NOT_FOUND</p>
+<blockquote>
+<p>如果设置为True（默认False），Frozen-Flask不会在遇到404错误返回时停止你的应用。在这种情况下，会有一个警告会被显示并且会使用你的404错误处理器或Flask默认设置来生成一个404错误网页。这项功能在你开发过程中网页链接到还没有写的网页时很有用。（0.12版更新）</p>
+</blockquote>
+<h2><a name='7'>文件名和MIME类型</a></h2>
+<p>对于每一个URL，Frozen-Flask模拟一个请求并且将内容保存在FREEZER_DESTINATION 下的文件夹内。文件名字是根据URL地址来定的。URL有一个尾斜杠来表示一个文件夹名，内容存放于该文件夹下index.html下.....</p>
+	</article>
+
+                </div>
+    
+            </div>
+            
+            <footer>
+                <ul class="share-group">
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                </ul>    
+                <div class="copyright">
+                    &copy ChenghaoQ;
+                </div>
+
+            </footer>
+            
+            <button id="sidebar-trigger">➤</button>
+            <button class="back-to-top">➜</button>
+
+        
+        </div>
+          
+            
+        
+        
+        
+        
+        
+        
+        <div id='sidebar'>
+            
+	<ul>
+	
+	</ul>
+
+            <ul>
+                <li><a href='#'>item</a></li>
+                <li><a href='#'>item</a></li>
+                <li><a href='#'>item</a></li>
+                <li><a href='#'>item</a></li>
+                <li><a href='#'>item</a></li>
+            </ul>
+        
+        </div>
+        </div>
+        
+        <script src="../../static/js/jquery.js"></script>
+        <script media="screen and (min-width:1024px)" src="../../static/js/home.js"></script>
+        <script media="screen and (max-width:1024px)" src="../../static/ijs/ihome.js"></script>
+
+
+    </body>
+
+
+
+
+
+</html>
