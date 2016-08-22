@@ -4,6 +4,7 @@
     var sidebar =$('#sidebar'),
         sidebar_trigger = $('#sidebar-trigger'),
         backbutton=$('.back-to-top'),
+        sidebar_item = $('#sidebar>ul>li'),
         main_page=$('#main-page');
     function backback()
     {
@@ -45,6 +46,7 @@
             $(function(){setTimeout(hideSideBar,600)});
             sidebar_trigger.on('click',showhideSideBar);
             backbutton.on('click',backback);
+            sidebar_item.on('click',hideSideBar);
             $(window).on('scroll',hidebutton);
             $(window).trigger('scroll');
         }

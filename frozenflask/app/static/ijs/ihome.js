@@ -6,6 +6,7 @@
         menu_trigger = $('.menu_trigger'),
         mask = $('.mask'),
         sidebar =$('#sidebar'),
+        sidebar_item = $('#sidebar>ul>li'),
         sidebar_trigger = $('#sidebar-trigger');
         
     function hidebutton()
@@ -53,6 +54,7 @@
             $(function(){setTimeout(hideSideBar,1000)});
             sidebar_trigger.on('click',showSideBar);
             mask.on('click',hideSideBar);
+            sidebar_item.on('click',hideSideBar);
             backbutton.on('click',backback);
             $(window).on('scroll',hidebutton);
             $(window).trigger('scroll');

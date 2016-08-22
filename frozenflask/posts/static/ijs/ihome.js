@@ -53,8 +53,8 @@
             menu_trigger.click(function(){menu.slideToggle()});
             $(function(){setTimeout(hideSideBar,1000)});
             sidebar_trigger.on('click',showSideBar);
-            sidebar_item.on('click',hideSideBar);
             mask.on('click',hideSideBar);
+            sidebar_item.on('click',hideSideBar);
             backbutton.on('click',backback);
             $(window).on('scroll',hidebutton);
             $(window).trigger('scroll');
