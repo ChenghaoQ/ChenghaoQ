@@ -44,15 +44,15 @@
     float:left;
     display: inline-block;
     position:fixed;
-    left:2px;
-    top:2px;
-    width:36px;
-    height:36px;
-    background:inherit;
-    color:#555;
+    right:5px;
+    bottom:5px;
+    width:32px;
+    height:32px;
     border:none;
     font-size:25px;
     border-radius:5px;
+    background:#f5ece1;
+    color:#d46930;
 }
 
 body
@@ -67,7 +67,7 @@ body
 }
 #main-page nav
 {
-    position:fixed;
+
     min-height:40px;
     width:100%;
     background:#f5ece1;
@@ -131,11 +131,11 @@ body
 {
     background:#f5ece1;
     position:fixed;
-    bottom:5px;
+    bottom:37px;
     right:5px;
-    height:25px;
-    width:25px;
-    font-size:18px;
+    height:32px;
+    width:32px;
+    font-size:20px;
     border:1px solid #888;
     color:#d46930;
     padding:0 2px;
