@@ -29,10 +29,11 @@
 }
 #sidebar ul a
 {
-    padding:12px;
+    padding: 12px 0 12px 12px;
     display:inline-block;
     text-decoration: none;
     color:white;
+    width:100%;
 }
 #sidebar ul li:hover
 {
@@ -53,21 +54,7 @@
     font-size:25px;
     border-radius:5px;
 }
-#sidebar-trigger
-{
-    float:left;
-    display: inline-block;
-    position:absolute;
-    left:2px;
-    top:2px;
-    width:36px;
-    height:36px;
-    background:inherit;
-    color:#555;
-    border:none;
-    font-size:25px;
-    border-radius:5px;
-}
+
 body
 {
     margin:0;
@@ -80,10 +67,12 @@ body
 }
 #main-page nav
 {
+    position:fixed;
     min-height:40px;
-    width:inherit;
+    width:100%;
     background:#f5ece1;
     border-bottom:1px solid #333;
+    top:0;
 }
 #main-page nav ul
 {

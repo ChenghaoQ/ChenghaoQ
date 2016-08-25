@@ -41,52 +41,42 @@
     <div class="article_header">
         <h1 class="article_title"><a>Frozen-Flask说明（待续）</a></h1>
                         
-		<div class="article_info">2016-08-21 20:21:05</div>
+		<div class="article_info">2016-08-23 22:37:05</div>
 	</div>
 	<article>
 		Frozen-Flask（原名Flask-Static)是一个基于[Flask]()的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。
 		<p>（翻译自官方文档，英文版请点击<a href="http://pythonhosted.org/Frozen-Flask/#flask_frozen.relative_url_for">这里</a></p>
 <h2><a name='1'>安装</a></h2>
 <p>通过以下其中一个安装本扩展</p>
-<div class="codehilite"><pre><span></span>$ easy_install Frozen-Flask
-</pre></div>
-
-
+<pre><code>$ easy_install Frozen-Flask
+</code></pre>
 <p>如果你安装了pip组件</p>
-<div class="codehilite"><pre><span></span>$ pip install Frozen-Flask
-</pre></div>
-
-
+<pre><code>$ pip install Frozen-Flask
+</code></pre>
 <p>或者你可以从Github获得<a href="https://github.com/SimonSapin/Frozen-Flask">源代码</a></p>
 <h2><a name='2'>上下文</a></h2>
 <p>这篇文档假设你已经有一个工作中的<a href="http://flask.pocoo.org/">Flask</a>应用。你可以通过开发服务器运行测试</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
-<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-
-
+<pre><code>from myapplication import app
+app.run(debug=True)
+</code></pre>
 <p>Frozen-Flask用于部署：取代了安装python, WSGI服务器和Flask，你可以使用Frozen-Flask 来冻结你的应用并且可以只部署静态HTML文件在你的服务器上。</p>
 <h2><a name='3'>开始吧</a></h2>
 <p>创建一个<a href="">冻结器</a>实例和你的app对象放在一起，然后调用它的<a href="">freeze()</a>方法。将其放入一个freeze.py的脚本文件(名字无所谓其实)</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask_frozen</span> <span class="kn">import</span> <span class="n">Freezer</span>
-<span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
+<pre><code>from flask_frozen import Freezer
+from myapplication import app
 
-<span class="n">freezer</span> <span class="o">=</span> <span class="n">Freezer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+freezer = Freezer(app)
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">freezer</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
-</pre></div>
-
-
+if __name__ == '__main__':
+    freezer.freeze()
+</code></pre>
 <p>这样会在你的static和templates目录旁边创建一个build文件夹，里面放着创建出来的静态文件。</p>
-<div class="codehilite"><pre><span></span>Note
+<pre><code>Note
 
 Frozen-Flask considers it “owns” its build directory. By default, it will silently overwrite files in that directory, and remove those it did not create.
 
 The [configuration]() allows you to change the destination directory, or control what files are removed if at all.
-</pre></div>
-
-
+</code></pre>
 <p>This build will be most likely be partial since Frozen-Flask can only guess so much about your application.</p>
 <h2>寻找URL地址</h2>
 <p>Frozen-Flask 通过在WSGI层模拟请求并且写出返回信息给相应的文件。所以它需要知道在你的应用里面都有哪些URL链接。</p>
@@ -98,68 +88,60 @@ The [configuration]() allows you to change the destination directory, or control
 <p>否则，你需要编写URL生成器</p>
 <h2><a name='4'>URL生成器</a></h2>
 <p>让我们假设你的应用看上去像这样</p>
-<div class="codehilite"><pre><span></span>@app.route(&#39;/&#39;)
+<pre><code>@app.route('/')
 def products_list():
-    return render_template(&#39;index.html&#39;, products=models.Product.all())
+    return render_template('index.html', products=models.Product.all())
 
-@app.route(&#39;/product_&lt;int:product_id&gt;/&#39;)
+@app.route('/product_&lt;int:product_id&gt;/')
 def product_details():
     product = models.Product.get_or_404(id=product_id)
-    return render_template(&#39;product.html&#39;, product=product)
-</pre></div>
-
-
+    return render_template('product.html', product=product)
+</code></pre>
 <p>如果因为某些原因，一些生产出来的页面不会被链接（或者它们不是通过url_for()调用）, Frozen-Flask 不会找到它们。</p>
 <p>为了告诉Frozen-Flask这些网页，在调用<a href="">freeze()</a>之前写一个URL生成器并且将它放在<a href="">Freezer</a>实例里面</p>
-<div class="codehilite"><pre><span></span>@freezer.register_generator
+<pre><code>@freezer.register_generator
 def product_details():
     for product in models.Product.all():
-        yield {&#39;product_id&#39;: product.id}
-</pre></div>
-
-
+        yield {'product_id': product.id}
+</code></pre>
 <p>Frozen-Flask 会调用url_for(endpoint,**values),来找到URL地址，endpoint是生成器函数的名字，values是被生成器调用的每一个dict字典</p>
 <p>你可以指定一个不同的endpoint通过一个(endpoint,values)元组而不仅仅是values，或者你可以通过传递url_for 并且单单产生URLs字符串</p>
 <p>另外，生成器函数不需要使用<a href="https://docs.python.org/3/glossary.html#term-generator">Python generators</a>来使用yield，它们可以是可以被调用的 并且返回可迭代的对象</p>
 <p>下面的例子都是一样的</p>
-<div class="codehilite"><pre><span></span>@freezer.register_generator
+<pre><code>@freezer.register_generator
 def product_details():  # endpoint defaults to the function name
     # `values` dicts
-    yield {&#39;product_id&#39;: &#39;1&#39;}
-    yield {&#39;product_id&#39;: &#39;2&#39;}
+    yield {'product_id': '1'}
+    yield {'product_id': '2'}
 
 @freezer.register_generator
 def product_url_generator():  # Some other function name
     # `(endpoint, values)` tuples
-    yield &#39;product_details&#39;, {&#39;product_id&#39;: &#39;1&#39;}
-    yield &#39;product_details&#39;, {&#39;product_id&#39;: &#39;2&#39;}
+    yield 'product_details', {'product_id': '1'}
+    yield 'product_details', {'product_id': '2'}
 
 @freezer.register_generator
 def product_url_generator():
     # URLs as strings
-    yield &#39;/product_1/&#39;
-    yield &#39;/product_2/&#39;
+    yield '/product_1/'
+    yield '/product_2/'
 
 @freezer.register_generator
 def product_url_generator():
     # Return a list. (Any iterable type will do.)
     return [
-        &#39;/product_1/&#39;,
+        '/product_1/',
         # Mixing forms works too.
-        (&#39;product_details&#39;, {&#39;product_id&#39;: &#39;2&#39;}),
+        ('product_details', {'product_id': '2'}),
     ]
-</pre></div>
-
-
+</code></pre>
 <p>多次生成一个URL是Ok的，Frozen-Flask会只创建一次。给不同的函数起同样的名字并不是一个好的习惯，但是这里仍然可以使用，因为它们只被装饰器调用。你可能有一个模块for views，另一个模块for freezer 和 URL generator, 所以相同的名字不是问题。</p>
 <h2><a name='5'>测试URL生成器</a></h2>
 <p>Frozen Flask 背后的点子是你<a href="#2"><strong>可以直接使用Flask</strong></a>来开发并测试你的应用。况且在部署在服务器之前，非常有必要来测试你的URL生成器，以免有内容丢失。</p>
 <p>你可以在浏览器打开新生成的静态HTML文件，但是链接可能不能使用。FREEZER_RELATIVE_URLS<a href="">设置</a>可以修复这个问题，但是添加一个可见的index.html到链接。或者使用[run()]方法来使用生成的网页来大件一个HTTP服务器。这样一来你就可以在上传之前确认是否工作正常：</p>
-<div class="codehilite"><pre><span></span>if __name__ == &#39;__main__&#39;:
+<pre><code>if __name__ == '__main__':
     freezer.run(debug=True)
-</pre></div>
-
-
+</code></pre>
 <p><a href="">Freeze.run()</a>在服务前冻结你的应用并且当重载器kicks in.但是reloader只会查看Python的文件，而不是模板或静态文件。因为这样，你可能想要只用<a href="">Freeze.run()</a>来测试URL生成器，其他情况照常使用<a href="http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run">app.run()</a></p>
 <p><a href="http://flask-script.readthedocs.io/en/latest/"><strong>Flask-Script</strong></a>may come in handy here.</p>
 <h2><a name='6'>配置</a></h2>
@@ -205,34 +187,69 @@ def product_url_generator():
 <p>被从URL里面移除的查询字符串用来建立文件名字。例如/lorem/?page=ipsum被保存为lorem/index.html. URL只有在它们的查询字符串相同时不同。它们应该返回相同的结果，否则，行为会被当做未定义行为。</p>
 <p>另外，扩展检查了文件扩展名是否与Content-Type HTTP response header提供的MIME类型相匹配，Content-Type是一个静态web服务器可能会传送不是你期望的内容，这样Frozen-flask回发出警告</p>
 <p>比如，下列的views 都是错的</p>
-<div class="codehilite"><pre><span></span>@app.route(&#39;/lipsum&#39;)
+<pre><code>@app.route('/lipsum')
 def lipsum():
-    return &#39;<span class="nt">&lt;p&gt;</span>Lorem ipsum, ...<span class="nt">&lt;/p&gt;</span>&#39;
+    return '&lt;p&gt;Lorem ipsum, ...&lt;/p&gt;'
 
-@app.route(&#39;/style.css&#39;)
+@app.route('/style.css')
 def compressed_css():
-    return &#39;/* ... */&#39;
-</pre></div>
-
-
+    return '/* ... */'
+</code></pre>
 <p>作为结果Flask的Content-Type是text/html; charset=utf-8,但是Frozen-Flask和大多说web服务器通过文件名得到的MIME类型是application/octet-stream 和 text/css</p>
 <p>上述代码可以这样通过添加URL的尾斜杠或者添加Content-Type</p>
-<div class="codehilite"><pre><span></span># Saved as `lipsum/index.html` matches the &#39;text/html&#39; MIME type.
-@app.route(&#39;/lipsum/&#39;)
+<pre><code># Saved as `lipsum/index.html` matches the 'text/html' MIME type.
+@app.route('/lipsum/')
 def lipsum():
-    return &#39;<span class="nt">&lt;p&gt;</span>Lorem ipsum, ...<span class="nt">&lt;/p&gt;</span>&#39;
+    return '&lt;p&gt;Lorem ipsum, ...&lt;/p&gt;'
 
-@app.route(&#39;/style.css&#39;)
+@app.route('/style.css')
 def compressed_css():
-    return &#39;/* ... */&#39;, 200, {&#39;Content-Type&#39;: &#39;text/css; charset=utf-8&#39;}
-</pre></div>
-
-
-<p>你也可以通过<a href="">配置</a>来禁用。</p>
+    return '/* ... */', 200, {'Content-Type': 'text/css; charset=utf-8'}
+</code></pre>
+<p>你也可以通过<a href="#6">配置</a>来禁用。</p>
 <h2><a name='8'>字符编码</a></h2>
 <p>Flask内部使用Unicode，默认是UTF8来进行I/O操作.它会把一个MIME类型和编码方式发送到正确的Content-Type header。Frozen-Flask会尝试通过文件扩展名<a href="#7">保存MIME类型</a>，但是它不能保护编码元数据。你可能需要添加正确的<meta>标签到你的HTML。</p>
 <p>对于URL，Flask的默认也是UTF8编码，所以你的web服务器会得到URL-encoded UTF-8 HTTP 请求。由你来转换这些到你的文件系统默认编码。Frozen-Flask总是使用Unicode描写文件名。</p>
 <h2><a name='9'>API</a></h2>
+<p>class flask_frozen.Freezer(app=None, with_static_files=True,with_no_argument_rules=True, log_url_for=True)</p>
+<blockquote>
+<p><strong>参数</strong>：
+        - app(Flask实例):你的应用程序或者None如果你使用了init_app()
+        - with_static_files (boolean)是否自动为静态文件生成Url地址
+        -with_no_argument_rules (boolean)是否对那些没有参数的log_url_for (boolean)URL规则去自动生成URL
+        -log_url_for (boolean)： 是否去log调用你的appmakes to url_for()并且通过它来生成URLs。</p>
+<p><strong>all_urls()</strong>
+        运行所有的生成器并生成相关与app根目录的URL地址对测试URL生成器非常有帮助</p>
+</blockquote>
+<pre><code>Note:
+This does not generate any page, so URLs that are normally generated from url_for() calls will not be included here.
+</code></pre>
+<blockquote>
+<p><strong>freeze()</strong>
+    清除目标目录并通过生成器建立所有地址</p>
+<p><strong>init_app(app)</strong>
+    允许在Freezer初始化后注册一个app
+    参数： app： 你的Flask应用</p>
+<p><strong>register_generator(function)</strong>
+    注册一个函数为URL生成器
+    这个函数应该返回一个可迭代的URL路径或者(endpoint, values) 元组 to be used as url_for(endpoint, **values).</p>
+<p><strong>root</strong>
+    Frozen-Flask写入文件的绝对路径：resolved value for the FREEZER_DESTINATION <a href="">configuration</a>.</p>
+<p><strong>run（＊＊options)</strong>
+    和serve()一样但是需要先冻结（调用freeze())</p>
+</blockquote>
+<p>flask_frozen.walk_directory(root, ignore=())
+    递归逐层进入根目录并且生成用'/'分割的相对路径。
+    之前被用来执行静态文件的URL生成器
+    参数：ignore: 一列fnmatch样式,用法类似.gitignore,   patterns that contains a slash are matched against the whole path, others against individual slash-separated parts.</p>
+<p>flask_frozen.relative_url_for(endpoint, **values)
+    类似于<a href="">url_for()</a>，但是在可能的情况下返回相关的URL</p>
+<pre><code>绝对URL(with _external=True or to a different subdomain)是不变的，但是/foo/bar 变成../bar,依赖于
+当前请求的上下文路径(This, of course, requires a Flask request context.)
+
+URLs 否则也会以 '/'结束来加载index.html。 也正因为如此，这个函数只可以和Frozen-Flask一起用，不可以在app.run()(Flask)或其他的WSGI服务器上使用。
+</code></pre>
+<p>如果FREEZER_RELATIVE_URLS<a href="#6">配置</a>是True，frozen-Flask会自动修补应用程序的Jinja环境来让模板中的url_for变成这个函数。</p>
 	</article>
 
                 </div>
@@ -288,13 +305,13 @@ def compressed_css():
 	
 	</ul>
 
-            <ul>
+            <!--<ul>
                 <li><a href='#'>item</a></li>
                 <li><a href='#'>item</a></li>
                 <li><a href='#'>item</a></li>
                 <li><a href='#'>item</a></li>
                 <li><a href='#'>item</a></li>
-            </ul>
+            </ul>-->
         
         </div>
         </div>
