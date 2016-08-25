@@ -29,7 +29,7 @@
 }
 #sidebar ul a
 {
-    padding: 12px 0 12px 12px;
+    padding:12px 0 12px 12px;
     display:inline-block;
     text-decoration: none;
     color:white;
@@ -53,6 +53,7 @@
     border-radius:5px;
     background:#f5ece1;
     color:#d46930;
+    border:1px solid #888;
 }
 
 body
@@ -67,12 +68,10 @@ body
 }
 #main-page nav
 {
-
     min-height:40px;
-    width:100%;
+    width:inherit;
     background:#f5ece1;
     border-bottom:1px solid #333;
-    top:0;
 }
 #main-page nav ul
 {
@@ -141,6 +140,7 @@ body
     padding:0 2px;
     font-weight:800;
     transform: rotate(-90deg);
+    border-radius:5px;
 }
 footer
 {
