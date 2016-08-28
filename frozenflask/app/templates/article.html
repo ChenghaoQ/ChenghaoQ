@@ -10,9 +10,8 @@
 
 {% block content %}
     <div class="article_header">
-        <h1 class="article_title"><a>{{ page.meta.title}}</a></h1>
-                        
-		<div class="article_info">{{ page.meta.date }}</div>
+        <h1 class="article_title"><a>{{ page.meta.title}}</a></h1>                   
+		<div class="article_info">{{ page.meta.date }} | <a class = 'tag' href="{{page.tags.link}}">{{page.tags.tag}}</a></div>
 	</div>
 	<article>
 		{{ page.meta.excerpt }}
