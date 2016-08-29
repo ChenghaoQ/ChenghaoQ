@@ -38,8 +38,12 @@ article
 .codehilite
 {
     overflow: scroll;
+    border-radius: 10px;
 }
 .codehilite pre
 {
     border-radius: 10px;
+    padding-left:15px;
+    width:inherit;
+    overflow: scroll;
 }

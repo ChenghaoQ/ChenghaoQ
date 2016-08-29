@@ -7,7 +7,7 @@
         
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/homepage.css'>
 <link rel='stylesheet' href='../../static/css/normalize.css'>
-<link rel='stylesheet' href='../../static/css/zenburn.css'>
+<link rel='stylesheet' href='../../static/css/monokai.css'>
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/article.css'>
 
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='../../static/icss/ihomepage.css'>
@@ -88,13 +88,13 @@ pages = FlatPages(app)通过Flask对象创建Flask实例
 
 
 <p>同时你也可以稍后再通过<strong>init_app()</strong>引入Flask对象</p>
-<div class="codehilite"><pre><span></span>pages = FlatPages()
+<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">()</span>
 
-def create_app(config=&#39;mysettings.cfg&#39;):
-app = Flask(__name__)
-app.config.from_pyfile(config)
-pages.init_app(app)
-return app
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;mysettings.cfg&#39;</span><span class="p">):</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_pyfile</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">pages</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">app</span>
 </pre></div>
 
 
@@ -133,9 +133,9 @@ FLAT_PAGES_AUTO_RELOAD
 
 <p>文章主体格式默认使用<a href="http://daringfireball.net/projects/markdown/">Markdown</a>， 如果使用了的话<a href="http://pygments.org/">Pygments</a>也是默认选项，但是主要还是根据FLATPAGES_HTML_RENDERER里设置的值来决定。</p>
 <p>使用Pygments,你需要单独进行样式声明。你可以使用<a href="">pygments_style_defs():</a></p>
-<div class="codehilite"><pre><span></span>@app.route(&#39;/pygments.css&#39;)
-def pygments_css():
-    return pygments_style_defs(&#39;tango&#39;), 200, {&#39;Content-Type&#39;: &#39;text/css&#39;}
+<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/pygments.css&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pygments_css</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">pygments_style_defs</span><span class="p">(</span><span class="s1">&#39;tango&#39;</span><span class="p">),</span> <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;text/css&#39;</span><span class="p">}</span>
 </pre></div>
 
 
@@ -161,8 +161,8 @@ def pygments_css():
 <p>然后，pages 不会被再次加载 除非你明确地要求它使用<a href="">FlatPages.reload()</a>.或通过配置接受的新请求。（详见FLATPAGES_AUTO_RELOAD.)</p>
 <p>这个设计是在适配<a href="https://pythonhosted.org/Frozen-Flask/">Frozen-Flask</a>(Flask生成静态网页的工具)时使用，但是即便你不用他还是可以正常工作：你修改了代码并且已经重启了生产服务器，你只需要修改页面内容就好了。同样的，在版本控制系统下这依然有效。</p>
 <p>但是如果你有很多网页并且加载时间很长，你可以让它在初始化过程中强制加载，当第一个请求被使用。</p>
-<div class="codehilite"><pre><span></span>pages = FlatPages(app)
-pages.get(&#39;foo&#39;) # Force loading now. foo.html may not even exist.
+<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="c1"># Force loading now. foo.html may not even exist.</span>
 </pre></div>
 
 
@@ -174,23 +174,23 @@ pages.get(&#39;foo&#39;) # Force loading now. foo.html may not even exist.
 <p>一个page实例集合</p>
 <p>范例：</p>
 </blockquote>
-<div class="codehilite"><pre><span></span>pages = FlatPages(app)
+<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
-@app.route(&#39;/&#39;)
-def index():
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
 
-    //Articles are pages with a publication date
-    articles = (p for p in pages if &#39;published&#39; in p.meta)
-    // Show the 10 most recent articles, most recent first.
-    latest = sorted(articles, reverse=True,key=lambda p: p.meta[&#39;published&#39;])
-    return render_template(&#39;articles.html&#39;, articles=latest[:10])
+    <span class="o">//</span><span class="n">Articles</span> <span class="n">are</span> <span class="n">pages</span> <span class="k">with</span> <span class="n">a</span> <span class="n">publication</span> <span class="n">date</span>
+    <span class="n">articles</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pages</span> <span class="k">if</span> <span class="s1">&#39;published&#39;</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+    <span class="o">//</span> <span class="n">Show</span> <span class="n">the</span> <span class="mi">10</span> <span class="n">most</span> <span class="n">recent</span> <span class="n">articles</span><span class="p">,</span> <span class="n">most</span> <span class="n">recent</span> <span class="n">first</span><span class="o">.</span>
+    <span class="n">latest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">articles</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;published&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;articles.html&#39;</span><span class="p">,</span> <span class="n">articles</span><span class="o">=</span><span class="n">latest</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 
-@app.route(&#39;/&lt;path:path&gt;/&#39;)
-def page(path):
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&lt;path:path&gt;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">page</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
 
-    page = pages.get_or_404(path)
-    template = page.meta.get(&#39;template&#39;, &#39;flatpage.html&#39;)
-    return render_template(template, page=page)
+    <span class="n">page</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;flatpage.html&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">)</span>
 </pre></div>
 
 
@@ -223,15 +223,15 @@ Lorem ipsum dolor sit amet, …
 
 
 <p>以上为test.md </p>
-<div class="codehilite"><pre><span></span>&gt;&gt;&gt; page = pages.get(&#39;hello&#39;)
-&gt;&gt;&gt; page.meta # PyYAML converts YYYY-MM-DD to a date object
-{&#39;title&#39;: u&#39;Hello&#39;, &#39;published&#39;: datetime.date(2010, 12, 22)}
-&gt;&gt;&gt; page[&#39;title&#39;]
-u&#39;Hello&#39;
-&gt;&gt;&gt; page.body
-u&#39;Hello, *World*!\n\nLorem ipsum dolor sit amet, \u2026&#39;
-&gt;&gt;&gt; page.html
-u&#39;<span class="nt">&lt;p&gt;</span>Hello, <span class="nt">&lt;em&gt;</span>World<span class="nt">&lt;/em&gt;</span>!<span class="nt">&lt;/p&gt;</span>\n<span class="nt">&lt;p&gt;</span>Lorem ipsum dolor sit amet, \u2026<span class="nt">&lt;/p&gt;</span>&#39;
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">page</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">meta</span> <span class="c1"># PyYAML converts YYYY-MM-DD to a date object</span>
+<span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">u&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;published&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">22</span><span class="p">)}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+<span class="s1">u&#39;Hello&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">body</span>
+<span class="s1">u&#39;Hello, *World*!</span><span class="se">\n\n</span><span class="s1">Lorem ipsum dolor sit amet, </span><span class="se">\u2026</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">html</span>
+<span class="s1">u&#39;&lt;p&gt;Hello, &lt;em&gt;World&lt;/em&gt;!&lt;/p&gt;</span><span class="se">\n</span><span class="s1">&lt;p&gt;Lorem ipsum dolor sit amet, </span><span class="se">\u2026</span><span class="s1">&lt;/p&gt;&#39;</span>
 </pre></div>
 
 
@@ -257,10 +257,6 @@ u&#39;<span class="nt">&lt;p&gt;</span>Hello, <span class="nt">&lt;em&gt;</span>
 - Returns: <a href="http://freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a>Markdown插件的CSS定义
 - 参数： style - Pygments <a href="http://pygments.org/docs/styles/">style</a> 样式
 - 只有当<a href="http://pygments.org/">Pygments</a>可用的时候</p>
-<p><code>ruby
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html</code></p>
 	</article>
 
                 </div>
