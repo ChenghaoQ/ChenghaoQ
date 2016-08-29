@@ -34,3 +34,8 @@ article
 {
     margin:0 auto;
 }
+
+.codehilite pre
+{
+    border-radius: 10px;
+}

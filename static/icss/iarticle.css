@@ -39,3 +39,7 @@ article
 {
     overflow: scroll;
 }
+.codehilite pre
+{
+    border-radius: 10px;
+}
