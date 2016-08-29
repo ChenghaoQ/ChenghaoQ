@@ -16,15 +16,16 @@
         <div class="post_info">{{ page.meta.date }} | <a class = 'tag' href="{{page.tags.link}}">{{page.tags.tag}}</a></div>
     </div>
     <div class="post_body">{{ page.meta.excerpt}}</div>
-    <div class="more link_tag"><a href="{{ url_for('page', path=page.path) }}">More -></a></div>
+    <div class="more link_tag"><a href="{{ url_for('article.page', path=page.path) }}">More -></a></div>
 </li>
 {% endfor %}
 </ul>
 {% endblock %}
 
-
 {% block js %}
         <script src="static/js/jquery.js"></script>
-        <script media="screen and (min-width:1024px)" src="static/js/home.js"></script>
-        <script media="screen and (max-width:1024px)" src="static/ijs/ihome.js"></script>
+        <script src="static/js/home.js"></script>
+        <script src="static/ijs/ihome.js"></script>
 {% endblock %}
+
+

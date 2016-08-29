@@ -27,7 +27,7 @@ def posts():
 
 
 #where does path come from
-@app.route('/po/<path:path>/')
+@app.route('/article/<path:path>/')
 def page(path):
 	#path is the filename of a page,https://github.com/ChenghaoQ/ChenghaoQ.git without the file extension
 	#e.g."first-post
