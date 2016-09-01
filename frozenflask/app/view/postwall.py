@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template
-from app import articles
+from app import articles,app
+from markupsafe import Markup
+#from markdown import markdown
+from flask_flatpages import pygmented_markdown
 postwall = Blueprint('postwall',__name__)
 
 @postwall.route('/posts.html')
@@ -17,3 +20,13 @@ def posts():
 	#pages may related to template index.html
 
 	return render_template('posts.html',pages = sorted_posts)
+
+
+@app.template_filter('excerpt')
+def excerpt_spliter(article):
+    sep='<!--More-->'
+    if sep in article:
+        pass
+    else:
+        sep = '\n'
+    return Markup(pygmented_markdown(article.split(sep,1)[0]))

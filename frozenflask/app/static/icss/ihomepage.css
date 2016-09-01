@@ -185,3 +185,15 @@ footer .share-group li a
     padding-bottom:20px;
     font-size:15px;
 }
+
+.codehilite
+{
+    overflow: scroll;
+    border-radius: 10px;
+}
+.codehilite pre
+{
+    border-radius: 10px;
+    padding-left:15px;
+    width:inherit;
+}

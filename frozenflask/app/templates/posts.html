@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block css %}
 <link rel='stylesheet' href='static/css/normalize.css'>
+<link rel='stylesheet' href='static/css/monokai.css'>
+
 <link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/homepage.css'>
 <link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/posts.css'>
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='static/icss/ihomepage.css'>
@@ -15,7 +17,7 @@
         <div class="post_title">{{ page.meta.title }}</div>
         <div class="post_info">{{ page.meta.date }} | <a class = 'tag' href="{{page.tags.link}}">{{page.tags.tag}}</a></div>
     </div>
-    <div class="post_body">{{ page.meta.excerpt}}</div>
+    <div class="post_body">{{page.body| excerpt}}]</div>
     <div class="more link_tag"><a href="{{ url_for('article.page', path=page.path) }}">More -></a></div>
 </li>
 {% endfor %}
