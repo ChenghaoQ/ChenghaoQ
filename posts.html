@@ -53,8 +53,49 @@
     
 <li class="post_preview">
     <div class="post_header">
+        <div class="post_title">使用Flask搭建个人静态博客</div>
+        <div class="post_info">2016-09-01 | 分类于:  <a class = 'tag' href="None">博客</a></div>
+    </div>
+    <div class="post_body"><p>这篇文章教你如何一步一步地使用搭建自己的博客。由于Flask是一个动态网页的Web框架，所以关于Flask搭建静态博客的文章少之又少。（这是Flask的神奇之处，动态静态网页都支持，日后转换时可省去不必要的麻烦)。本系列以<a href="">Steven loria</a>的Flask<a href="">静态博客实例</a>为基础并加以改进，增添了一些更加有用的功能并详细介绍</p>
+<p>搭建一个Flask静态博客，你需要:</p>
+<ul>
+<li>Python3 （Steven loria采用python2.x)</li>
+<li>Flask</li>
+<li>Frozen-Flask</li>
+<li>Flask-Flatpages</li>
+<li>Pygments(可选，用于代码语法高亮)</li>
+<li>Github 或 Coding</li>
+</ul>
+<p>首先来看我们的目录结构:</p>
+<h2><a name = '1'>博客应用的目录结构</a></h2>
+<div class="codehilite"><pre><span></span>| ---project
+│    |---blog
+│    │    ├── __init__.py
+│    │    ├── settings.py
+│    │    ├── views.py
+│    │    ├── templates
+│    │    │   ├── base.html
+│    │    │   ├── page.html
+│    │    │   └── posts.html
+│    │    ├── static
+│    │    │   ├── home.css
+│    │    │   └── home.js
+│    │--- posts
+│    │    ├── pages
+│    │    │   ├── firstpost
+│    │    │   │   ├── index.html
+│    │    ├── posts.html
+│    │    ├── index.html
+│    ├── app.py
+│    ├── freezer.py
+</pre></div>]</div>
+    <div class="more link_tag"><a href="/article/6/">More -></a></div>
+</li>
+
+<li class="post_preview">
+    <div class="post_header">
         <div class="post_title">python3使用相对路径import</div>
-        <div class="post_info">2016-08-29 | <a class = 'tag' href="None">Python</a></div>
+        <div class="post_info">2016-08-29 | 分类于:  <a class = 'tag' href="None">Python</a></div>
     </div>
     <div class="post_body"><p>python3在导入不同目录的模块时是怎么做的</p>
 <p>先来看一下我们的Project目录</p>
@@ -81,7 +122,7 @@
 <li class="post_preview">
     <div class="post_header">
         <div class="post_title">为什么你要学公司金融（Corporate Finance)</div>
-        <div class="post_info">2016-08-26 | <a class = 'tag' href="None">公司金融</a></div>
+        <div class="post_info">2016-08-26 | 分类于:  <a class = 'tag' href="None">公司金融</a></div>
     </div>
     <div class="post_body"><p>通常来讲，一个公司可以通过投资实物资产来获得现金流(cash flow)和收入(income)。而资产有两种，一种是有形的资产，比如说设备，建筑等；另一种是看不见摸不着的无形资产，就像品牌，专利等。要获得这些资产有很多种手段，比如借贷，将投资收益进行再投资，或者也可以卖出一些股份来进行融资。在这种模式下，公司就会变得越来越健壮，但是这涉及到很多金融方面的知识。金融管理就是要研究金融经理是如何将持券人（债券）和股东（股票）手里的资本部署到可以升值的项目中的。</p>
 <!--公司理财(一) 简介-->
@@ -104,7 +145,7 @@
 <li class="post_preview">
     <div class="post_header">
         <div class="post_title">Frozen-Flask说明</div>
-        <div class="post_info">2016-08-23 | <a class = 'tag' href="None">Flask</a></div>
+        <div class="post_info">2016-08-23 | 分类于:  <a class = 'tag' href="None">Flask</a></div>
     </div>
     <div class="post_body"><p>Frozen-Flask（原名Flask-Static)是一个基于<a href="">Flask</a>的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。</p>
 <p>（翻译自官方文档，英文版请点击<a href="http://pythonhosted.org/Frozen-Flask/#flask_frozen.relative_url_for">这里</a></p>
@@ -118,7 +159,7 @@
 <li class="post_preview">
     <div class="post_header">
         <div class="post_title">Flask-FlatPages 使用手册</div>
-        <div class="post_info">2016-08-15 | <a class = 'tag' href="None">Flask</a></div>
+        <div class="post_info">2016-08-15 | 分类于:  <a class = 'tag' href="None">Flask</a></div>
     </div>
     <div class="post_body"><p>Flask-FlatPages是Flask应用的一个小工具，规则基于YAML和Markdown，实现了文本文档和模板的结合。用户可以通过编写‘.md’（默认）文本文档即可轻松生成网页。在与Frozen-Flask配合使用是可以更轻松地实现资源管理。</p>
 <p>（翻译自官方文档，英文版请点击<a href="https://pythonhosted.org/Flask-FlatPages/">这里</a>)。</p>
@@ -136,7 +177,7 @@
 <li class="post_preview">
     <div class="post_header">
         <div class="post_title">First-post.写在前面</div>
-        <div class="post_info">2016-08-10 | <a class = 'tag' href="None">随笔</a></div>
+        <div class="post_info">2016-08-10 | 分类于:  <a class = 'tag' href="None">随笔</a></div>
     </div>
     <div class="post_body"><p>Hello World. 这是博客的第一句话，也是我接触计算机学到的第一句话。</p>
 <p>一直以来都想有一个自己的博客，尽管很久都没有写过什么东西。建一个独立博客对我来说也是挺遥远的事情。 机缘巧合吧，它现在有了。</p>]</div>

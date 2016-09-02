@@ -15,7 +15,7 @@
 <li class="post_preview">
     <div class="post_header">
         <div class="post_title">{{ page.meta.title }}</div>
-        <div class="post_info">{{ page.meta.date }} | <a class = 'tag' href="{{page.tags.link}}">{{page.tags.tag}}</a></div>
+        <div class="post_info">{{ page.meta.date }} | 分类于:  <a class = 'tag' href="{{page.tags.link}}">{{page.tags.tag}}</a></div>
     </div>
     <div class="post_body">{{page.body| excerpt}}]</div>
     <div class="more link_tag"><a href="{{ url_for('article.page', path=page.path) }}">More -></a></div>
