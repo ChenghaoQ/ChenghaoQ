@@ -8,6 +8,7 @@
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/homepage.css'>
 <link rel='stylesheet' href='../../static/css/normalize.css'>
 <link rel='stylesheet' href='../../static/css/monokai.css'>
+<link rel='stylesheet' href='../../static/css/bootstrap.css'>	
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='../../static/css/article.css'>
 
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='../../static/icss/ihomepage.css'>
@@ -31,6 +32,7 @@
     <body>
         <div id="wrapper">
         <div id='main-page'>
+           <div class="mask"></div>
             <header>
                 <nav>
                     <div class="logo"><a href="#">老钱</a></div>
@@ -47,7 +49,6 @@
                 <div class="hr"></div>
             </header>
             <div class='content'>
-                <div class="mask"></div>
                 <div class="content_wrapper">
                     
     <div class="article_header">
@@ -280,8 +281,10 @@ Lorem ipsum dolor sit amet, …
 
             </footer>
             
-            <button id="sidebar-trigger">➤</button>
-            <button class="back-to-top">➜</button>
+            
+            <div class="back-to-top">
+            	<span class="glyphicon glyphicon-chevron-up"></span>
+            </div>
 
         
         </div>
@@ -293,34 +296,54 @@ Lorem ipsum dolor sit amet, …
         
         
         
-        <div id='sidebar'>
+        <div id="sidebar">
+            <div id="sidebar-menu">
 
-                
-				<div class="sidebar_content">
-                    
-                
-	<ul>
-	
-		<li><a href='#1'>什么是Flask FlatPages</a></li>
-	
-		<li><a href='#2'>安装</a></li>
-	
-		<li><a href='#3'>配置</a></li>
-	
-		<li><a href='#4'>使用说明</a></li>
-	
-		<li><a href='#5'>使用定制Markdown扩展</a></li>
-	
-		<li><a href='#6'>偷懒和缓存</a></li>
-	
-		<li><a href='#7'>API</a></li>
-	
-	</ul>
+               	<div id="home"><span class="glyphicon glyphicon-home"></span></div>
+               	<ul>
+               	    
+<li id="catalog" class="item">
+    <span class="glyphicon glyphicon-list"></span>
+    <div>目录</div>
+</li>
 
+
+               	 </ul>
+                <div id="closeBar">
+                    <span class="glyphicon glyphicon-remove"></span>
                 </div>
+            </div>
+            <div id="sidebar-content" >
+                
 
+<div class="nav-content" id="catalog-content">
+    <div class="nav-con-close">
+        <span class='glyphicon glyphicon-chevron-left'></span>
+    </div>
+    <div class="nav-con-title">目录</div>
+    <div class="inner-content">
+        <ul>
+	    
+		    <li><a href='#1'>什么是Flask FlatPages</a></li>
+	    
+		    <li><a href='#2'>安装</a></li>
+	    
+		    <li><a href='#3'>配置</a></li>
+	    
+		    <li><a href='#4'>使用说明</a></li>
+	    
+		    <li><a href='#5'>使用定制Markdown扩展</a></li>
+	    
+		    <li><a href='#6'>偷懒和缓存</a></li>
+	    
+		    <li><a href='#7'>API</a></li>
+	    
+	    </ul>
+    </div>
+</div>
+
+            </div>
         </div>
-            
             
             
         </div>

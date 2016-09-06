@@ -7,7 +7,7 @@
         
 <link rel='stylesheet' href='static/css/normalize.css'>
 <link rel='stylesheet' href='static/css/monokai.css'>
-
+<link rel='stylesheet' href='static/css/bootstrap.css'>	
 <link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/homepage.css'>
 <link rel='stylesheet' media="screen and (min-width:1024px)"  href='static/css/posts.css'>
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='static/icss/ihomepage.css'>
@@ -30,6 +30,7 @@
     <body>
         <div id="wrapper">
         <div id='main-page'>
+           <div class="mask"></div>
             <header>
                 <nav>
                     <div class="logo"><a href="#">老钱</a></div>
@@ -46,7 +47,6 @@
                 <div class="hr"></div>
             </header>
             <div class='content'>
-                <div class="mask"></div>
                 <div class="content_wrapper">
                     
 <ul class="post_list">
@@ -204,8 +204,10 @@
 
             </footer>
             
-            <button id="sidebar-trigger">➤</button>
-            <button class="back-to-top">➜</button>
+            
+            <div class="back-to-top">
+            	<span class="glyphicon glyphicon-chevron-up"></span>
+            </div>
 
         
         </div>
@@ -217,16 +219,21 @@
         
         
         
-        <div id='sidebar'>
+        <div id="sidebar">
+            <div id="sidebar-menu">
 
-                
-				<div class="sidebar_content">
-                    
-                
+               	<div id="home"><span class="glyphicon glyphicon-home"></span></div>
+               	<ul>
+               	    
+               	 </ul>
+                <div id="closeBar">
+                    <span class="glyphicon glyphicon-remove"></span>
                 </div>
-
+            </div>
+            <div id="sidebar-content" >
+                
+            </div>
         </div>
-            
             
             
         </div>
