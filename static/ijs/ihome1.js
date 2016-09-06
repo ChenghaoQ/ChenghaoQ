@@ -1,4 +1,4 @@
-
+/*
 
 (function()
 {
@@ -27,7 +27,7 @@
 			evt.stopPropagation();
 		});
 		/*animation*/
-	       this.sidecont = $('#sidebar-content');
+/*		this.sidecont = $('#sidebar-content');
 		this.maincont = $('#main-page');
 		
 		this.menuList = document.querySelectorAll('#sidebar-menu ul>li');

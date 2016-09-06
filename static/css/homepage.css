@@ -62,6 +62,7 @@ body
 	bottom:60px;
 	text-align: center;
     cursor:pointer;
+    left:0;
 	
 }
 #sidebar-content
@@ -72,7 +73,7 @@ body
     left:-250px;
 	z-index: 99;
 	background: #333;
-	
+	overflow:hidden;
 
 }
 .nav-content
@@ -84,6 +85,7 @@ body
 	z-index: 99;
 	background: #333;
 	display:none;
+    overflow-y: scroll;
 }
 
 #sidebar-content .nav-con-close
@@ -305,14 +307,15 @@ footer .share-group li a
 
 .codehilite
 {
-    overflow: scroll;
+    overflow: hidden;
     border-radius: 10px;
 }
 .codehilite pre
 {
     border-radius: 10px;
-    padding-left:15px;
+    padding:0 15px;
     width:inherit;
+    
 }
 a {
   color: #308bd9;

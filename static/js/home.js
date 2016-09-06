@@ -15,9 +15,15 @@
         maincont.animate({'margin-left':0},{duration:500,queue:false});
 			
         sideme.animate({'left':-sideme.width()},{duration:500,queue:false});
-        closeBarEl.className= 'showbar';
+        /*closeBarEl.className= 'showbar';*/
     }
     
+    function showbar(sideclose)
+    {
+        sideclose.animate({'left':115},{duration:500,queue:false});
+        /*sideclose.animate({scale:1.5},{duration:500,queue:false});*/
+        sideclose.animate({rotate:'405deg'},{duration:500,queue:false});
+    }
     
 	var Sidemenu = function()
 	{
@@ -40,7 +46,8 @@
 				var sidecontel = '#'+evt.currentTarget.id+'-content',
 					menuContEl = $('#'+evt.currentTarget.id+'-content');
 
-				if(self.state === 'allClosed'){
+				if(self.state === 'allClosed')
+                {
 					self.sidecont.animate({'left':50},{duration:500,queue:false});
 					self.maincont.animate({'margin-left':300},{duration:500,queue:false});
 					/*menuContEl.delay(800).fadeIn(500);*/
@@ -106,7 +113,7 @@
             
 			this.sideme.delay(500).animate({'left':-this.sideme.width()},{duration:500});
 			this.sideclose.animate({'left':40},{duration:500});*/
-            /*this.closeBarEl.className= 'showbar';*/
+            this.closeBarEl.className= 'showbar';
             this.sidemenu.state = 'allClosed';
 		}
 		else if(this.sidemenu.state === 'allClosed')
@@ -119,9 +126,10 @@
 			this.maincont.animate({'margin-left':0},{duration:800,queue:false});
 			
 			this.sideme.animate({'left':-this.sideme.width()},{duration:500,queue:false});*/
-			/*this.closeBarEl.className= 'showbar';*/
+			this.closeBarEl.className= 'showbar';
+            
 		}
-
+            
 		
 		
 	};
@@ -135,7 +143,6 @@
 		this.sidecont.delay(1000).animate({'left':this.sideme.width()-this.sidecont.width()},{duration:0});
 
 		this.closeBarEl.className= 'closebar';
-		
 	};
 	Sidebar.prototype.switchTrigger = function(){
 		if(this.state === 'opened'){

@@ -124,24 +124,26 @@ footer .share-group li a
 
 .codehilite
 {
-    overflow: scroll;
+    overflow: hidden;
     border-radius: 10px;
 }
 .codehilite pre
 {
     border-radius: 10px;
-    padding-left:15px;
+    padding:0 15px;
     width:inherit;
+
 }
 
 #sidebar
 {
     max-width: 300px;
-    min-height: 100%;
+    /*min-height: 100%;*/
     position:fixed;
     top:0;
     bottom:0;
     color:#e3e3e3;
+    overflow: hidden;
 
 }
 #sidebar #home
@@ -153,6 +155,7 @@ footer .share-group li a
 	padding-top:15px;
 	padding-bottom: 15px;
 	background: #42bbcb;
+
 }
 
 #sidebar-menu
@@ -190,9 +193,10 @@ footer .share-group li a
 	color:#42bbcb;
 	width:inherit;
 	position:absolute;
-	bottom:60px;
+	bottom:15px;
 	text-align: center;
     cursor:pointer;
+    left:0;
 	
 }
 #sidebar-content
@@ -203,7 +207,7 @@ footer .share-group li a
     left:-250px;
 	z-index: 99;
 	background: #333;
-	
+	overflow:hidden;
 
 }
 .nav-content
@@ -215,6 +219,7 @@ footer .share-group li a
 	z-index: 99;
 	background: #333;
 	display:none;
+    overflow-y: scroll;
 }
 
 #sidebar-content .nav-con-close
@@ -257,7 +262,7 @@ footer .share-group li a
 	}
 	to
 	{
-		transform : translateX(92vw) rotate(765deg) scale(1.5);
+		transform : translateX(96vw) rotate(765deg) scale(1.5);
 	}
 }
 
@@ -272,7 +277,7 @@ footer .share-group li a
 {
 	from
 	{
-		transform : translateX(92vw) rotate(765deg) scale(1.5);
+		transform : translateX(96vw) rotate(765deg) scale(1.5);
 	}
 	to
 	{
@@ -283,8 +288,8 @@ footer .share-group li a
 .back-to-top
 {
     position:fixed;
-    bottom:20px;
-    right:6%;
+    bottom:45px;
+    right:5.5%;
     width:30px;
     height:30px;
 	cursor: pointer;
