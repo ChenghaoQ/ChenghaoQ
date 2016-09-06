@@ -165,7 +165,8 @@ footer .share-group li a
     position:fixed;
     min-height: 100%;
     z-index: 100;
-	
+	top:0;
+    bottom:0;
 	
 
     
@@ -262,7 +263,7 @@ footer .share-group li a
 	}
 	to
 	{
-		transform : translateX(96vw) rotate(765deg) scale(1.5);
+		transform : translateX(93vw) rotate(765deg) scale(1.5);
 	}
 }
 
@@ -277,7 +278,7 @@ footer .share-group li a
 {
 	from
 	{
-		transform : translateX(96vw) rotate(765deg) scale(1.5);
+		transform : translateX(93vw) rotate(765deg) scale(1.5);
 	}
 	to
 	{
