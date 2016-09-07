@@ -138,7 +138,7 @@ footer .share-group li a
 #sidebar
 {
     max-width: 300px;
-    /*min-height: 100%;*/
+    min-height: 100%;
     position:fixed;
     top:0;
     bottom:0;
