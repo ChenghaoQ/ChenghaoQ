@@ -58,7 +58,8 @@ body
 {
 	color:#777;
 	width:inherit;
-	position:absolute;
+	position:fixed;
+    margin: 0 auto;
 	bottom:60px;
 	text-align: center;
     cursor:pointer;

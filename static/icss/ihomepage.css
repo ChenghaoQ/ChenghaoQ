@@ -137,11 +137,10 @@ footer .share-group li a
 #sidebar
 {
     max-width: 300px;
-    /*min-height: 100%;*/
+    min-height: 100%;
     position:fixed;
     top:0;
     bottom:0;
-    left:0px;
     color:#e3e3e3;
 
 }
@@ -190,8 +189,8 @@ footer .share-group li a
 {
 	color:#42bbcb;
 	width:inherit;
-	position:absolute;
-	bottom:60px;
+	position:fixed;
+	bottom:15px;
 	text-align: center;
     cursor:pointer;
 	
@@ -287,7 +286,7 @@ footer .share-group li a
 .back-to-top
 {
     position:fixed;
-    bottom:20px;
+    bottom:45px;
     right:6%;
     width:30px;
     height:30px;
