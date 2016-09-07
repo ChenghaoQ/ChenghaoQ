@@ -2,6 +2,7 @@
 
 (function()
 {
+    var mask = $('.mask');
     function hidesidecontent(sidecont,maincont,sideme)
     {
         sidecont.animate({'left':sideme.width()-sidecont.width()},{duration:500,queue:false});
@@ -87,7 +88,7 @@
 	};
 	Sidebar.prototype.close = function(){	
 		this.state = 'closed';
-		
+		mask.fadeOut(500);
 		if(this.sidemenu.state === 'oneOpened')
 		{
 			/*onsole.log(this.sidemenu.state);
@@ -133,7 +134,7 @@
 		this.sidecont.delay(1000).animate({'left':this.sideme.width()-this.sidecont.width()},{duration:0});
 
 		this.closeBarEl.className= 'closebar';
-		
+		mask.fadeIn(500);
 	};
 	Sidebar.prototype.switchTrigger = function(){
 		if(this.state === 'opened'){

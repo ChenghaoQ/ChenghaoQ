@@ -188,11 +188,13 @@ footer .share-group li a
 #closeBar
 {
 	color:#42bbcb;
-	width:inherit;
-	position:fixed;
+	width:50px;
+    position:fixed;
 	bottom:15px;
 	text-align: center;
     cursor:pointer;
+    left:0;
+	z-index: 100;
 	
 }
 #sidebar-content
@@ -260,7 +262,7 @@ footer .share-group li a
 	}
 	to
 	{
-		transform : translateX(92vw) rotate(765deg) scale(1.5);
+		transform : translateX(calc(90vw)) rotate(765deg) scale(1.5);
 	}
 }
 
@@ -275,7 +277,7 @@ footer .share-group li a
 {
 	from
 	{
-		transform : translateX(92vw) rotate(765deg) scale(1.5);
+		transform : translateX(calc(90vw)) rotate(765deg) scale(1.5);
 	}
 	to
 	{
@@ -287,9 +289,8 @@ footer .share-group li a
 {
     position:fixed;
     bottom:45px;
-    right:6%;
-    width:30px;
-    height:30px;
+    right:2vw;
+
 	cursor: pointer;
     color:#42bbcb;
     font-size:23px;
