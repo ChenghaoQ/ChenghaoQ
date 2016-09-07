@@ -14,7 +14,7 @@ body
 }
 #main-page
 {
-    margin-left:0px;
+    margin-right:0px;
     transition:left 0.6s;
     min-height:100%;
 }
@@ -67,10 +67,10 @@ body
 }
 #main-page .menu_trigger
 {
-    float:right;
+    float:left;
     display: inline-block;
     position:absolute;
-    right:2px;
+    left:2px;
     top:2px;
     width:36px;
     height:36px;
@@ -141,6 +141,7 @@ footer .share-group li a
     position:fixed;
     top:0;
     bottom:0;
+    right:0;
     color:#e3e3e3;
 
 }
@@ -162,6 +163,9 @@ footer .share-group li a
     position:fixed;
     min-height: 100%;
     z-index: 100;
+    top:0;
+    bottom:0;
+    right:0;
 	
 	
 
@@ -193,7 +197,7 @@ footer .share-group li a
 	bottom:15px;
 	text-align: center;
     cursor:pointer;
-    left:0;
+    right:0;
 	z-index: 100;
 	
 }
@@ -202,7 +206,7 @@ footer .share-group li a
     position:fixed;
     width:250px;
 	height: 100%;
-    left:-250px;
+    right:-250px;
 	z-index: 99;
 	background: #333;
     overflow: hidden;
@@ -227,7 +231,7 @@ footer .share-group li a
 
     position:absolute;
     top:15px;
-    right:5px;
+    left:5px;
     cursor:pointer;
     font-size: 20px;
 }
@@ -262,7 +266,7 @@ footer .share-group li a
 	}
 	to
 	{
-		transform : translateX(calc(90vw)) rotate(765deg) scale(1.5);
+		transform : translateX(-3px) rotate(405deg) scale(1.5);
 	}
 }
 
@@ -277,7 +281,7 @@ footer .share-group li a
 {
 	from
 	{
-		transform : translateX(calc(90vw)) rotate(765deg) scale(1.5);
+		transform : translateX(-3px) rotate(405deg) scale(1.5);
 	}
 	to
 	{
@@ -287,14 +291,17 @@ footer .share-group li a
 
 .back-to-top
 {
-    position:fixed;
-    bottom:45px;
-    right:2vw;
-
-	cursor: pointer;
     color:#42bbcb;
+	width:50px;
+    position:fixed;
+	bottom:40px;
+	text-align: center;
+    cursor:pointer;
+    right:0;
+	z-index: 100;
     font-size:23px;
 }
+
 a {
   color: #308bd9;
   text-decoration: none;

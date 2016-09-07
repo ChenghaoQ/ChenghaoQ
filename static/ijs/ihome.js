@@ -5,17 +5,17 @@
     var mask = $('.mask');
     function hidesidecontent(sidecont,maincont,sideme)
     {
-        sidecont.animate({'left':sideme.width()-sidecont.width()},{duration:500,queue:false});
+        sidecont.animate({'right':sideme.width()-sidecont.width()},{duration:500,queue:false});
             
 
     }
     function hidesidemenu(sidecont,maincont,sideme,closeBarEl)
     {
-        sidecont.animate({'left':-sidecont.width()},{duration:0});
+        sidecont.animate({'right':-sidecont.width()},{duration:0});
         console.log('ccc');
 
 			
-        sideme.animate({'left':-sideme.width()},{duration:500,queue:false});
+        sideme.animate({'right':-sideme.width()},{duration:500,queue:false});
         closeBarEl.className= 'showbar';
     }
     
@@ -42,7 +42,7 @@
 					menuContEl = $('#'+evt.currentTarget.id+'-content');
 
 				if(self.state === 'allClosed'){
-					self.sidecont.animate({'left':50},{duration:500,queue:false});
+					self.sidecont.animate({'right':50},{duration:500,queue:false});
 
 					/*menuContEl.delay(800).fadeIn(500);*/
 
@@ -60,7 +60,7 @@
 			});	
 		}
 		$('.nav-con-close').on('click',function(){
-					self.sidecont.animate({'left':-250},{duration:500,queue:false});
+					self.sidecont.animate({'right':-250},{duration:500,queue:false});
 					self.state = 'allClosed';
 				});
 		
@@ -128,10 +128,10 @@
 	Sidebar.prototype.open = function(){
 		this.state = 'opened';
 		
-		this.sideme.animate({'left':0},{duration:300,queue:false});
+		this.sideme.animate({'right':0},{duration:300,queue:false});
 		
 
-		this.sidecont.delay(1000).animate({'left':this.sideme.width()-this.sidecont.width()},{duration:0});
+		this.sidecont.delay(1000).animate({'right':this.sideme.width()-this.sidecont.width()},{duration:0});
 
 		this.closeBarEl.className= 'closebar';
 		mask.fadeIn(500);
