@@ -12,9 +12,7 @@
     function hidesidemenu(sidecont,maincont,sideme,closeBarEl)
     {
         sidecont.animate({'right':-sidecont.width()},{duration:0});
-        console.log('ccc');
-
-			
+        maincont.animate({'margin-right':0},{duration:500,queue:false});	
         sideme.animate({'right':-sideme.width()},{duration:500,queue:false});
         closeBarEl.className= 'showbar';
     }
@@ -42,6 +40,7 @@
 					menuContEl = $('#'+evt.currentTarget.id+'-content');
 
 				if(self.state === 'allClosed'){
+                    mask.fadeIn(500);
 					self.sidecont.animate({'right':50},{duration:500,queue:false});
 
 					/*menuContEl.delay(800).fadeIn(500);*/
@@ -60,6 +59,7 @@
 			});	
 		}
 		$('.nav-con-close').on('click',function(){
+                    mask.fadeOut(500);
 					self.sidecont.animate({'right':-250},{duration:500,queue:false});
 					self.state = 'allClosed';
 				});
@@ -88,9 +88,10 @@
 	};
 	Sidebar.prototype.close = function(){	
 		this.state = 'closed';
-		mask.fadeOut(500);
+		/*mask.fadeOut(500);*/
 		if(this.sidemenu.state === 'oneOpened')
 		{
+            mask.fadeOut(500);
 			/*onsole.log(this.sidemenu.state);
 			this.contel.className ='a hide-back';
 			this.contel.className ='a hide-back-again';*/
@@ -101,12 +102,7 @@
             console.log('aaa');
             /*this.sidecont.animate({'left':-this.sidecont.width()},{duration:0,queue:false});*/
             hidesidemenu(this.sidecont,this.maincont,this.sideme,this.closeBarEl);
-			/*this.sidecont.animate({'left':-this.sidecont.width()},{duration:500});
-			this.maincont.delay(500)..animate({'margin-left':0},{duration:500});
-            
-			this.sideme.delay(500).animate({'left':-this.sideme.width()},{duration:500});
-			this.sideclose.animate({'left':40},{duration:500});*/
-            /*this.closeBarEl.className= 'showbar';*/
+
             this.sidemenu.state = 'allClosed';
 		}
 		else if(this.sidemenu.state === 'allClosed')
@@ -130,11 +126,11 @@
 		
 		this.sideme.animate({'right':0},{duration:300,queue:false});
 		
-
+        this.maincont.animate({'margin-right':50},{duration:500,queue:false});
 		this.sidecont.delay(1000).animate({'right':this.sideme.width()-this.sidecont.width()},{duration:0});
 
 		this.closeBarEl.className= 'closebar';
-		mask.fadeIn(500);
+		
 	};
 	Sidebar.prototype.switchTrigger = function(){
 		if(this.state === 'opened'){

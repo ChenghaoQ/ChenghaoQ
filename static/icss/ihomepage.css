@@ -14,7 +14,7 @@ body
 }
 #main-page
 {
-    margin-right:0px;
+    margin-right:50px;
     transition:left 0.6s;
     min-height:100%;
 }
