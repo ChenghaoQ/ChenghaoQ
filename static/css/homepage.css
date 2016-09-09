@@ -13,7 +13,7 @@ body
     color:#e3e3e3;
 
 }
-#sidebar #home
+#sidebar #home, #home a
 {
 	width:inherit;
 	max-height: 50px;
@@ -22,6 +22,7 @@ body
 	padding-top:15px;
 	padding-bottom: 15px;
 	background: #42bbcb;
+	cursor:pointer;
 }
 
 #sidebar-menu
