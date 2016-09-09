@@ -13,7 +13,7 @@ body
     color:#e3e3e3;
 
 }
-#sidebar #home, #home a
+#sidebar #home
 {
 	width:inherit;
 	max-height: 50px;
@@ -24,26 +24,27 @@ body
 	background: #42bbcb;
 	cursor:pointer;
 }
-
+#home a
+{
+    color:#e3e3e3;
+}
 #sidebar-menu
 {
     width:50px;
-    background:#222;
+    background:#333;
     position:fixed;
     min-height: 100%;
-    z-index: 100;
-	
-	
-
+    z-index: 100;    
+    background: rgba(0,0,0,0.9);
     
 }
 #sidebar-menu ul
 {
     width:inherit;
     position:absolute;
-    margin-top:20px;
     list-style: none;
     padding:0;
+    margin:0;
 }
 #sidebar-menu .item
 {
@@ -51,8 +52,18 @@ body
     font-size:20px;
     font-family:'Mircosoft YaHei';
     text-align: center;
-    margin-top: 5px;
     cursor:pointer;
+    height:50px;
+    padding-top:15px;
+	padding-bottom: 15px;
+}
+#catalog
+{
+    background:#fda254;
+}
+#site-view
+{
+    background:#fd6854;
 }
 
 #closeBar
@@ -64,7 +75,7 @@ body
 	text-align: center;
     cursor:pointer;
     left:0;
-	z-index: 100;
+	z-index: 100;111
 }
 #sidebar-content
 {
@@ -73,8 +84,9 @@ body
 	height: 100%;
     left:-250px;
 	z-index: 99;
-	background: #333;
+	background: #222;
 	overflow: hidden;
+
 
 }
 .nav-content
@@ -82,11 +94,11 @@ body
 	position:absolute;
     width:250px;
 	height: 100%;
-    border:1px solid black;
 	z-index: 99;
-	background: #333;
+	background: #222;
 	display:none;
     overflow-y:scroll;
+
 }
 
 #sidebar-content .nav-con-close
@@ -97,6 +109,7 @@ body
     right:5px;
     cursor:pointer;
     font-size: 20px;
+    transform: rotate(180deg);
 }
 
 #sidebar-content .nav-con-title
@@ -129,7 +142,7 @@ body
 	}
 	to
 	{
-		transform : translateX(80px) rotate(405deg) scale(1.5);
+		transform : translateX(65px) rotate(405deg) scale(1.5);
 	}
 }
 
@@ -145,14 +158,61 @@ body
 {
 	from
 	{
-		transform : translateX(80px) rotate(405deg) scale(1.5);
+		transform : translateX(65px) rotate(405deg) scale(1.5);
 	}
 	to
 	{
 		transform : translateX(-0px) rotate(0deg) scale(1);
 	}
 }
+#site-view-content
+{
+    overflow: hidden;
+}
+#site-view-content .inner-content
+{
+    text-align:center;
+}
+#site-view-content .inner-content .motto
+{
+    color: #888;
+    margin-bottom:5%;
+}
+#site-view-content .inner-content .myself
+{
+    font-weight: 800;
+    margin-top:5%;
+}
 
+#site-view-content .inner-content a
+{
+    color:#e2e2e2;
+}
+
+#site-view-content .selfie
+{
+    height:120px;
+    width:120px;
+    margin:20% auto 5% auto;
+    background: transparent;
+    right:65px;
+    background:transparent url(../img/Selfie.JPG);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position:bottom;
+    border-radius: 5px;
+}
+
+#sidebar-content .inner-content .extern-links ul
+{
+    list-style: none;
+    margin-top:30%;
+    padding-left:0;
+}
+.extern-links ul li
+{
+    display:inline-block;    
+}
 #main-page
 {
     height:700px;
@@ -213,22 +273,7 @@ body
 {
     min-height:100%;
 }
-#sidebar-trigger
-{
-    position:fixed;
-    margin-right:20px;
-    width:30px;
-    height:30px;
-    bottom:5px;
-    background:#222;
-    background:rgba(0,0,0,0.9);
-    border: 1px solid #111;
-    color:white;
-    margin-left:5px;
-    font-size:19px;
-    transform:  rotate(-180deg);
-    
-}
+
 .back-to-top
 {
     position:fixed;

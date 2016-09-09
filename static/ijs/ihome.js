@@ -43,7 +43,7 @@
                     self.sideme.animate({'right':-50},{duration:500});
                     mask.fadeIn(500);
 					self.sidecont.animate({'right':0},{duration:500});
-
+                    
 					/*menuContEl.delay(800).fadeIn(500);*/
 
 					self.state = 'oneOpened';
@@ -51,7 +51,7 @@
 				}
 				if(self.state === 'oneOpened')
 				{
-					self.MenuContNow.fadeOut(500);
+					
 					menuContEl.delay(500).fadeIn(500);
 					console.log('open'+menuContEl.id);
 					self.state ='oneOpened';
@@ -60,6 +60,7 @@
 			});	
 		}
 		$('.nav-con-close').on('click',function(){
+                    self.MenuContNow.fadeOut(500);
                     mask.fadeOut(500);
 					self.sidecont.animate({'right':-250},{duration:500,queue:false});
                     self.sideme.animate({'right':0},{duration:500});  

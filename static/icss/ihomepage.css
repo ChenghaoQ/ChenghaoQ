@@ -20,7 +20,7 @@ body
 }
 #main-page nav
 {
-    min-height:40px;
+    min-height:50px;
     width:inherit;
     background:#0a1919;
     border-bottom:1px solid #333;
@@ -155,29 +155,27 @@ footer .share-group li a
 	padding-bottom: 15px;
 	background: #42bbcb;
 }
-
+#home a
+{
+    color:#e3e3e3;
+}
 #sidebar-menu
 {
     width:50px;
-    background:#222;
+    background:#333;
     position:fixed;
     min-height: 100%;
-    z-index: 100;
-    top:0;
-    bottom:0;
+    z-index: 100;    
+    background: rgba(0,0,0,0.9);
     right:0;
-	
-	
-
-    
 }
 #sidebar-menu ul
 {
     width:inherit;
     position:absolute;
-    margin-top:20px;
     list-style: none;
     padding:0;
+    margin:0;
 }
 #sidebar-menu .item
 {
@@ -185,9 +183,20 @@ footer .share-group li a
     font-size:20px;
     font-family:'Mircosoft YaHei';
     text-align: center;
-    margin-top: 5px;
     cursor:pointer;
+    height:50px;
+    padding-top:15px;
+	padding-bottom: 15px;
 }
+#catalog
+{
+    background:#fda254;
+}
+#site-view
+{
+    background:#fd6854;
+}
+
 
 #closeBar
 {
@@ -234,6 +243,7 @@ footer .share-group li a
     left:5px;
     cursor:pointer;
     font-size: 20px;
+
 }
 
 #sidebar-content .nav-con-title
@@ -288,7 +298,54 @@ footer .share-group li a
 		transform : translateX(-0px) rotate(0deg) scale(1);
 	}
 }
+#site-view-content
+{
+    overflow: hidden;
+}
+#site-view-content .inner-content
+{
+    text-align:center;
+}
+#site-view-content .inner-content .motto
+{
+    color: #888;
+    margin-bottom:5%;
+}
+#site-view-content .inner-content .myself
+{
+    font-weight: 800;
+    margin-top:5%;
+}
 
+#site-view-content .inner-content a
+{
+    color:#e2e2e2;
+}
+
+#site-view-content .selfie
+{
+    height:120px;
+    width:120px;
+    margin:20% auto 5% auto;
+    background: transparent;
+    right:65px;
+    background:transparent url(../img/Selfie.JPG);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position:bottom;
+    border-radius: 5px;
+}
+
+#sidebar-content .inner-content .extern-links ul
+{
+    list-style: none;
+    margin-top:30%;
+    padding-left:0;
+}
+.extern-links ul li
+{
+    display:inline-block;    
+}
 .back-to-top
 {
     color:#42bbcb;
