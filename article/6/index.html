@@ -351,12 +351,12 @@ def posts():
 
 <h2><a name = '5'>博客文档格式及模板</a></h2>
 <p>先看我们的文档格式例子:</p>
-<div class="codehilite"><pre><span></span>title: Bacon Ipsum
-date: 2013-07-14 12:00:00
+<div class="codehilite"><pre><span></span><span class="nl">title</span><span class="p">:</span> <span class="n">Bacon</span> <span class="n">Ipsum</span>
+<span class="nl">date</span><span class="p">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">14</span> <span class="mi">12</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mo">00</span>
 
-Bacon ipsum dolor sit amet ball tip tongue pancetta jowl sirloin rump. Chuck tail pork cow, fatback jerky hamburger pancetta leberkas pig .
+<span class="n">Bacon</span> <span class="n">ipsum</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span> <span class="n">ball</span> <span class="n">tip</span> <span class="n">tongue</span> <span class="n">pancetta</span> <span class="n">jowl</span> <span class="n">sirloin</span> <span class="n">rump</span><span class="p">.</span> <span class="n">Chuck</span> <span class="n">tail</span> <span class="n">pork</span> <span class="n">cow</span><span class="p">,</span> <span class="n">fatback</span> <span class="n">jerky</span> <span class="n">hamburger</span> <span class="n">pancetta</span> <span class="n">leberkas</span> <span class="n">pig</span> <span class="p">.</span>
 
-[Read more](http://baconipsum.com/)
+<span class="p">[</span><span class="n">Read</span> <span class="n">more</span><span class="p">](</span><span class="nl">http</span><span class="p">:</span><span class="c1">//baconipsum.com/)</span>
 </pre></div>
 
 
@@ -453,12 +453,14 @@ from blog import app</p>
 
 <h2><a name = '8'>冻结器</a></h2>
 <p>冻结器非常简单，引入blog包然后使用Freezer加载即可</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">app</span>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">blog</span>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">freezer</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
+    <span class="n">blog</span><span class="o">.</span><span class="n">freezer</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
 </pre></div>
 	</article>
-
+    <div id="vc-main" data-access-token="11c8370248773a268137e6fb158a3884"></div>
+    
+    <div id="vc-feelback-main" data-access-token="bd6f14702ab835406654dbd001f2c721" data-display-type="4" ></div> 
 
                 </div>
     
@@ -595,8 +597,17 @@ from blog import app</p>
         <script src="../../static/js/jquery.js"></script>
         <script src="../../static/js/home.js"></script>
         <script src="../../static/ijs/ihome.js"></script>
+        
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
+        <script>
+        (function() {
+        var v = document.createElement('script'); v.async = true;
+        v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+        })();
+        </script> 
 
 
         <!-- Carnival comments -->
