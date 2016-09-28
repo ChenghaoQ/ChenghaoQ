@@ -33,11 +33,11 @@ body
     margin:0; 
     padding:0;
     display: none;
-    text-align: center;
+    padding-left: 10%;
 }
 #main-page nav ul li
 {
-    height:40px;
+    height:50px;
     
 }
 #main-page nav ul li a
@@ -53,32 +53,32 @@ body
     width:80px;
     text-align:center;
     vertical-align: middle;
-    position:absolute;
+    display: inline-block;
     left:0;
     
 }
 #main-page nav .logo a
 {
-    height:inherit;
     text-decoration: none;
     color:#fefefe;
     font-size:25px;
-    vertical-align: middle;
     padding-top:10px;
     margin: 0;
     display:block;
-    height:inherit;
+    width:inherit;
+    font-weight: 600;
     
 }
 #main-page .menu_trigger
 {
     right:0px;
     position:absolute;
+    
     vertical-align: middle;
     width:50px;
     height:50px;
     background:inherit;
-    color:#e3e3e3;
+    color:#fefefe;
     font-size:25px;
     border:none;
 }
@@ -144,7 +144,7 @@ footer .share-group li a
     position:fixed;
     top:0;
     bottom:0;
-    right:0;
+    right:0px;
     color:#e3e3e3;
 
 }
@@ -156,12 +156,9 @@ footer .share-group li a
 	text-align: center;
 	padding-top:15px;
 	padding-bottom: 15px;
-	background: #42bbcb;
+	color: #42bbcb;
 }
-#home a
-{
-    color:#e3e3e3;
-}
+
 #sidebar-menu
 {
     width:50px;
@@ -193,11 +190,11 @@ footer .share-group li a
 }
 #catalog
 {
-    background:#fda254;
+    color:#fda254;
 }
 #site-view
 {
-    background:#fd6854;
+    color:#fd6854;
 }
 
 
