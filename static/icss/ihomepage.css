@@ -7,7 +7,6 @@
     left:0;
     background:rgba(0,0,0,0.7);
     display: none;
-    z-index: 99;
 }
 body
 {
@@ -24,6 +23,7 @@ body
     min-height:50px;
     width:inherit;
     background:#42bbcb;
+    position:relative;
     
 }
 #main-page nav ul
@@ -52,7 +52,6 @@ body
     height:50px;
     width:80px;
     text-align:center;
-    border-bottom: 1px dashed #777;
     vertical-align: middle;
     position:absolute;
     left:0;
@@ -73,7 +72,7 @@ body
 }
 #main-page .menu_trigger
 {
-    right:50px;
+    right:0px;
     position:absolute;
     vertical-align: middle;
     width:50px;
