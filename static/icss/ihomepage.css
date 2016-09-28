@@ -7,6 +7,7 @@
     left:0;
     background:rgba(0,0,0,0.7);
     display: none;
+    z-index: 99;
 }
 body
 {
@@ -22,8 +23,8 @@ body
 {
     min-height:50px;
     width:inherit;
-    background:#0a1919;
-    border-bottom:1px solid #333;
+    background:#42bbcb;
+    
 }
 #main-page nav ul
 {
@@ -48,11 +49,14 @@ body
 #main-page nav .logo 
 {
     
-    height:40px;
-    width:inherit;
+    height:50px;
+    width:80px;
     text-align:center;
-    padding:0 auto;
     border-bottom: 1px dashed #777;
+    vertical-align: middle;
+    position:absolute;
+    left:0;
+    
 }
 #main-page nav .logo a
 {
@@ -61,21 +65,21 @@ body
     color:#fefefe;
     font-size:25px;
     vertical-align: middle;
-    border-left: 3px solid #fefefe;
-    border-right: 3px solid #fefefe;
-    padding:0 10px;
+    padding-top:10px;
+    margin: 0;
+    display:block;
+    height:inherit;
+    
 }
 #main-page .menu_trigger
 {
-    float:left;
-    display: inline-block;
+    right:50px;
     position:absolute;
-    left:2px;
-    top:2px;
-    width:36px;
-    height:36px;
+    vertical-align: middle;
+    width:50px;
+    height:50px;
     background:inherit;
-    color:#fefefe;
+    color:#e3e3e3;
     font-size:25px;
     border:none;
 }
