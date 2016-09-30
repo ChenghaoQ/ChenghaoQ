@@ -171,6 +171,7 @@
     $(function(){
         if($(window).width()<1024){
             var sidebar = new Sidebar('sidebar-menu','closeBar','sidebar-content');
+			setTimeout(function(){sidebar.close()},600);
             menu_trigger.click(function(){menu.slideToggle()});
             /*$(function(){setTimeout(hideSideBar,600)});
             sidebar_trigger.on('click',showhideSideBar);*/

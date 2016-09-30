@@ -59,6 +59,7 @@
 			});	
 		}
 		$('.nav-con-close').on('click',function(){
+					
 					self.sidecont.animate({'left':-250},{duration:500,queue:false});
 					self.maincont.animate({'margin-left':50},{duration:500,queue:false});
 					self.state = 'allClosed';

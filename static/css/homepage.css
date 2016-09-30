@@ -288,6 +288,37 @@ body
 {
     display: none;
 }
+
+.pagination
+{
+	height:30px;
+}
+.pager
+{
+	list-style: none;
+	min-width: 0;
+	position:relative;
+	padding:0;
+	height: inherit;
+	display:inline-block;
+
+}
+.pager li
+{
+	display: inline-block;
+	height:inherit;
+	width:30px;
+	text-align: center;
+	cursor:pointer;
+}
+
+.prev_next 
+{
+	display:inline-block;
+	height: inherit;
+	width:30px;
+	text-align: center;
+}
 footer
 {
     margin-bottom: 0;
