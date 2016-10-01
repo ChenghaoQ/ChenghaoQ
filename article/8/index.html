@@ -76,29 +76,39 @@
 
 
 <p>举个栗子让我们来看看什么是三元表达式</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="n">b</span> <span class="o">=</span> <span class="mi">3</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span><span class="n">b</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">:</span>
 <span class="o">...</span>     <span class="n">c</span> <span class="o">=</span> <span class="bp">True</span>
 <span class="o">...</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">c</span>
 <span class="bp">True</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>使用三元表达式</p>
-<div class="codehilite"><pre><span></span>&gt;&gt;&gt; a = 5;b = 3
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>&gt;&gt;&gt; a = 5;b = 3
 &gt;&gt;&gt; c = True if a &gt; b else False
 &gt;&gt;&gt; c
 True
 </pre></div>
-
+</td></tr></table>
 
 <p>或者 </p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">condition</span> <span class="o">=</span><span class="bp">True</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">condition</span> <span class="o">=</span><span class="bp">True</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">condition</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
 <span class="mi">1</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>同三目运算符一样， 三元表达式不支持复杂的操作。如果三元表达式支持复杂的操作，那么将所有代码挤到一行里并不是一个明智的选择。那些简单的if statement 才是三元表达式的用武之地。</p>
 <h2><a name = '2'>列表解析式</a></h2>
@@ -107,14 +117,19 @@ True
 <h3>for循环与列表解析式</h3>
 <p>任何列表解析式都可以改写成for循环，因为其本事就是由for循环构成</p>
 <p>举个for循环的栗子:</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
 <span class="o">...</span>     <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
 <span class="o">...</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">a</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>如果用了列表解析式，你可以这样写</p>
 <div class="codehilite"><pre><span></span>a = [each for each in range(5)]
@@ -129,7 +144,13 @@ True
 
 <p>假设我们需要创造一个而5x5的棋盘:</p>
 <p>使用for循环并不是那么轻松简单；</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">board</span> <span class="o">=</span> <span class="p">[]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">board</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
 <span class="o">...</span>     <span class="n">board</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
 <span class="o">...</span>     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
@@ -137,44 +158,54 @@ True
 <span class="o">&gt;&gt;&gt;</span> <span class="n">board</span>
 <span class="p">[[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">]]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>注意，如果不太了解python而为数组但有C的经验的话，很可能会写出下面的代码</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
         <span class="n">board</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>然而这是不对的，python你并不支持通过定点赋值的方法添加新的列表元素，所以代码显得很臃肿。然而此时你已经掌握了列表解析式的嵌套</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span><span class="n">board</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;+&#39;</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span><span class="n">board</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;+&#39;</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>现在你变得更pythonic(懒)了。</p>
 <h2><a name = '3'>条件筛选（综合）</a></h2>
 <p>如果你想对一个可迭代的对象进行筛选,你就不得不使用for循环来找出每一个子元素并加以判断，大致过程如下：</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">list1</span><span class="p">:</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">list1</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">condition</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">list2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>这样你就可以把所有符合判断条件的list1元素重新组合成新的列表list2中去，举个栗子:</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">secretWord</span> <span class="o">=</span> <span class="s1">&#39;apple&#39;</span> 
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">secretWord</span> <span class="o">=</span> <span class="s1">&#39;apple&#39;</span> 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">lettersGuessed</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>使用for循环来找出secretWord中重合的字母</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">secretWord</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">lettersGuessed</span><span class="p">:</span>
         <span class="n">list2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span><span class="n">list2</span>
 <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>忘了告诉你，python中的列表解析式支持条件过滤，格式如下:</p>
 <div class="codehilite"><pre><span></span>[元素 列表解析式 if条件]
@@ -182,17 +213,19 @@ True
 
 
 <p>有了这个法宝，再回头看我们刚刚的例子</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span><span class="p">]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span><span class="p">]</span>
 <span class="o">&gt;&gt;&gt;</span><span class="n">list2</span>
 <span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>只要一行，轻轻松松。现在你觉得自己又pythonic(懒)了一分。但是我们现在要做一个猜谜游戏，如果sercretWord中字母不在lettersGuessed 中，我们要用'_'来表示:('_pp_e').然而列表解析式只支持if条件判断并不支持if...else... 好像阻挡了你pythonic(懒)的脚步，但是这是你突然想起了另一样法宝:</p>
 <p><strong>三元表达式</strong>，然后你把代码写成了这样</p>
-<div class="codehilite"><pre><span></span><span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span><span class="p">]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>然后就报错了，python告诉你语法错误。知道了列表解析式只支持if条件而不是if..else, 而事实证明确实如此</p>
 <div class="codehilite"><pre><span></span>[元素 列表解析式 if条件]        == **正确**
@@ -202,11 +235,13 @@ True
 
 <p>这是怎么回事，难道三元表达式和列表解析式真的不能双修吗</p>
 <p>其实不然，列表解析式挂载的if条件的方式和与三元表达式结合的方式并不一样，前者在后，后者在前:</p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span><span class="p">]</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="n">each</span> <span class="k">if</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">lettersGuessed</span> <span class="k">else</span> <span class="s1">&#39;_&#39;</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">secretWord</span><span class="p">]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">list2</span>
 <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>真是pythonic(懒)极了。</p>
 <p>在<strong>创建新列表</strong>或函数<strong>return</strong>时，效果极佳。</p>

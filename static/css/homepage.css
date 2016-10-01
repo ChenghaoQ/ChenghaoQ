@@ -359,16 +359,27 @@ footer .share-group li a
     margin-top:30px;
     padding-bottom:20px;
 }
-
+.codehilitetable {
+	background: #272822;
+	border-radius: 10px;
+    font-weight: 600;
+	width:100%;
+}
+.linenos
+{
+	padding-left:15px;
+	color:#e6d074;
+}
 .codehilite
 {
     overflow: hidden;
     border-radius: 10px;
+	position:relative;
+	font-weight: 600;
 }
 .codehilite pre
 {
-    border-radius: 10px;
-    padding-left:15px;
+	padding-left:15px;
     width:inherit;
 }
 a {

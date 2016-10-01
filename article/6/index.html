@@ -213,7 +213,28 @@ FREEZER_DESTINATION = PROJECT_ROOT
 
 
 <p>代码示例:</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">REPO_NAME</span> <span class="o">=</span> <span class="s2">&quot;what-is-this&quot;</span>
 <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
@@ -236,7 +257,7 @@ FREEZER_DESTINATION = PROJECT_ROOT
 <span class="c1">#FLATPAGES_ROOT = APP_DIR+&#39;/pages&#39; </span>
 <span class="n">FLATPAGES_EXTENSION</span> <span class="o">=</span><span class="s1">&#39;.md&#39;</span>
 </pre></div>
-
+</td></tr></table>
 
 <h2><a name = '4'>views文件(路由)</a></h2>
 <p>从我们的blog包（<strong>init</strong>.py）里面引入初始化的实例</p>
@@ -353,14 +374,19 @@ def posts():
 
 <h2><a name = '5'>博客文档格式及模板</a></h2>
 <p>先看我们的文档格式例子:</p>
-<div class="codehilite"><pre><span></span><span class="nl">title</span><span class="p">:</span> <span class="n">Bacon</span> <span class="n">Ipsum</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nl">title</span><span class="p">:</span> <span class="n">Bacon</span> <span class="n">Ipsum</span>
 <span class="nl">date</span><span class="p">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">14</span> <span class="mi">12</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mo">00</span>
 
 <span class="n">Bacon</span> <span class="n">ipsum</span> <span class="n">dolor</span> <span class="n">sit</span> <span class="n">amet</span> <span class="n">ball</span> <span class="n">tip</span> <span class="n">tongue</span> <span class="n">pancetta</span> <span class="n">jowl</span> <span class="n">sirloin</span> <span class="n">rump</span><span class="p">.</span> <span class="n">Chuck</span> <span class="n">tail</span> <span class="n">pork</span> <span class="n">cow</span><span class="p">,</span> <span class="n">fatback</span> <span class="n">jerky</span> <span class="n">hamburger</span> <span class="n">pancetta</span> <span class="n">leberkas</span> <span class="n">pig</span> <span class="p">.</span>
 
 <span class="p">[</span><span class="n">Read</span> <span class="n">more</span><span class="p">](</span><span class="nl">http</span><span class="p">:</span><span class="c1">//baconipsum.com/)</span>
 </pre></div>
-
+</td></tr></table>
 
 <h3><a name = '5.1'>Markdown和YAML</a></h3>
 <ul>

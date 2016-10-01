@@ -96,7 +96,13 @@ pages = FlatPages(app)通过Flask对象创建Flask实例
 
 
 <p>同时你也可以稍后再通过<strong>init_app()</strong>引入Flask对象</p>
-<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">()</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;mysettings.cfg&#39;</span><span class="p">):</span>
 <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -104,7 +110,7 @@ pages = FlatPages(app)通过Flask对象创建Flask实例
 <span class="n">pages</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 <span class="k">return</span> <span class="n">app</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>以下为Flask-FlatPages配置选项，它们都不是必选的。</p>
 <div class="codehilite"><pre><span></span>FLATPAGES_ROOT
@@ -141,11 +147,13 @@ FLAT_PAGES_AUTO_RELOAD
 
 <p>文章主体格式默认使用<a href="http://daringfireball.net/projects/markdown/">Markdown</a>， 如果使用了的话<a href="http://pygments.org/">Pygments</a>也是默认选项，但是主要还是根据FLATPAGES_HTML_RENDERER里设置的值来决定。</p>
 <p>使用Pygments,你需要单独进行样式声明。你可以使用<a href="">pygments_style_defs():</a></p>
-<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/pygments.css&#39;</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/pygments.css&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pygments_css</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">pygments_style_defs</span><span class="p">(</span><span class="s1">&#39;tango&#39;</span><span class="p">),</span> <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;text/css&#39;</span><span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>同时在模板里面：</p>
 <div class="codehilite"><pre><span></span><span class="x">&lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;pygments_css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
@@ -169,10 +177,11 @@ FLAT_PAGES_AUTO_RELOAD
 <p>然后，pages 不会被再次加载 除非你明确地要求它使用<a href="">FlatPages.reload()</a>.或通过配置接受的新请求。（详见FLATPAGES_AUTO_RELOAD.)</p>
 <p>这个设计是在适配<a href="https://pythonhosted.org/Frozen-Flask/">Frozen-Flask</a>(Flask生成静态网页的工具)时使用，但是即便你不用他还是可以正常工作：你修改了代码并且已经重启了生产服务器，你只需要修改页面内容就好了。同样的，在版本控制系统下这依然有效。</p>
 <p>但是如果你有很多网页并且加载时间很长，你可以让它在初始化过程中强制加载，当第一个请求被使用。</p>
-<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 <span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="c1"># Force loading now. foo.html may not even exist.</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>每次全部都加载看起来很浪费，但是这种影响可以通过缓存来减轻：如果文件的修改时间并没有变化，它不会被再次重复加载，之前的Page实例也会被重复利用。</p>
 <p>同样地，YAML和Markdown的解析也是偷懒的和被缓存的：用不到的时候就不加载，没更改过就不会重复加载。</p>
@@ -182,7 +191,23 @@ FLAT_PAGES_AUTO_RELOAD
 <p>一个page实例集合</p>
 <p>范例：</p>
 </blockquote>
-<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="n">FlatPages</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 <span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
@@ -200,7 +225,7 @@ FLAT_PAGES_AUTO_RELOAD
     <span class="n">template</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;flatpage.html&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <blockquote>
 <p><strong>__iter__()</strong>
@@ -231,7 +256,15 @@ Lorem ipsum dolor sit amet, …
 
 
 <p>以上为test.md </p>
-<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">page</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">page</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">meta</span> <span class="c1"># PyYAML converts YYYY-MM-DD to a date object</span>
 <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">u&#39;Hello&#39;</span><span class="p">,</span> <span class="s1">&#39;published&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">22</span><span class="p">)}</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
@@ -241,7 +274,7 @@ Lorem ipsum dolor sit amet, …
 <span class="o">&gt;&gt;&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">html</span>
 <span class="s1">u&#39;&lt;p&gt;Hello, &lt;em&gt;World&lt;/em&gt;!&lt;/p&gt;</span><span class="se">\n</span><span class="s1">&lt;p&gt;Lorem ipsum dolor sit amet, </span><span class="se">\u2026</span><span class="s1">&lt;/p&gt;&#39;</span>
 </pre></div>
-
+</td></tr></table>
 
 <blockquote>
 <p><strong>__getitem__(name)</strong>

@@ -87,7 +87,13 @@ Frozen-Flask说明
 <p>Frozen-Flask用于部署：取代了安装python, WSGI服务器和Flask，你可以使用Frozen-Flask 来冻结你的应用并且可以只部署静态HTML文件在你的服务器上。</p>
 <h2><a name='3'>开始吧</a></h2>
 <p>创建一个<a href="">冻结器</a>实例和你的app对象放在一起，然后调用它的<a href="">freeze()</a>方法。将其放入一个freeze.py的脚本文件(名字无所谓其实)</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask_frozen</span> <span class="kn">import</span> <span class="n">Freezer</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">flask_frozen</span> <span class="kn">import</span> <span class="n">Freezer</span>
 <span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
 
 <span class="n">freezer</span> <span class="o">=</span> <span class="n">Freezer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
@@ -95,7 +101,7 @@ Frozen-Flask说明
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">freezer</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>这样会在你的static和templates目录旁边创建一个build文件夹，里面放着创建出来的静态文件。</p>
 <div class="codehilite"><pre><span></span>Note
@@ -117,7 +123,14 @@ The [configuration]() allows you to change the destination directory, or control
 <p>否则，你需要编写URL生成器</p>
 <h2><a name='4'>URL生成器</a></h2>
 <p>让我们假设你的应用看上去像这样</p>
-<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">products_list</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">products</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
 
@@ -126,22 +139,50 @@ The [configuration]() allows you to change the destination directory, or control
     <span class="n">product</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">get_or_404</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;product.html&#39;</span><span class="p">,</span> <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>如果因为某些原因，一些生产出来的页面不会被链接（或者它们不是通过url_for()调用）, Frozen-Flask 不会找到它们。</p>
 <p>为了告诉Frozen-Flask这些网页，在调用<a href="">freeze()</a>之前写一个URL生成器并且将它放在<a href="">Freezer</a>实例里面</p>
-<div class="codehilite"><pre><span></span><span class="nd">@freezer.register_generator</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@freezer.register_generator</span>
 <span class="k">def</span> <span class="nf">product_details</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">Product</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>Frozen-Flask 会调用url_for(endpoint,**values),来找到URL地址，endpoint是生成器函数的名字，values是被生成器调用的每一个dict字典</p>
 <p>你可以指定一个不同的endpoint通过一个(endpoint,values)元组而不仅仅是values，或者你可以通过传递url_for 并且单单产生URLs字符串</p>
 <p>另外，生成器函数不需要使用<a href="https://docs.python.org/3/glossary.html#term-generator">Python generators</a>来使用yield，它们可以是可以被调用的 并且返回可迭代的对象</p>
 <p>下面的例子都是一样的</p>
-<div class="codehilite"><pre><span></span><span class="nd">@freezer.register_generator</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@freezer.register_generator</span>
 <span class="k">def</span> <span class="nf">product_details</span><span class="p">():</span>  <span class="c1"># endpoint defaults to the function name</span>
     <span class="c1"># `values` dicts</span>
     <span class="k">yield</span> <span class="p">{</span><span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">}</span>
@@ -168,16 +209,17 @@ The [configuration]() allows you to change the destination directory, or control
         <span class="p">(</span><span class="s1">&#39;product_details&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;product_id&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">}),</span>
     <span class="p">]</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>多次生成一个URL是Ok的，Frozen-Flask会只创建一次。给不同的函数起同样的名字并不是一个好的习惯，但是这里仍然可以使用，因为它们只被装饰器调用。你可能有一个模块for views，另一个模块for freezer 和 URL generator, 所以相同的名字不是问题。</p>
 <h2><a name='5'>测试URL生成器</a></h2>
 <p>Frozen Flask 背后的点子是你<a href="#2"><strong>可以直接使用Flask</strong></a>来开发并测试你的应用。况且在部署在服务器之前，非常有必要来测试你的URL生成器，以免有内容丢失。</p>
 <p>你可以在浏览器打开新生成的静态HTML文件，但是链接可能不能使用。FREEZER_RELATIVE_URLS<a href="">设置</a>可以修复这个问题，但是添加一个可见的index.html到链接。或者使用[run()]方法来使用生成的网页来大件一个HTTP服务器。这样一来你就可以在上传之前确认是否工作正常：</p>
-<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">freezer</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <p><a href="">Freeze.run()</a>在服务前冻结你的应用并且当重载器kicks in.但是reloader只会查看Python的文件，而不是模板或静态文件。因为这样，你可能想要只用<a href="">Freeze.run()</a>来测试URL生成器，其他情况照常使用<a href="http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run">app.run()</a></p>
 <p><a href="http://flask-script.readthedocs.io/en/latest/"><strong>Flask-Script</strong></a>may come in handy here.</p>
@@ -224,7 +266,13 @@ The [configuration]() allows you to change the destination directory, or control
 <p>被从URL里面移除的查询字符串用来建立文件名字。例如/lorem/?page=ipsum被保存为lorem/index.html. URL只有在它们的查询字符串相同时不同。它们应该返回相同的结果，否则，行为会被当做未定义行为。</p>
 <p>另外，扩展检查了文件扩展名是否与Content-Type HTTP response header提供的MIME类型相匹配，Content-Type是一个静态web服务器可能会传送不是你期望的内容，这样Frozen-flask回发出警告</p>
 <p>比如，下列的views 都是错的</p>
-<div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/lipsum&#39;</span><span class="p">)</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/lipsum&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">lipsum</span><span class="p">():</span>
     <span class="k">return</span> <span class="s1">&#39;&lt;p&gt;Lorem ipsum, ...&lt;/p&gt;&#39;</span>
 
@@ -232,11 +280,18 @@ The [configuration]() allows you to change the destination directory, or control
 <span class="k">def</span> <span class="nf">compressed_css</span><span class="p">():</span>
     <span class="k">return</span> <span class="s1">&#39;/* ... */&#39;</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>作为结果Flask的Content-Type是text/html; charset=utf-8,但是Frozen-Flask和大多说web服务器通过文件名得到的MIME类型是application/octet-stream 和 text/css</p>
 <p>上述代码可以这样通过添加URL的尾斜杠或者添加Content-Type</p>
-<div class="codehilite"><pre><span></span><span class="c1"># Saved as `lipsum/index.html` matches the &#39;text/html&#39; MIME type.</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1"># Saved as `lipsum/index.html` matches the &#39;text/html&#39; MIME type.</span>
 <span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/lipsum/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">lipsum</span><span class="p">():</span>
     <span class="k">return</span> <span class="s1">&#39;&lt;p&gt;Lorem ipsum, ...&lt;/p&gt;&#39;</span>
@@ -245,7 +300,7 @@ The [configuration]() allows you to change the destination directory, or control
 <span class="k">def</span> <span class="nf">compressed_css</span><span class="p">():</span>
     <span class="k">return</span> <span class="s1">&#39;/* ... */&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;text/css; charset=utf-8&#39;</span><span class="p">}</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>你也可以通过<a href="#6">配置</a>来禁用。</p>
 <h2><a name='8'>字符编码</a></h2>

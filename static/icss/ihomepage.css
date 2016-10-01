@@ -155,18 +155,38 @@ footer .share-group li a
     font-size:15px;
 }
 
+.codehilitetable {
+	
+	background: #272822;
+	border-radius: 10px;
+    font-weight: 600;
+	overflow: auto;
+	position:relative;
+	display: block;
+	width:100%;
+	
+}
+
+.linenos
+{
+	padding-left:15px;
+	color:#e6d074;
+}
 .codehilite
 {
-    overflow: hidden;
+    overflow-x: hidden;
     border-radius: 10px;
+	position:relative;
+	font-weight: 600;
+
 }
 .codehilite pre
 {
-    border-radius: 10px;
+   	
     padding-left:15px;
     width:inherit;
+	
 }
-
 #sidebar
 {
     max-width: 300px;

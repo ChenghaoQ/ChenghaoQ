@@ -203,7 +203,22 @@ Python爬虫： 带你上车之爬取妹子图
 <p>到目前为止，我们已经可以找到这一页中所有妹子图的链接了，接下来我们需要储存到本地。</p>
 <h2><a name='5'>储存到本地</a></h2>
 <p>储存的过程就很简单了，由于我们有多个链接，我们需要使用for循环来遍历列表里的所有链接。</p>
-<div class="codehilite"><pre><span></span><span class="c1">#文件名计数器</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#文件名计数器</span>
 <span class="n">girl</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">girls_link</span><span class="p">:</span>
     <span class="c1">#创建文件，文件名从零开始的数字，格式为jpg,写入方法为&#39;wb&#39;二进制写入</span>
@@ -220,7 +235,7 @@ Python爬虫： 带你上车之爬取妹子图
     <span class="c1">#暂停一秒钟，人为降低速度</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>这样你就可以发现和你的.py文件一起突然多出了好多图片文件，程序默认把内容保存到当前目录下。注意在上面的循环中我插入了一条print语句，这样一来方便了你日后debug需要防止死循环，二来免得你看到光标不动以为死机了，可以追踪进度。没什么事尽量降低爬取速度，不要浪费对方服务器资源。</p>
 <h2><a name='6'>Gzip网页解压</a></h2>
@@ -232,7 +247,15 @@ Python爬虫： 带你上车之爬取妹子图
 
 
 <p>然后将urlopen返回的内容进行解压，再读取就能获得正常的数据</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">girls_link</span><span class="p">:</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">girls_link</span><span class="p">:</span>
     <span class="n">a</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">girl</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">each</span><span class="p">,</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Accept-Encoding&quot;</span><span class="p">:</span> <span class="s2">&quot;gzip&quot;</span><span class="p">})</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -242,7 +265,7 @@ Python爬虫： 带你上车之爬取妹子图
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;No. </span><span class="si">%d</span><span class="s2"> Girl downloaded&quot;</span><span class="o">%</span><span class="n">girl</span><span class="p">)</span>
     <span class="n">girl</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>所以现在它可以称得上是一只爬虫了吗，not yet.</p>
 <h2><a name='7'>网页跳转</a></h2>
@@ -273,7 +296,14 @@ Python爬虫： 带你上车之爬取妹子图
 
 
 <p>page就是我们的要爬的页面数字，初始值我们设为1，然后可以使用input来设定上限作为循环条件，这里我们使用while循环会更简单</p>
-<div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter the pages you want: &quot;</span><span class="p">))</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">pages</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter the pages you want: &quot;</span><span class="p">))</span>
 <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">girl</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">while</span> <span class="n">page</span> <span class="o">&lt;=</span> <span class="n">pages</span><span class="p">:</span>
@@ -282,12 +312,43 @@ Python爬虫： 带你上车之爬取妹子图
     <span class="o">.....</span>
     <span class="o">...</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>要注意的是，刚才在for循环那里设置的girl＝ 0一定要放在while前面，否则爬取图片的时候，第二页会覆盖第一页的内容。</p>
 <p>再用函数包装一下，一个简单的抓妹子图的脚本就出来了</p>
 <h2><a name='8'>完整代码</a></h2>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
@@ -320,7 +381,7 @@ Python爬虫： 带你上车之爬取妹子图
 
 <span class="n">youmeizi</span><span class="p">()</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>最后再次重申一下，在练习爬虫的过程当中。尽量要做一个温柔的人，温柔对待服务器的人:</p>
 <ul>
