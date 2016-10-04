@@ -76,16 +76,17 @@ Flask分页方法
 <ul>
 <li>page 当前页面页码</li>
 <li>per_page 每页显示数目</li>
-<li>
-<p>文章列表（需要被切片的对象），使用len可获得总文章数</p>
-<h1>!python</h1>
-<div class="codehilite"><pre><span></span>def __init__(self,page,per_page,iterable):
-    self.page = page
-    self.per_page = per_page
-    self.iterable = iterable
-    self.total = len(iterable)
+<li>文章列表（需要被切片的对象），使用len可获得总文章数<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">page</span><span class="p">,</span><span class="n">per_page</span><span class="p">,</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="n">page</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span> <span class="o">=</span> <span class="n">per_page</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span> <span class="o">=</span> <span class="n">iterable</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 </li>
 </ul>
@@ -93,77 +94,101 @@ Flask分页方法
 <ul>
 <li>
 <p>页面总数</p>
-<h1>!python</h1>
-<div class="codehilite"><pre><span></span>@property
-def total_pages(self):
-    return int(math.ceil(self.total/self.per_page))
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">total_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">))</span>
 </pre></div>
-
+</td></tr></table>
 
 </li>
 <li>
 <p>是否有”上一页／下一页”,如果有返回True,否则False</p>
-<h1>!python</h1>
-<div class="codehilite"><pre><span></span>@property
-def has_prev(self):
-    return self.page &gt; 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">has_prev</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">&gt;</span> <span class="mi">1</span>
 
-@property
-def has_next(self):
-    return self.page &lt; self.total_pages
+<span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">has_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_pages</span>
 </pre></div>
-
+</td></tr></table>
 
 </li>
 <li>
 <p>页码列表</p>
-<h1>!python</h1>
-<div class="codehilite"><pre><span></span>@property
-def pager(self):
-#返回[1,2,3,...,n]
-    return list(range(1,self.total_pages+1))
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">pager</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="c1">#返回[1,2,3,...,n]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">total_pages</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
-
+</td></tr></table>
 
 </li>
 <li>
 <p>切片后的当前页面列表</p>
-<h1>!python</h1>
-<div class="codehilite"><pre><span></span>@property
-def items(self):
-    index = self.page - 1
-    start = index * self.per_page
-    end = start + self.per_page
-    #如果当前第二页，每页6篇文章
-    #则会返回第7-12篇文章的列表    
-    return self.iterable[start:end]
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">index</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span>
+    <span class="c1">#如果当前第二页，每页6篇文章</span>
+    <span class="c1">#则会返回第7-12篇文章的列表    </span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterable</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
 </pre></div>
+</td></tr></table>
 
-
+</li>
+<li>
+<p>切片后的当前页面列表</p>
 </li>
 </ul>
 <h2><a name = '2'>路由</a></h2>
 <ul>
-<li>
-<p>设置路由</p>
-<h1>!python</h1>
-<p>@postwall.route('/posts')#默认第一页路径为http://你的网站/posts
-@postwall.route('/posts/page/<int:page>/')#从第二页开始的路径
-def posts(page = 1):#page = 1是默认第一页的时候page为1</p>
+<li>设置路由<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>@postwall.route(&#39;/posts&#39;)#默认第一页路径为http://你的网站/posts
+@postwall.route(&#39;/posts/page/&lt;int:page&gt;/&#39;)#从第二页开始的路径
+def posts(page = 1):#page = 1是默认第一页的时候page为1
+</pre></div>
+</td></tr></table>
+
 </li>
 </ul>
 <p>其中page参数与‘int:page'对应，是页码的参数，并作为参数传入Pagination类</p>
 <ul>
 <li>
 <p>使用Pagination类切片</p>
-<h1>!python</h1>
-<p>PER_PAGE = 6
-page_list = Pagination(page,PER_PAGE,sorted_posts)</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">PER_PAGE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">page_list</span> <span class="o">=</span> <span class="n">Pagination</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="n">PER_PAGE</span><span class="p">,</span><span class="n">sorted_posts</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
 </li>
 <li>
 <p>将切片后的对象返回给模板:</p>
-<h1>!python</h1>
-<p>return render_template('posts.html',pagination = page_list)</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;posts.html&#39;</span><span class="p">,</span><span class="n">pagination</span> <span class="o">=</span> <span class="n">page_list</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
 </li>
 </ul>
 <p>在使用分页之前，由于我们只需要将所有页码加入到主页当中，所以我们只需要将文章列表传入模板，而现在我们使用了切片的Pagination类，这时候传入模板的是一个类对象而不是列表</p>
