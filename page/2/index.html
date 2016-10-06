@@ -59,6 +59,47 @@ Posts
     
 		<li class="post_preview">
 			<div class="post_header">
+				<div class="post_title">使用Flask搭建个人静态博客</div>
+				<div class="post_info">2016-09-01 | 分类于:  <a class = 'tag' href="None">Flask</a></div>
+			</div>
+			<div class="post_body"><p>这篇文章教你如何一步一步地使用搭建自己的博客。由于Flask是一个动态网页的Web框架，所以关于Flask搭建静态博客的文章少之又少。（这是Flask的神奇之处，动态静态网页都支持，日后转换时可省去不必要的麻烦)。本系列以<a href="">Steven loria</a>的Flask<a href="">静态博客实例</a>为基础并加以改进，增添了一些更加有用的功能并详细介绍</p>
+<p>搭建一个Flask静态博客，你需要:</p>
+<ul>
+<li>Python3 （Steven loria采用python2.x)</li>
+<li>Flask</li>
+<li>Frozen-Flask</li>
+<li>Flask-Flatpages</li>
+<li>Pygments(可选，用于代码语法高亮)</li>
+<li>Github 或 Coding</li>
+</ul>
+<p>首先来看我们的目录结构:</p>
+<h2><a name = '1'>博客应用的目录结构</a></h2>
+<div class="codehilite"><pre><span></span>| ---project
+│    |---blog
+│    │    ├── __init__.py
+│    │    ├── settings.py
+│    │    ├── views.py
+│    │    ├── templates
+│    │    │   ├── base.html
+│    │    │   ├── page.html
+│    │    │   └── posts.html
+│    │    ├── static
+│    │    │   ├── home.css
+│    │    │   └── home.js
+│    │--- posts
+│    │    ├── pages
+│    │    │   ├── firstpost
+│    │    │   │   ├── index.html
+│    │    ├── posts.html
+│    │    ├── index.html
+│    ├── app.py
+│    ├── freezer.py
+</pre></div>...</div>
+			<div class="more link_tag"><a href="/article/6/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
 				<div class="post_title">python3使用相对路径import</div>
 				<div class="post_info">2016-08-29 | 分类于:  <a class = 'tag' href="None">Python</a></div>
 			</div>

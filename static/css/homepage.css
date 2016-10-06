@@ -356,7 +356,7 @@ footer .share-group li a
 .copyright
 {
     margin:0 auto;
-    margin-top:30px;
+    padding-top:30px;
     padding-bottom:20px;
 }
 .codehilitetable {
@@ -364,11 +364,16 @@ footer .share-group li a
 	border-radius: 10px;
     font-weight: 600;
 	width:100%;
+	display:block;
+	position:relative;
+	overflow:auto;
 }
+
 .linenos
 {
 	padding-left:15px;
 	color:#e6d074;
+	
 }
 .codehilite
 {
@@ -379,7 +384,7 @@ footer .share-group li a
 }
 .codehilite pre
 {
-	padding-left:15px;
+	padding:0 15px;
     width:inherit;
 }
 a {
