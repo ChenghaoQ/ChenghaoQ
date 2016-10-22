@@ -75,7 +75,14 @@ Python爬虫：二层爬虫之爬取整个相册
 </blockquote>
 <p>我们来拆开一步一步分析，首先来看我们的工具准备</p>
 <h2><a name ='2'>工具准备</a></h2>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
@@ -84,7 +91,7 @@ Python爬虫：二层爬虫之爬取整个相册
                 <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span><span class="s1">&#39;Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6&#39;</span><span class="p">}</span>
 <span class="n">girl_entry</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
-
+</td></tr></table>
 
 <ul>
 <li>和上一次相比我们多了一个os模块，这个是后面创建文件夹所必需的</li>
@@ -139,9 +146,11 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>第二个正则表达式提取出来的内容有两个并以元组的方式展现 (一个去掉.html后缀的入口链接,一个标题)。入口链接是用在网页搜索中，标题名称是为我们创建的相册文件夹命名。</li>
 </ul>
 <h2><a name ='4'>获取所有相册页面</a></h2>
-<p>当我们满怀欣喜地点击进入相册后，你发现了几个问题：
-- 每一个网页只有一张图片,旁边还有温馨提示，“点击图片进行下一页”,<strong>而我们并不能知道这个相册有多少页</strong>。 要不我们一个一个试吧，这样很浪费时间，如果中途出错了的话会影响后面的爬取。
-- 第一页的网址链接和其他的不一样，第一页为/12345.html,而其他的网页/12345_x.html。如果我们像之前一样使用/12345_1.html来代表第一页的话会直接报错</p>
+<p>当我们满怀欣喜地点击进入相册后，你发现了几个问题：</p>
+<ul>
+<li>每一个网页只有一张图片,旁边还有温馨提示，“点击图片进行下一页”,<strong>而我们并不能知道这个相册有多少页</strong>。 要不我们一个一个试吧，这样很浪费时间，如果中途出错了的话会影响后面的爬取。</li>
+<li>第一页的网址链接和其他的不一样，第一页为/12345.html,而其他的网页/12345_x.html。如果我们像之前一样使用/12345_1.html来代表第一页的话会直接报错</li>
+</ul>
 <p>道高一尺魔高一丈，即便是这样我们仍然有办法:</p>
 <blockquote>
 <p>创建一个空列表 -&gt; 先把第一页放进去（解决问题二）-&gt; 使用二分法搜索出尾页（解决问题一）-&gt; 生成所有页面地址并加入列表 -&gt; 返回列表</p>

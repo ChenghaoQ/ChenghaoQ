@@ -353,10 +353,10 @@ footer .share-group li a
     text-decoration: none;
     color:#666;
 }
-.copyright
+#copyright
 {
     margin:0 auto;
-    padding-top:30px;
+    padding-top:80px;
     padding-bottom:20px;
 }
 .codehilitetable {
