@@ -213,6 +213,7 @@ body
 {
     display:inline-block;    
 }
+
 #main-page
 {
     height:700px;
@@ -221,6 +222,11 @@ body
     margin-left:50px;
 
     min-height:100%;
+}
+#main-page img
+{
+    width:95%;
+
 }
 #main-page nav
 {
