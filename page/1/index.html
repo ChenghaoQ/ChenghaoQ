@@ -46,7 +46,7 @@ Posts
                            
                         <li><a href='/'>文章</a></li> 
                         <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>           
+                        <li><a href='#'>关于</a></li>     
                     </ul>
                     
                 </nav>
@@ -57,6 +57,24 @@ Posts
                     
 <ul class="post_list">
     
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">使用Python实现关键字搜索文件</div>
+				<div class="post_info">2016-12-10 | 分类于:  <a class = 'tag' href="None">Python</a></div>
+			</div>
+			<div class="post_body"><p>让我们通过20行python代码实现一个简单的关键字搜索工具</p>
+<h2><a name = '1'>目录遍历</a></h2>
+<p>首先我们来看如何实现目录遍历</p>
+<p>目录遍历的过程很简单:</p>
+<ol>
+<li>将目标路径作为当前目录</li>
+<li>罗列出当前目录下的所有内容</li>
+<li>判断每一个目标是否是文件夹。</li>
+<li>如果是，进入该文件夹搜索（将文件夹路径改为当前路径，多级目录在此处会循环)</li>
+</ol>...</div>
+			<div class="more link_tag"><a href="/article/17/">More -></a></div>
+		</li>
+	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">数据可视化(2)：五种基本图形</div>
@@ -118,15 +136,6 @@ Posts
 			</div>
 			<div class="post_body"><p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>...</div>
 			<div class="more link_tag"><a href="/article/12/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Flask分页方法</div>
-				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="None">Flask</a></div>
-			</div>
-			<div class="post_body"><p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>...</div>
-			<div class="more link_tag"><a href="/article/11/">More -></a></div>
 		</li>
 	
 	
