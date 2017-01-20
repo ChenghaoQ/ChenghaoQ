@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 First-post.写在前面
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@ First-post.写在前面
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,18 +57,19 @@ First-post.写在前面
                     
     <div class="article_header">
         <h1 class="article_title"><a>First-post.写在前面</a></h1>                   
-		<div class="article_info">2016-08-10 | 分类于: <a class = 'tag' href="None">随笔</a></div>
+		<div class="article_info">2016-08-10 | 分类于:  <a class = 'tag' href="/tag/%E9%9A%8F%E7%AC%94/">随笔</a></div>
 	</div>
 	<article>
-		
-		<p>Hello World. 这是博客的第一句话，也是我接触计算机学到的第一句话。</p>
+        <p>Hello World. 这是博客的第一句话，也是我接触计算机学到的第一句话。</p>
 <p>一直以来都想有一个自己的博客，尽管很久都没有写过什么东西。建一个独立博客对我来说也是挺遥远的事情。 机缘巧合吧，它现在有了。</p>
-<!--More-->
+
+        
 
 <p>从无到有，聚少成多。从前端网页到后端生成器脚本（可能是对Python的迷之信仰，最后我用了基于Flask的Frozen-Flask为核心驱动，有机会后面会讲），从买域名到学会用Github，从头到尾都是自己一点点写出来的。从开始的两眼一抹黑到现在基本功能实现，整个过程还是挺有意思的。尽管它现在还是一个半成品，还有很多预想中的功能还没有实现。但即便是这样，</p>
 <p>这仍然是我之前从来没有想到过的事情。</p>
 <p>关于未来，我想借此博客作一个手边的备忘录，记录自己学习过程中遇到的问题和解决方案，总结学到的知识方便日后查阅，还有就是作为自己成长的记录吧。同时也希望可以更好地回馈开源社区，提供一些我的学习经验。</p>
 <p>摸着石头过河也是过河。共勉！</p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -82,12 +83,12 @@ First-post.写在前面
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -139,9 +140,7 @@ First-post.写在前面
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-	    </ul>
+        
     </div>
 </div>
 
@@ -151,12 +150,12 @@ First-post.写在前面
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -178,10 +177,38 @@ First-post.写在前面
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -191,14 +218,14 @@ First-post.写在前面
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 数据可视化(2)：五种基本图形
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,18 +57,20 @@
                     
     <div class="article_header">
         <h1 class="article_title"><a>数据可视化(2)：五种基本图形</a></h1>                   
-		<div class="article_info">2016-11-24 | 分类于: <a class = 'tag' href="None">Python数据可视化</a></div>
+		<div class="article_info">2016-11-24 | 分类于:  <a class = 'tag' href="/tag/Python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">Python数据可视化</a></div>
 	</div>
 	<article>
-		
-		<p>上一次通过一个简单例子学习了图形的基本绘制方法，这次我们通过农企(AMD)的数据来学习五种基本图形的绘制</p>
-<h2><a name= '1'>工具准备</a></h2>
+        
+
+<p>上一次通过一个简单例子学习了图形的基本绘制方法，这次我们通过农企(AMD)的数据来学习五种基本图形的绘制</p>
+<h2 id="_1">工具准备</h2>
 <ul>
 <li>AMD股票数据(Nov 21,2015 - Nov 21,2016),<a href="http://chart.finance.yahoo.com/table.csv?s=AMD&amp;a=10&amp;b=21&amp;c=2015&amp;d=10&amp;e=21&amp;f=2016&amp;g=d&amp;ignore=.csv">下载</a></li>
 <li>S&amp;P500同期指数，<a href="http://chart.finance.yahoo.com/table.csv?s=^GSPC&amp;a=10&amp;b=21&amp;c=2015&amp;d=10&amp;e=21&amp;f=2016&amp;g=d&amp;ignore=.csv">下载</a></li>
 <li>AMD最近四个季度的财报</li>
 <li>S&amp;P500 同时段（AMD)的指数
-<!--More--></li>
+
+        </li>
 <li>Numpy</li>
 <li>Matplotlib</li>
 <li>Python3.x</li>
@@ -96,8 +98,8 @@
 <li>usecols(0,2,3) 使用1,3,4行，值得注意的是，如果我们只要获取一行，要用元组表示：usecols（x,)</li>
 <li>unpack 将提取的数据分别放在三个列表里</li>
 </ul>
-<h2><a name= '2'>散点图</a></h2>
-<h3>简介</h3>
+<h2 id="_2">散点图</h2>
+<h3 id="_3">简介</h3>
 <blockquote>
 <p>用两组数据构成多个坐标点，考察坐标点的分布，判断两变量之间是否存在某种关联或总结坐标点的分布模式。散点图将序列显示为一组点。值由点在图表中的位置表示。类别由图表中的不同标记表示。散点图通常用于比较跨类别的聚合数据。(<a href="http://baike.baidu.com/view/1323662.htm">百度百科</a>)</p>
 </blockquote>
@@ -106,7 +108,7 @@
 </pre></div>
 </td></tr></table>
 
-<h3>实例</h3>
+<h3 id="_4">实例</h3>
 <p>首先我们获得AMD最近一年的最高价格，最低价格，日期</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">date</span><span class="p">,</span><span class="n">high</span><span class="p">,</span><span class="n">low</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;Nov21-1yr.csv&#39;</span><span class="p">,</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">converters</span> <span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="n">bytespdate2num</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)},</span><span class="n">skiprows</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -127,8 +129,8 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/scatter.png" /></p>
-<h2><a name= '3'>折线图</a></h2>
-<h3>简介</h3>
+<h2 id="_5">折线图</h2>
+<h3 id="_6">简介</h3>
 <blockquote>
 <p>折线图是排列在工作表的列或行中的数据可以绘制到折线图中。折线图可以显示随时间（根据常用比例设置）而变化的连续数据，因此非常适用于显示在相等时间间隔下数据的趋势。在折线图中，类别数据沿水平轴均匀分布，所有值数据沿垂直轴均匀分布。(<a href="http://baike.baidu.com/view/1396532.htm">百度百科</a>)</p>
 </blockquote>
@@ -142,7 +144,7 @@
 </pre></div>
 </td></tr></table>
 
-<h3>实例1：AMD股票走势</h3>
+<h3 id="1amd">实例1：AMD股票走势</h3>
 <p>我们这里使用农企一年的股票走势来举例,首先我们先获取收盘价和日期</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">date</span><span class="p">,</span><span class="n">close</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;Nov21-1yr.csv&#39;</span><span class="p">,</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">converters</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="n">bytespdate2num</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)},</span><span class="n">skiprows</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -161,10 +163,10 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/line.png" /></p>
-<h3>实例2:S&amp;P500走势</h3>
+<h3 id="2sp500">实例2:S&amp;P500走势</h3>
 <p>动手试试用同样的办法来绘制S&amp;P500最近一年(Nov 21,2015 - Nov 21,2016)的走势</p>
 <p><img alt="" src="../../static/img/16/sp500.png" /></p>
-<h3>比较S&amp;P500与AMD</h3>
+<h3 id="sp500amd">比较S&amp;P500与AMD</h3>
 <p>如果我们直接进行S&amp;P500和农企的比较，会发现农企是一条贴近X轴的线（AMD是个位数，S&amp;P是4位数）。所以在我们需要将S&amp;P500的值缩小比例，具体方法是先求出每日的变化率，然后使用同一起点（AMD第一天的收盘价），根据变化率来模拟走势</p>
 <p>这里我们需要两个S&amp;P500的变量:spopen,spclose；和两个之前AMD的变量close,date</p>
 <p>首先我们求出每日的变化率，得到一年的变化率列表</p>
@@ -212,8 +214,8 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/linecompare.png" /></p>
-<h2><a name= '4'>条形图</a></h2>
-<h3>简介</h3>
+<h2 id="_7">条形图</h2>
+<h3 id="_8">简介</h3>
 <blockquote>
 <p>排列在工作表的列或行中的数据可以绘制到条形图中。条形图显示各个项目之间的比较情况。(<a href="http://baike.baidu.com/item/%E6%9D%A1%E5%BD%A2%E5%9B%BE">百度百科</a>)</p>
 </blockquote>
@@ -222,7 +224,7 @@
 </pre></div>
 </td></tr></table>
 
-<h3>条形图实例：AMD4个季度营业额</h3>
+<h3 id="amd4">条形图实例：AMD4个季度营业额</h3>
 <p>首先我们获取农企最近四个季度的营业额，我们可以到AMD的官网，SEC里EDGAR的10Q或者其他第三方网站（Yahoo Finance)中找到</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#单位：&#39;M(百万)&#39;</span>
@@ -265,7 +267,7 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/bar.png" /></p>
-<h3>条形图（横向）实例</h3>
+<h3 id="_9">条形图（横向）实例</h3>
 <p>前面我们知道了一个标准的条形图该如何绘制，有的时候我们会想要使用横向的条形图该怎么办，和bar差不多，matplotlib在这里提供了barh函数</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">left</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">bottom</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span><span class="s1">&#39;#51ADD8&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="n">revenue</span><span class="p">,</span><span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
 </pre></div>
@@ -280,7 +282,7 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/barh.png" /></p>
-<h3>条形图对比实例</h3>
+<h3 id="_10">条形图对比实例</h3>
 <p>除了营业额，我们还可以来看一下两个条形图如何在一起对比，这里我们增加了农企的四个季度净利润</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#单位：&#39;M(百万)&#39;</span>
@@ -322,8 +324,8 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/twobars.png" /></p>
-<h2><a name= '5'>直方图</a></h2>
-<h3>简介</h3>
+<h2 id="_11">直方图</h2>
+<h3 id="_12">简介</h3>
 <blockquote>
 <p>直方图(Histogram)又称质量分布图。是一种统计报告图，由一系列高度不等的纵向条纹或线段表示数据分布的情况。 一般用横轴表示数据类型，纵轴表示分布情况。(<a href="http://baike.baidu.com/item/%E7%9B%B4%E6%96%B9%E5%9B%BE/1103834">百科词条</a>)</p>
 </blockquote>
@@ -332,7 +334,7 @@
 </pre></div>
 </td></tr></table>
 
-<h3>实例：AMD股价变化率正态分布</h3>
+<h3 id="amd">实例：AMD股价变化率正态分布</h3>
 <p>获取股票价格</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">open_price</span><span class="p">,</span><span class="n">close_price</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;Nov21-1yr.csv&#39;</span><span class="p">,</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="n">skiprows</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -352,7 +354,7 @@
 <p>>>> <strong>plt.show()</strong></p>
 </blockquote>
 <p><img alt="" src="../../static/img/16/hist.png" /></p>
-<h2><a name= '6'>饼图</a></h2>
+<h2 id="_13">饼图</h2>
 <blockquote>
 <p>扇形统计图是用整个圆表示总数，用圆内各个扇形的大小表示各部分数量占总数的百分数。通过扇形统计图可以很清楚地表示出各部分数量同总数之间的关系。百分数.。　扇形统计图可以清楚地表示各个项目与总数之间的关系。(<a href="http://baike.baidu.com/subview/1289/1289.htm">百科词条</a>)</p>
 </blockquote>
@@ -361,7 +363,7 @@
 </pre></div>
 </td></tr></table>
 
-<h3>实例：AMD资产结构</h3>
+<h3 id="amd_1">实例：AMD资产结构</h3>
 <p>我们先找到农企2016第三季度的财报(<a href="">10-Q</a>),可以从公司官网或者SEC（美国证监会）找到，如下图</p>
 <p><img alt="" src="../../static/img/16/10q.png" /></p>
 <p>找到资产下的子分类，作为标签</p>
@@ -412,13 +414,14 @@
 
 <p>是不是好多了呢？</p>
 <p><img alt="" src="../../static/img/16/pie.png" /></p>
-<h2><a name= '7'>Reference</a></h2>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://finance.yahoo.com/quote/%5EGSPC?p=%5EGSPC">AMD-Yahoo Finance</a></li>
 <li><a href="https://finance.yahoo.com/quote/%5EGSPC?p=%5EGSPC">S&amp;P500-Yahoo Finance</a></li>
 <li><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0000002488&amp;type=10&amp;dateb=&amp;owner=exclude&amp;count=40">AMD 10Q - SEC EDGAR</a></li>
 <li><a href="">百科词条</a></li>
 </ul>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -432,12 +435,12 @@
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -489,23 +492,41 @@
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>工具准备</a></li>
-	    
-		    <li><a href='#2'>散点图</a></li>
-	    
-		    <li><a href='#3'>折线图</a></li>
-	    
-		    <li><a href='#4'>条形图</a></li>
-	    
-		    <li><a href='#5'>直方图</a></li>
-	    
-		    <li><a href='#6'>饼图</a></li>
-	    
-		    <li><a href='#7'>Reference</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">工具准备</a></li>
+<li><a href="#_2">散点图</a><ul>
+<li><a href="#_3">简介</a></li>
+<li><a href="#_4">实例</a></li>
+</ul>
+</li>
+<li><a href="#_5">折线图</a><ul>
+<li><a href="#_6">简介</a></li>
+<li><a href="#1amd">实例1：AMD股票走势</a></li>
+<li><a href="#2sp500">实例2:S&amp;P500走势</a></li>
+<li><a href="#sp500amd">比较S&amp;P500与AMD</a></li>
+</ul>
+</li>
+<li><a href="#_7">条形图</a><ul>
+<li><a href="#_8">简介</a></li>
+<li><a href="#amd4">条形图实例：AMD4个季度营业额</a></li>
+<li><a href="#_9">条形图（横向）实例</a></li>
+<li><a href="#_10">条形图对比实例</a></li>
+</ul>
+</li>
+<li><a href="#_11">直方图</a><ul>
+<li><a href="#_12">简介</a></li>
+<li><a href="#amd">实例：AMD股价变化率正态分布</a></li>
+</ul>
+</li>
+<li><a href="#_13">饼图</a><ul>
+<li><a href="#amd_1">实例：AMD资产结构</a></li>
+</ul>
+</li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -515,12 +536,12 @@
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -542,10 +563,38 @@
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -555,14 +604,14 @@
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

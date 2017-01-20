@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 使用Python实现关键字搜索文件
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,12 +57,13 @@
                     
     <div class="article_header">
         <h1 class="article_title"><a>使用Python实现关键字搜索文件</a></h1>                   
-		<div class="article_info">2016-12-10 | 分类于: <a class = 'tag' href="None">Python</a></div>
+		<div class="article_info">2016-12-10 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
 	</div>
 	<article>
-		
-		<p>让我们通过20行python代码实现一个简单的关键字搜索工具</p>
-<h2><a name = '1'>目录遍历</a></h2>
+        
+
+<p>让我们通过20行python代码实现一个简单的关键字搜索工具</p>
+<h2 id="_1">目录遍历</h2>
 <p>首先我们来看如何实现目录遍历</p>
 <p>目录遍历的过程很简单:</p>
 <ol>
@@ -71,7 +72,8 @@
 <li>判断每一个目标是否是文件夹。</li>
 <li>如果是，进入该文件夹搜索（将文件夹路径改为当前路径，多级目录在此处会循环)</li>
 </ol>
-<!--More-->
+
+        
 
 <p>为什么我们要使用递归，与for对已知大小的列表的遍历相比，递归更适合与那些确定开始结束条件而过程不确定的情况。我们将初始路径设为起点，将目录下没有其他目录可以进入的情况设为终点</p>
 <p>让我们来看如何通过递归的方式来遍历某个路径下的所有内容</p>
@@ -162,7 +164,7 @@
 </td></tr></table>
 
 <p>目录的遍历有什么用呢，我们可以添加条件来（搜索/操作）目录下所有符合条件的文件</p>
-<h2><a name = '2'>文件名搜索</a></h2>
+<h2 id="_2">文件名搜索</h2>
 <p>我们来对刚刚的函数进行简单的修改</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -208,7 +210,7 @@
 </pre></div>
 </td></tr></table>
 
-<h2><a name = '3'>文件内容搜索</a></h2>
+<h2 id="_3">文件内容搜索</h2>
 <p>然而只有文件名字符合并不能满足我们的需求，我们有时也需要查找文件里面的内容是否符合关键字需求</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -231,7 +233,7 @@
 <p>在这里我们定义了一个函数content_search(),搜索文件内容并默认返回False，如果符合关键字条件即返回True并终端该项搜索</p>
 <p>别忘记关闭文件哦</p>
 <p>接下来我们将这个函数整合到我们刚刚的文件搜索函数中</p>
-<h2><a name = '4'>关键字搜索整合</a></h2>
+<h2 id="_4">关键字搜索整合</h2>
 <p>我们来把刚才的内容搜索函数添加到我们刚才的搜索函数中</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -270,7 +272,7 @@
 </pre></div>
 </td></tr></table>
 
-<h2><a name = '4'>完整代码</a></h2>
+<h2 id="_5">完整代码</h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -323,6 +325,7 @@ Your Keyword:tar
 /home/Jkob/Github/test/a/c/file.md
 </pre></div>
 </td></tr></table>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -336,12 +339,12 @@ Your Keyword:tar
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -393,19 +396,16 @@ Your Keyword:tar
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>目录遍历</a></li>
-	    
-		    <li><a href='#2'>文件名搜索</a></li>
-	    
-		    <li><a href='#3'>文件内容</a></li>
-	    
-		    <li><a href='#4'>整合</a></li>
-	    
-		    <li><a href='#5'>完整代码</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">目录遍历</a></li>
+<li><a href="#_2">文件名搜索</a></li>
+<li><a href="#_3">文件内容搜索</a></li>
+<li><a href="#_4">关键字搜索整合</a></li>
+<li><a href="#_5">完整代码</a></li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -415,12 +415,12 @@ Your Keyword:tar
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -442,10 +442,38 @@ Your Keyword:tar
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -455,14 +483,14 @@ Your Keyword:tar
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

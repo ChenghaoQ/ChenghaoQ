@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 两种Fibnacci递归求解对比
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,11 +57,12 @@
                     
     <div class="article_header">
         <h1 class="article_title"><a>两种Fibnacci递归求解对比</a></h1>                   
-		<div class="article_info">2016-12-29 | 分类于: <a class = 'tag' href="None">python</a></div>
+		<div class="article_info">2016-12-29 | 分类于:  <a class = 'tag' href="/tag/python/">python</a></div>
 	</div>
 	<article>
-		
-		<h2><a name='1'>斐波那契数列</a></h2>
+        
+
+<h2 id="_1">斐波那契数列</h2>
 <p>在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。</p>
 <blockquote>
 <p>斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
@@ -70,9 +71,10 @@
 <p>参见<a href="http://baike.baidu.com/item/斐波那契数列">百科词条</a></p>
 </blockquote>
 <p>让我们来看看它是怎么实现的。</p>
-<!--More-->
 
-<h2><a name='2'>普通递归求解</a></h2>
+        
+
+<h2 id="_2">普通递归求解</h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -143,7 +145,7 @@
 </tbody>
 </table>
 <p>因为我们将1和0看作递归函数的顶点而合并，数量为fib(2)+fib(1)的数量，为8.我们不难看出各项运算次数为1,1,2,3,5,8，该数列即为fibnacci数列，而总的运算次数为fibnacci数列0-5各项之和</p>
-<h3>测试</h3>
+<h3 id="_3">测试</h3>
 <p>我们这里来计算一下，fib(40)所用时间</p>
 <div class="codehilite"><pre><span></span><span class="n">localhost</span><span class="o">:</span><span class="n">optimization</span> <span class="n">Jakob$</span> <span class="n">python3</span> <span class="n">slowfib</span><span class="o">.</span><span class="na">py</span> 
 <span class="n">fib</span><span class="o">[</span><span class="mi">40</span><span class="o">]=</span> <span class="mi">165580141</span>
@@ -152,7 +154,7 @@
 
 
 <p>计算fib(40)耗时74.87s.</p>
-<h2><a name='3'>使用动态规划</a></h2>
+<h2 id="_4">使用动态规划</h2>
 <p>我们看了前面的计算方式后，发现过多的时间浪费在了重复的计算上。我们能不能找到一种方法更快速高效呢？我们来看下面的例子</p>
 <blockquote>
 <p><strong> 1 1 2 3 5 8 13 21 ? 求出'?'所代表的fib(8)</strong></p>
@@ -186,18 +188,16 @@
 <li>先判断n 是否为1 or 0</li>
 <li>如果不是，<strong>查找当前字典中是否有该项的值（是否已经被计算过）</strong>,我们这里使用try..except来处理</li>
 <li>如果没有找到，计算出结果并添加到memo</li>
-<li>将memo中n对应的fib值作为结果返回<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>                <span class="s1">&#39;5&#39;</span>
-          <span class="s1">&#39;4&#39;</span>         <span class="s1">&#39;3&#39;</span>
-      <span class="s1">&#39;3&#39;</span>    <span class="s1">&#39;2&#39;</span>     <span class="mi">2</span>   <span class="mi">1</span>
-    <span class="s1">&#39;2&#39;</span> <span class="s1">&#39;1&#39;</span>  <span class="mi">1</span> <span class="mi">0</span>    <span class="mi">1</span> <span class="mi">0</span> 
-  <span class="s1">&#39;1&#39;</span> <span class="s1">&#39;0&#39;</span>
-</pre></div>
-</td></tr></table>
-
+<li>
+<p>将memo中n对应的fib值作为结果返回</p>
+<h1 id="python">!python</h1>
+<p>'''
+           5
+       4       3
+    3     2   2  1
+   2 1   1 0 1 0 
+  1 0 
+'''</p>
 </li>
 </ul>
 <p>同样是二叉树，过程简单很多
@@ -206,7 +206,7 @@
 - 返回时只使用索引，无需深入计算
 - 得到fib(5)
 - 最后我们可以看出，我们只遍历了最左边一排节点5,4,3,2,1;以及右侧子节点（左数第二排，从下往上）0,1,2,3</p>
-<h3>测试</h3>
+<h3 id="_5">测试</h3>
 <p>我们来看一下fastfib（40)需要多久</p>
 <div class="codehilite"><pre><span></span><span class="n">localhost</span><span class="o">:</span><span class="n">optimization</span> <span class="n">Jakob$</span> <span class="n">python3</span> <span class="n">slowfastfib</span><span class="o">.</span><span class="na">py</span> 
 <span class="n">fib</span><span class="o">[</span><span class="mi">40</span><span class="o">]=</span> <span class="mi">165580141</span>
@@ -215,8 +215,9 @@
 
 
 <p>耗时0.000112秒</p>
-<h2><a name='4'>fib(40)对比图</a></h2>
+<h2 id="fib40">fib(40)对比图</h2>
 <p><img alt="" src="../../static/img/18/slowfastfib.png" /></p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -230,12 +231,12 @@
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -287,17 +288,22 @@
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>斐波那契数列</a></li>
-	    
-		    <li><a href='#2'>普通递归求解</a></li>
-	    
-		    <li><a href='#3'>使用动态规划</a></li>
-	    
-		    <li><a href='#4'>fib(40)对比图</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">斐波那契数列</a></li>
+<li><a href="#_2">普通递归求解</a><ul>
+<li><a href="#_3">测试</a></li>
+</ul>
+</li>
+<li><a href="#_4">使用动态规划</a></li>
+<li><a href="#python">!python</a><ul>
+<li><a href="#_5">测试</a></li>
+<li><a href="#fib40">fib(40)对比图</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -307,12 +313,12 @@
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -334,10 +340,38 @@
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -347,14 +381,14 @@
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

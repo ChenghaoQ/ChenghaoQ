@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 Flask-FlatPages 使用手册
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@ Flask-FlatPages 使用手册
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,13 +57,12 @@ Flask-FlatPages 使用手册
                     
     <div class="article_header">
         <h1 class="article_title"><a>Flask-FlatPages 使用手册</a></h1>                   
-		<div class="article_info">2016-08-15 | 分类于: <a class = 'tag' href="None">Flask</a></div>
+		<div class="article_info">2016-08-15 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
 	</div>
 	<article>
-		
-		<p>Flask-FlatPages是Flask应用的一个小工具，规则基于YAML和Markdown，实现了文本文档和模板的结合。用户可以通过编写‘.md’（默认）文本文档即可轻松生成网页。在与Frozen-Flask配合使用是可以更轻松地实现资源管理。</p>
+        <p>Flask-FlatPages是Flask应用的一个小工具，规则基于YAML和Markdown，实现了文本文档和模板的结合。用户可以通过编写‘.md’（默认）文本文档即可轻松生成网页。在与Frozen-Flask配合使用是可以更轻松地实现资源管理。</p>
 <p>（翻译自官方文档，英文版请点击<a href="https://pythonhosted.org/Flask-FlatPages/">这里</a>)。</p>
-<h2><a name='1'>什么是Flask FlatPages</a></h2>
+<h2 id="flask-flatpages"><a name='1'>什么是Flask FlatPages</a></h2>
 <p>Flask-FlatPages 为你的<a href="http://flask.pocoo.org/">Flask</a>应用提供了一系列的网页，这些网页基于文本文档(flat text files)而不是关系型数据库。</p>
 <ul>
 <li>BSD licensed</li>
@@ -71,9 +70,10 @@ Flask-FlatPages 使用手册
 <li>源码，问题和访问请求在<a href="https://github.com/SimonSapin/Flask-FlatPages/">Github</a></li>
 <li>发行在<a href="https://pypi.python.org/pypi/Flask-FlatPages">PyPI</a></li>
 </ul>
-<!--More-->
 
-<h2><a name='2'>安装</a></h2>
+        
+
+<h2 id="_1">安装</h2>
 <p>通过其中一个以下的命令来安装本扩展</p>
 <div class="codehilite"><pre><span></span>$ easy_install Flask-FlatPages
 </pre></div>
@@ -85,7 +85,7 @@ Flask-FlatPages 使用手册
 
 
 <p>或者你可以通过Github获得<a href="https://github.com/SimonSapin/Flask-FlatPages">源代码</a></p>
-<h2><a name='3'>配置</a></h2>
+<h2 id="_2">配置</h2>
 <p>首先你需要初始化一个<strong>FlatPages</strong>对象
     from flask import Flask
     from flask_flatpages import FlatPages</p>
@@ -132,7 +132,7 @@ FLAT_PAGES_AUTO_RELOAD
 </pre></div>
 
 
-<h2><a name='4'>使用说明</a></h2>
+<h2 id="_3">使用说明</h2>
 <p>当第一次使用（详见<a href="">Laziness and chaching</a> 了解更多), 该扩展从文件系统加载所有的pages:一个<strong>Page</strong>实例是被创建在FLATPAGES_ROOT下面的后缀为FLATPAGES_EXTENSION.</p>
 <p>每一个实例都和它的路劲相关联: 通过'/'划分开的相对于pages的根目录的路径（不包含扩展).例如，一个位于C:\myapp 有着默认设置的app实例。它的绝对路径是C:\myapp\pages\lorem\ipsum.html 但是它的路径是lorem/ipsum.</p>
 <p>每一个文件都是由<a href="http://www.yaml.org/">YAML</a>映射的元数据，空白行和内容首页。</p>
@@ -156,11 +156,11 @@ FLAT_PAGES_AUTO_RELOAD
 </td></tr></table>
 
 <p>同时在模板里面：</p>
-<div class="codehilite"><pre><span></span><span class="x">&lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;pygments_css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
+<div class="codehilite"><pre><span></span>&lt;link rel=&quot;stylesheet&quot; href=&quot;\{\{ url_for(&#39;pygments_css&#39;) }}&quot;&gt;
 </pre></div>
 
 
-<h2><a name='5'>使用定制Markdown扩展</a></h2>
+<h2 id="markdown">使用定制Markdown扩展</h2>
 <p>默认情况下，Flask-FlatPages 通过<a href="http://daringfireball.net/projects/markdown/">Markdown</a>和<a href="http://pygments.org/">Pygments</a>来渲染文章主体。这也意味着将 ['codehilite']扩展列表传给markdown.markdown函数。</p>
 <p>但某些时间你需要定制文件，比如说使用其他扩展或禁用默认方法，这些可以通过传递特殊配置参数来实现。</p>
 <div class="codehilite"><pre><span></span>FLATPAGES_MARKDOWN_EXTENSIONS = [&#39;codehilite&#39;, &#39;headerid&#39;]
@@ -172,7 +172,7 @@ FLAT_PAGES_AUTO_RELOAD
 </pre></div>
 
 
-<h2><a name='6'>偷懒和缓存</a></h2>
+<h2 id="_4">偷懒和缓存</h2>
 <p><a href="https://pythonhosted.org/Flask-FlatPages/">FlatPages</a> 不会接触到文件系统直到需要的时候，但是如果它读取数据时，它会从磁盘一次性读取完毕。</p>
 <p>然后，pages 不会被再次加载 除非你明确地要求它使用<a href="">FlatPages.reload()</a>.或通过配置接受的新请求。（详见FLATPAGES_AUTO_RELOAD.)</p>
 <p>这个设计是在适配<a href="https://pythonhosted.org/Frozen-Flask/">Frozen-Flask</a>(Flask生成静态网页的工具)时使用，但是即便你不用他还是可以正常工作：你修改了代码并且已经重启了生产服务器，你只需要修改页面内容就好了。同样的，在版本控制系统下这依然有效。</p>
@@ -185,7 +185,7 @@ FLAT_PAGES_AUTO_RELOAD
 
 <p>每次全部都加载看起来很浪费，但是这种影响可以通过缓存来减轻：如果文件的修改时间并没有变化，它不会被再次重复加载，之前的Page实例也会被重复利用。</p>
 <p>同样地，YAML和Markdown的解析也是偷懒的和被缓存的：用不到的时候就不加载，没更改过就不会重复加载。</p>
-<h2><a name='7'>API</a></h2>
+<h2 id="api">API</h2>
 <p>class flask_flatpages.FlatPages(app=None)</p>
 <blockquote>
 <p>一个page实例集合</p>
@@ -298,6 +298,7 @@ Lorem ipsum dolor sit amet, …
 - Returns: <a href="http://freewisdom.org/projects/python-markdown/CodeHilite">CodeHilite</a>Markdown插件的CSS定义
 - 参数： style - Pygments <a href="http://pygments.org/docs/styles/">style</a> 样式
 - 只有当<a href="http://pygments.org/">Pygments</a>可用的时候</p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -311,12 +312,12 @@ Lorem ipsum dolor sit amet, …
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -368,23 +369,7 @@ Lorem ipsum dolor sit amet, …
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>什么是Flask FlatPages</a></li>
-	    
-		    <li><a href='#2'>安装</a></li>
-	    
-		    <li><a href='#3'>配置</a></li>
-	    
-		    <li><a href='#4'>使用说明</a></li>
-	    
-		    <li><a href='#5'>使用定制Markdown扩展</a></li>
-	    
-		    <li><a href='#6'>偷懒和缓存</a></li>
-	    
-		    <li><a href='#7'>API</a></li>
-	    
-	    </ul>
+        
     </div>
 </div>
 
@@ -394,12 +379,12 @@ Lorem ipsum dolor sit amet, …
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -421,10 +406,38 @@ Lorem ipsum dolor sit amet, …
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -434,14 +447,14 @@ Lorem ipsum dolor sit amet, …
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

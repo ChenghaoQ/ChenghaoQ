@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 Posts
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 	
@@ -39,14 +39,14 @@ Posts
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -59,39 +59,62 @@ Posts
     
 		<li class="post_preview">
 			<div class="post_header">
-				<div class="post_title">Python爬虫：二层爬虫之爬取整个相册</div>
-				<div class="post_info">2016-10-06 | 分类于:  <a class = 'tag' href="None">Python爬虫</a></div>
+				<div class="post_title">Python爬虫:多线程爬虫入门</div>
+				<div class="post_info">2016-10-22 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
 			</div>
-			<div class="post_body"><p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>...</div>
+			<div class="post_body">
+
+<p>看了<a href="../12">上一篇文章</a>的朋友们会发现虽然我们可以爬取整个相册，但是<strong>速度非常慢</strong>，需要一个一个来爬，排队等待的效率是极其低下的。针对这种大部分时间浪费在网络阻塞的情况，python的多线程方法在这里大显神威。那什么是多线程呢，很简单: 假如需要做的事情是搬砖，而电脑是搬砖工人，通常程序都是单线程运行。也就是说只有一个工人在搬砖。如果觉得这样速度很慢，你可以</p>
+<blockquote>
+<p><strong>多请几个工人</strong></p>
+</blockquote>
+...</div>
+			<div class="more link_tag"><a href="/article/13/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Python爬虫：二层爬虫之爬取整个相册</div>
+				<div class="post_info">2016-10-06 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
+			</div>
+			<div class="post_body">
+
+<p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
+...</div>
 			<div class="more link_tag"><a href="/article/12/">More -></a></div>
 		</li>
 	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">Flask分页方法</div>
-				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="None">Flask</a></div>
+				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
 			</div>
-			<div class="post_body"><p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>...</div>
+			<div class="post_body">
+
+<p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>
+...</div>
 			<div class="more link_tag"><a href="/article/11/">More -></a></div>
 		</li>
 	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">Python爬虫： 带你上车之爬取妹子图</div>
-				<div class="post_info">2016-09-27 | 分类于:  <a class = 'tag' href="None">Python爬虫</a></div>
+				<div class="post_info">2016-09-27 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
 			</div>
-			<div class="post_body"><h2><a name='1'>简介</a></h2>
+			<div class="post_body">
+
+<h2 id="_1">简介</h2>
 <p>30行python轻松爬取成百上千的妹子图到本地。没时间解释了，快上车。</p>
-<h3>什么是爬虫？</h3>
+<h3 id="_2">什么是爬虫？</h3>
 <p>网络爬虫，顾名思义就是在网上爬来爬去的“虫子”，它能够按照一定规则自动抓取网络数据的脚本。比如说你找到了一个特别棒的网站，上面全是妹子图。而你想把它们存到你的随身硬盘当中。如果你要一张一张保存的话那需要比较持久的耐力，这个时候你就需要通过爬虫来帮你抓取你心心念念的妹子图。</p>
 <p>那么如何通过爬虫来完成任务呢？</p>
-<h3>运行机制</h3>
+<h3 id="_3">运行机制</h3>
 <p>其实爬虫的工作流程和人是一样的，都需要经过下面几个步骤：</p>
 <blockquote>
 <p>使用本机的IP连接到网络 -&gt;使用地址登入网站 -&gt;看到网页内容 -&gt;筛选需要的信息 -&gt; 保存下载 -&gt; 登入新网页 -&gt;重复之前的动作</p>
 </blockquote>
 <p>是不是非常相似？</p>
-<h3>为什么使用python</h3>
+<h3 id="python">为什么使用python</h3>
 <p>很多编程语言都可以写爬虫，可我们为什么选择python呢？总的来说就是四个字：<strong>简单够用</strong>：</p>
 <ul>
 <li>Python语法简单，开发效率高</li>
@@ -99,16 +122,19 @@ Posts
 <li>爬虫的速度瓶颈大多是在网络阻塞上，非超大规模爬取很少遇到计算性能瓶颈</li>
 <li>Python起初被用来开发搜索引擎，所以关于爬虫的资料很多，社区活跃</li>
 </ul>
-<p>让我们开始吧！</p>...</div>
+<p>让我们开始吧！</p>
+...</div>
 			<div class="more link_tag"><a href="/article/10/">More -></a></div>
 		</li>
 	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">财务报表分析:比率分析简介</div>
-				<div class="post_info">2016-09-20 | 分类于:  <a class = 'tag' href="None">公司金融</a></div>
+				<div class="post_info">2016-09-20 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
 			</div>
-			<div class="post_body"><h2><a name = "1">比率分析简介</a></h2>
+			<div class="post_body">
+
+<h2 id="_1">比率分析简介</h2>
 <p>比率分析是一种常用的分析手段，它可以根据公司的财务数据进行公式化的计算。从而可以更方便地进行横向（公司之间）比较和纵向（不同时间点）的比较。有了财务比率分析：</p>
 <ul>
 <li>财务经理可以更清楚地了解公司的运营状况并找到可以提升的空间</li>
@@ -116,7 +142,7 @@ Posts
 <li>债权人可以评估公司的清场债务的能力</li>
 <li>证券分析师可以准确地对股票进行估值</li>
 </ul>
-<h2><a name = "2">短期偿付能力指标（流动性指标）</a></h2>
+<h2 id="_2">短期偿付能力指标（流动性指标）</h2>
 <p>短期偿付能力指标，又称为流动性指标。它展示公司目前的流动性，并且指出公司清偿短期债务的能力。通常来讲，流动性越高，公司的偿债能力就越强，风险就越小；但是保持过高的流动性会造成一定的资源浪费（钱不能用于投资以及生产活动），会使得收益下降。</p>
 <ul>
 <li>
@@ -135,49 +161,23 @@ Posts
 <p>排除了存货，相比流动资产速动资产变现的能力更加强也更加快速，通常可以在一天内 或者几个小时之内套现。</p>
 <p>速动比率和流动比率类似，区别是这里使用了速动资产而不是流动资产。</p>
 <div class="codehilite"><pre><span></span>    速动比率(Quick ratio) = 速动资产(Quick assets) / 流动债务(Current Liabilities)
-</pre></div>...</div>
+</pre></div>
+
+
+...</div>
 			<div class="more link_tag"><a href="/article/9/">More -></a></div>
 		</li>
 	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">变得更pythonic(懒)-三元表达式和列表解析式</div>
-				<div class="post_info">2016-09-15 | 分类于:  <a class = 'tag' href="None">Python</a></div>
+				<div class="post_info">2016-09-15 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
 			</div>
-			<div class="post_body"><p>也许你只是刚刚开始接触python, 也许你已经走上python的不归路，也许你厌倦了条件循环的换行和缩进。To be pythonic, 你不会错过每一个由繁到简的转变。本文简单介绍了python的三元表达式，列表解析式以及它们的结合用法，轻轻松松使用一行代码解决判断与循环，走上pythonic(懒)之路。</p>...</div>
+			<div class="post_body">
+
+<p>也许你只是刚刚开始接触python, 也许你已经走上python的不归路，也许你厌倦了条件循环的换行和缩进。To be pythonic, 你不会错过每一个由繁到简的转变。本文简单介绍了python的三元表达式，列表解析式以及它们的结合用法，轻轻松松使用一行代码解决判断与循环，走上pythonic(懒)之路。</p>
+...</div>
 			<div class="more link_tag"><a href="/article/8/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">财务报表分析：报表简介</div>
-				<div class="post_info">2016-09-08 | 分类于:  <a class = 'tag' href="None">公司金融</a></div>
-			</div>
-			<div class="post_body"><h2><a name = '1'>财务报表简介</a></h2>
-<p>财务报表指日常会计核算资料的基础上按照规定方式编写的综合反映企业某一日期的财务状况，经营成果的书面文件。它主要分为三大部分，它们分别是:</p>
-<ul>
-<li>资产负债表(Balance sheet)，公司的资产和负债，体现公司在某一时刻下的财务状况</li>
-<li>损益表 (Income statement)，指出公司的运营表现，盈利或者亏损</li>
-<li>现金流量表 (Cash Flow statement) 指出在某一时间段内公司的现金流动情况</li>
-</ul>
-<p>通过这些报表我们可以多方位地了解到公司的状况。
-- 对于经理来说，可以更清楚地了解公司的表现和潜力；
-- 对于股东来说，财务报表可以对公司估值，推测公司的未来前景；
-- 对债权人来讲，可以了解到公司财务的健康度是否可以偿还债务。
-- 对政府来讲，可以有效地监管公司，进一步避免偷税漏税。</p>
-<p>我们先来看损益表;</p>
-<h2><a name = '2'>损益表(Income statement)</a></h2>
-<p>损益表展现的是公司的总收入(Revenue不是净利润 = 销售数量 x 单价)，开销(Expense),和净利润</p>
-<div class="codehilite"><pre><span></span>总收入(Revenue） - 开销(Expense) = 净收入（Income）
-</pre></div>
-
-
-<p>虽然是作为记录销售收入的损益表，但是上面记录的净收入和我们的现金流入并不一定相等，比如：</p>
-<ul>
-<li>使用权责发生制(accural accounting)，当产品售出并完成交接后计算收入和支出（比如收到一百万的预付款，一年内分五次向客户提供产品。即便一百万进账，只有每次提供服务后才能记录收入二十万)</li>
-<li>设备折旧的开销并不影响现金流量</li>
-</ul>...</div>
-			<div class="more link_tag"><a href="/article/7/">More -></a></div>
 		</li>
 	
 	
@@ -200,6 +200,10 @@ Posts
 					<li><a href ="/page/3/">3</a></li>
 				
 			
+				
+					<li><a href ="/page/4/">4</a></li>
+				
+			
 		</ul>
 		
 		
@@ -216,12 +220,12 @@ Posts
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -266,12 +270,12 @@ Posts
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -293,15 +297,43 @@ Posts
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

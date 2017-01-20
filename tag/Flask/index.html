@@ -59,37 +59,42 @@ Posts
     
 		<li class="post_preview">
 			<div class="post_header">
-				<div class="post_title">财务报表分析：报表简介</div>
-				<div class="post_info">2016-09-08 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
+				<div class="post_title">使用Jalapeno快速搭建博客</div>
+				<div class="post_info">2017-01-19 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
 			</div>
 			<div class="post_body">
 
-<h2 id="_1">财务报表简介</h2>
-<p>财务报表指日常会计核算资料的基础上按照规定方式编写的综合反映企业某一日期的财务状况，经营成果的书面文件。它主要分为三大部分，它们分别是:</p>
-<ul>
-<li>资产负债表(Balance sheet)，公司的资产和负债，体现公司在某一时刻下的财务状况</li>
-<li>损益表 (Income statement)，指出公司的运营表现，盈利或者亏损</li>
-<li>现金流量表 (Cash Flow statement) 指出在某一时间段内公司的现金流动情况</li>
-</ul>
-<p>通过这些报表我们可以多方位地了解到公司的状况。
-- 对于经理来说，可以更清楚地了解公司的表现和潜力；
-- 对于股东来说，财务报表可以对公司估值，推测公司的未来前景；
-- 对债权人来讲，可以了解到公司财务的健康度是否可以偿还债务。
-- 对政府来讲，可以有效地监管公司，进一步避免偷税漏税。</p>
-<p>我们先来看损益表;</p>
-<h2 id="income-statement">损益表(Income statement)</h2>
-<p>损益表展现的是公司的总收入(Revenue不是净利润 = 销售数量 x 单价)，开销(Expense),和净利润</p>
-<div class="codehilite"><pre><span></span>总收入(Revenue） - 开销(Expense) = 净收入（Income）
-</pre></div>
-
-
-<p>虽然是作为记录销售收入的损益表，但是上面记录的净收入和我们的现金流入并不一定相等，比如：</p>
-<ul>
-<li>使用权责发生制(accural accounting)，当产品售出并完成交接后计算收入和支出（比如收到一百万的预付款，一年内分五次向客户提供产品。即便一百万进账，只有每次提供服务后才能记录收入二十万)</li>
-<li>设备折旧的开销并不影响现金流量</li>
-</ul>
+<p>上次我们讲了如何使用Flask系列来搭建静态博客，但是实际上功能仍然比较单一。为了省去大家重复造轮子的辛苦，老钱同志在今年年初发布了Jalapeno。由于偷懒原因（逃），官方文档一直未能发布。这次我们讲如何使用Jalapeno快速搭建自己的博客网站。</p>
+<p><img alt="" src="/image/getstart/init.png" /></p>
+<p>注：Jalapeno当前支持Mac/Linux， Windows目前尚未测试。</p>
 ...</div>
-			<div class="more link_tag"><a href="/article/7/">More -></a></div>
+			<div class="more link_tag"><a href="/article/getstart/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">使用Echosim语音控制2048</div>
+				<div class="post_info">2016-11-06 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
+			</div>
+			<div class="post_body">
+
+<p>前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。</p>
+<p><img alt="" src="../../static/img/15/2048.png" /></p>
+<p>让我们开始吧！</p>
+...</div>
+			<div class="more link_tag"><a href="/article/15/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Flask分页方法</div>
+				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
+			</div>
+			<div class="post_body">
+
+<p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>
+...</div>
+			<div class="more link_tag"><a href="/article/11/">More -></a></div>
 		</li>
 	
 		<li class="post_preview">
@@ -140,64 +145,6 @@ Posts
 	
 		<li class="post_preview">
 			<div class="post_header">
-				<div class="post_title">python3使用相对路径import</div>
-				<div class="post_info">2016-08-29 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
-			</div>
-			<div class="post_body">
-
-<p>python3在导入不同目录的模块时是怎么做的</p>
-<p>先来看一下我们的Project目录</p>
-<div class="codehilite"><pre><span></span>    |---myproject
-    ├── __init__.py
-    ├── settings.py
-    ├── folderA
-    │   └── testA.py
-    ├── folderB
-    │   ├── __init__.py
-    │   ├── testB.py
-    ├── test.py
-</pre></div>
-
-
-<h2 id="_1">在相同目录下</h2>
-<p>我们现在在myproject/目录下</p>
-<p>在同一目录下，我们可以使用'.'来表示当前目录：</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/5/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">为什么你要学公司金融（Corporate Finance)</div>
-				<div class="post_info">2016-08-26 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
-			</div>
-			<div class="post_body">
-
-<p>通常来讲，一个公司可以通过投资实物资产来获得现金流(cash flow)和收入(income)。而资产有两种，一种是有形的资产，比如说设备，建筑等；另一种是看不见摸不着的无形资产，就像品牌，专利等。要获得这些资产有很多种手段，比如借贷，将投资收益进行再投资，或者也可以卖出一些股份来进行融资。在这种模式下，公司就会变得越来越健壮，但是这涉及到很多金融方面的知识。金融管理就是要研究金融经理是如何将持券人（债券）和股东（股票）手里的资本部署到可以升值的项目中的。</p>
-<!--公司理财(一) 简介-->
-
-<p>在这个过程中，通常问题集中在两个方面:</p>
-<ul>
-<li>投资给谁？（如何选择投资对象)</li>
-<li>怎么投资？（钱怎么花）</li>
-</ul>
-<p>对于一个公司，总是有成百上千的股东，而每个股东的财力，风险承受能力等都是不一样的。但是他们都有同样的目标：挣钱啊。财务经理能够有效地投资并且快速的让公司变得更有价值，同时也能让股票升值。之前手里一股3块钱，现在变成6块，手里的钱就多了一倍。为了实现大众的目标，财务经理的策略是：</p>
-<ul>
-<li>低价进行资金筹措</li>
-<li>投资高利润率的基金</li>
-</ul>
-<p>说白了，就是<strong>低价买进，高价卖出</strong>但是说起来容易做起来难，怎么才能够做到低价买进高价卖出呢？</p>
-<p>这就是学习公司理财的意义。</p>
-...</div>
-			<div class="more link_tag"><a href="/article/4/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
 				<div class="post_title">Frozen-Flask说明</div>
 				<div class="post_info">2016-08-23 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
 			</div>
@@ -238,31 +185,15 @@ Posts
 	
     <div class="pagination">
 		
-    		<div class ="prev_next"><a href ="/page/2/">&laquo</a></div>
-		
 		<ul class='pager'>
 			
 				
-					<li><a href ="/page/1/">1</a></li>
-				
-			
-				
-					<li><a href ="/page/2/">2</a></li>
-				
-			
-				
-					<li><b>3</b></li>
-				
-			
-				
-					<li><a href ="/page/4/">4</a></li>
+					<li><b>1</b></li>
 				
 			
 		</ul>
 		
 		
-		
-		<div class ="prev_next"><a href ="/page/4/">&raquo</a></div>
 		
     </div>
 

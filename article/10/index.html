@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 Python爬虫： 带你上车之爬取妹子图
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@ Python爬虫： 带你上车之爬取妹子图
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,22 +57,23 @@ Python爬虫： 带你上车之爬取妹子图
                     
     <div class="article_header">
         <h1 class="article_title"><a>Python爬虫： 带你上车之爬取妹子图</a></h1>                   
-		<div class="article_info">2016-09-27 | 分类于: <a class = 'tag' href="None">Python爬虫</a></div>
+		<div class="article_info">2016-09-27 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
 	</div>
 	<article>
-		
-		<h2><a name='1'>简介</a></h2>
+        
+
+<h2 id="_1">简介</h2>
 <p>30行python轻松爬取成百上千的妹子图到本地。没时间解释了，快上车。</p>
-<h3>什么是爬虫？</h3>
+<h3 id="_2">什么是爬虫？</h3>
 <p>网络爬虫，顾名思义就是在网上爬来爬去的“虫子”，它能够按照一定规则自动抓取网络数据的脚本。比如说你找到了一个特别棒的网站，上面全是妹子图。而你想把它们存到你的随身硬盘当中。如果你要一张一张保存的话那需要比较持久的耐力，这个时候你就需要通过爬虫来帮你抓取你心心念念的妹子图。</p>
 <p>那么如何通过爬虫来完成任务呢？</p>
-<h3>运行机制</h3>
+<h3 id="_3">运行机制</h3>
 <p>其实爬虫的工作流程和人是一样的，都需要经过下面几个步骤：</p>
 <blockquote>
 <p>使用本机的IP连接到网络 -&gt;使用地址登入网站 -&gt;看到网页内容 -&gt;筛选需要的信息 -&gt; 保存下载 -&gt; 登入新网页 -&gt;重复之前的动作</p>
 </blockquote>
 <p>是不是非常相似？</p>
-<h3>为什么使用python</h3>
+<h3 id="python">为什么使用python</h3>
 <p>很多编程语言都可以写爬虫，可我们为什么选择python呢？总的来说就是四个字：<strong>简单够用</strong>：</p>
 <ul>
 <li>Python语法简单，开发效率高</li>
@@ -81,10 +82,11 @@ Python爬虫： 带你上车之爬取妹子图
 <li>Python起初被用来开发搜索引擎，所以关于爬虫的资料很多，社区活跃</li>
 </ul>
 <p>让我们开始吧！</p>
-<!--More-->
+
+        
 
 <p>首先先创建一个后缀为.py的python文件(名字自己想.py)</p>
-<h2><a name='2'>工具准备</a></h2>
+<h2 id="_4">工具准备</h2>
 <p>由于这次只是一个简单的小项目，我们并不需要使用第三方库，我们需要的只有python3</p>
 <ul>
 <li>Python3 </li>
@@ -104,7 +106,7 @@ Python爬虫： 带你上车之爬取妹子图
 
 
 <p>接下来我们就需要使用urllib库来登入网站</p>
-<h2><a name='3'>使用urllib读取网页内容</a></h2>
+<h2 id="urllib">使用urllib读取网页内容</h2>
 <p>为了准备这个教程，我不(hou)辞(yan)劳(wu)苦(chi)地找来了<a href="http://www.youmzi.com">优妹子</a>来作为我们今天要爬的网站。(真的是为了教学)，在下载妹子的图片之前，我们需要先分析通过网站的源代码来找出我们需要的图片链接。可能你没有学过HTML，看不懂网页的源代码，但是没关系，我们要做的事情有一半浏览器替我们做了，剩下的一半就是找!规
 !律!</p>
 <p>我们知道爬虫会增加对方服务器的压力，有的时候如果对方发现你使用的爬虫而不是用户的话，就会切断连接导致爬取中断（如果没有断点续传功能就等于失败）, 所以我们需要将我们的爬虫看起来更像用户一样。当然爬虫和反爬虫这里的内容太多这里不会做过多讲解，在这里我们需要给我们的爬虫添加header的信息,因为有些服务器会对请求的header做检查:</p>
@@ -137,8 +139,8 @@ Python爬虫： 带你上车之爬取妹子图
 <p>这个时候你再试图print出来content的内容，得到的就是网页源代码，当你使用浏览器的时候，右键点击网页也会出来检查源代码的选项。这就是我们获取的内容，说明你已经成功连接到了网站</p>
 <p>但是这一堆乱七八糟的字符让我怎么找到妹子图呢</p>
 <p>别着急，我们要进行非常重要的步骤，网页解析</p>
-<h2><a name='4'>使用正则表达式</a></h2>
-<h3>正则表达式简介</h3>
+<h2 id="_5">使用正则表达式</h2>
+<h3 id="_6">正则表达式简介</h3>
 <p><a href="http://www.runoob.com/regexp/regexp-syntax.html">正则表达式</a>是一种使用特定字符来匹配字符串的模式,它可以让我们在不确定内容的情况下进行模糊匹配。</p>
 <p>正则表达式的语法内容很多，如果想要了解更多请点击前面的链接或自行搜索。但是本着”一招在手，天下我有“的精神，我们使用经典的“.*?"来进行匹配。你可能猛一看这是什么鬼，这可是我们找到妹子图的关键法宝，其中：</p>
 <ul>
@@ -157,7 +159,7 @@ Python爬虫： 带你上车之爬取妹子图
 </pre></div>
 
 
-<h3>构建我们的表达式</h3>
+<h3 id="_7">构建我们的表达式</h3>
 <p>怎么样很简单吧，现在我们就需要对网页源代码进行解析，回到浏览器，右键点击一张妹子图，然后点检查（chrome）／审查元素（Safari）。你会看到一个窗口显示网页的源代码，高亮的部分是所选内容的代码，将鼠标移动到不同的代码上，网页中会用阴影部分表示出你当前代码所展示的内容，我们来右键点击检查一张图片：</p>
 <div class="codehilite"><pre><span></span>&lt;img src=&quot;http://ymz.qqwmb.com/allimg/c160926/14JY6111Q560-L3G6_lit.jpg&quot; border=&quot;0&quot; width=&quot;160&quot; alt=&quot;美媛馆 [MyGirl] 2016.09.12 VOL.225 xxxxxx&quot;&gt;
 </pre></div>
@@ -184,7 +186,7 @@ Python爬虫： 带你上车之爬取妹子图
 
 
 <p>正则表达式就是这么神奇。</p>
-<h3>调用re模块</h3>
+<h3 id="re">调用re模块</h3>
 <p>有了表达式，我们就需要使用开头导入的re模块来进行解析，首先用re.compile把解析方法存入变量:</p>
 <div class="codehilite"><pre><span></span>repattern = re.compile(r&#39;<span class="nt">&lt;li&gt;</span>.*?<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;(.*?)&quot;</span><span class="err">.*?&lt;/li</span><span class="nt">&gt;</span>&#39;,re.S)
 </pre></div>
@@ -201,7 +203,7 @@ Python爬虫： 带你上车之爬取妹子图
 
 
 <p>到目前为止，我们已经可以找到这一页中所有妹子图的链接了，接下来我们需要储存到本地。</p>
-<h2><a name='5'>储存到本地</a></h2>
+<h2 id="_8">储存到本地</h2>
 <p>储存的过程就很简单了，由于我们有多个链接，我们需要使用for循环来遍历列表里的所有链接。</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -238,7 +240,7 @@ Python爬虫： 带你上车之爬取妹子图
 </td></tr></table>
 
 <p>这样你就可以发现和你的.py文件一起突然多出了好多图片文件，程序默认把内容保存到当前目录下。注意在上面的循环中我插入了一条print语句，这样一来方便了你日后debug需要防止死循环，二来免得你看到光标不动以为死机了，可以追踪进度。没什么事尽量降低爬取速度，不要浪费对方服务器资源。</p>
-<h2><a name='6'>Gzip网页解压</a></h2>
+<h2 id="gzip">Gzip网页解压</h2>
 <p>一般来讲，到这里我们的网页内的图片就爬取好了，但是不巧，我们刚好碰到一个具有网页压缩技术的网站。是不是发现下载下来的图片是损坏的？那是因为在爬取过程中我们没有对内容进行解压。</p>
 <p>Gzip是一种常见的数据压缩工具，通常用来压缩文件，后被引入网页压缩技术当中。很多时候当我们不能从网站上抓到正确的数据时，我们应该检查该网站是否使用了压缩技术，简单的方法有使用站长工具的<a href="http://tool.chinaz.com/Gzips/">Gzip检测</a></p>
 <p>要解压网站，我们需要在开头导入gzip模块</p>
@@ -268,7 +270,7 @@ Python爬虫： 带你上车之爬取妹子图
 </td></tr></table>
 
 <p>所以现在它可以称得上是一只爬虫了吗，not yet.</p>
-<h2><a name='7'>网页跳转</a></h2>
+<h2 id="_9">网页跳转</h2>
 <p>不会爬的爬虫不能叫爬虫，爬虫具有一定的网页跳转能力。可以自动地移动到新的页面才能进行大规模地数据爬取。对于点进来看这篇文章的你们，显然一页的图片并不能满足你们嘿嘿嘿嘿嘿。。</p>
 <p>我们来看首页，首页只展示了一部分图片，并没有预期中的2,3,4..分页页码出现。但是我们看到有个'更多妹子图'可以点击，点击之后，页面跳转到</p>
 <div class="codehilite"><pre><span></span>http://www.youmzi.com/xg/
@@ -316,7 +318,7 @@ Python爬虫： 带你上车之爬取妹子图
 
 <p>要注意的是，刚才在for循环那里设置的girl＝ 0一定要放在while前面，否则爬取图片的时候，第二页会覆盖第一页的内容。</p>
 <p>再用函数包装一下，一个简单的抓妹子图的脚本就出来了</p>
-<h2><a name='8'>完整代码</a></h2>
+<h2 id="_10">完整代码</h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -391,6 +393,7 @@ Python爬虫： 带你上车之爬取妹子图
 </ul>
 <p>况且那么多妹子图，</p>
 <p><strong>看得过来嘛</strong></p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -404,12 +407,12 @@ Python爬虫： 带你上车之爬取妹子图
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -461,25 +464,29 @@ Python爬虫： 带你上车之爬取妹子图
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>简介</a></li>
-	    
-		    <li><a href='#2'>工具准备</a></li>
-	    
-		    <li><a href='#3'>使用urllib读取网页内容</a></li>
-	    
-		    <li><a href='#4'>使用正则表达式</a></li>
-	    
-		    <li><a href='#5'>图片储存</a></li>
-	    
-		    <li><a href='#6'>Gzip网页解压</a></li>
-	    
-		    <li><a href='#7'>网页跳转</a></li>
-	    
-		    <li><a href='#8'>完整代码</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">简介</a><ul>
+<li><a href="#_2">什么是爬虫？</a></li>
+<li><a href="#_3">运行机制</a></li>
+<li><a href="#python">为什么使用python</a></li>
+</ul>
+</li>
+<li><a href="#_4">工具准备</a></li>
+<li><a href="#urllib">使用urllib读取网页内容</a></li>
+<li><a href="#_5">使用正则表达式</a><ul>
+<li><a href="#_6">正则表达式简介</a></li>
+<li><a href="#_7">构建我们的表达式</a></li>
+<li><a href="#re">调用re模块</a></li>
+</ul>
+</li>
+<li><a href="#_8">储存到本地</a></li>
+<li><a href="#gzip">Gzip网页解压</a></li>
+<li><a href="#_9">网页跳转</a></li>
+<li><a href="#_10">完整代码</a></li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -489,12 +496,12 @@ Python爬虫： 带你上车之爬取妹子图
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -516,10 +523,38 @@ Python爬虫： 带你上车之爬取妹子图
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -529,14 +564,14 @@ Python爬虫： 带你上车之爬取妹子图
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

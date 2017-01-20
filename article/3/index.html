@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 Frozen-Flask说明
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@ Frozen-Flask说明
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,19 +57,21 @@ Frozen-Flask说明
                     
     <div class="article_header">
         <h1 class="article_title"><a>Frozen-Flask说明</a></h1>                   
-		<div class="article_info">2016-08-23 | 分类于: <a class = 'tag' href="None">Flask</a></div>
+		<div class="article_info">2016-08-23 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
 	</div>
 	<article>
-		
-		<p>Frozen-Flask（原名Flask-Static)是一个基于<a href="">Flask</a>的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。</p>
+        
+
+<p>Frozen-Flask（原名Flask-Static)是一个基于<a href="">Flask</a>的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。</p>
 <p>（翻译自官方文档，英文版请点击<a href="http://pythonhosted.org/Frozen-Flask/#flask_frozen.relative_url_for">这里</a></p>
-<h2><a name='1'>安装</a></h2>
+<h2 id="_1">安装</h2>
 <p>通过以下其中一个安装本扩展</p>
 <div class="codehilite"><pre><span></span>$ easy_install Frozen-Flask
 </pre></div>
 
 
-<!--More-->
+
+        
 
 <p>如果你安装了pip组件</p>
 <div class="codehilite"><pre><span></span>$ pip install Frozen-Flask
@@ -77,7 +79,7 @@ Frozen-Flask说明
 
 
 <p>或者你可以从Github获得<a href="https://github.com/SimonSapin/Frozen-Flask">源代码</a></p>
-<h2><a name='2'>上下文</a></h2>
+<h2 id="_2">上下文</h2>
 <p>这篇文档假设你已经有一个工作中的<a href="http://flask.pocoo.org/">Flask</a>应用。你可以通过开发服务器运行测试</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">myapplication</span> <span class="kn">import</span> <span class="n">app</span>
 <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -85,7 +87,7 @@ Frozen-Flask说明
 
 
 <p>Frozen-Flask用于部署：取代了安装python, WSGI服务器和Flask，你可以使用Frozen-Flask 来冻结你的应用并且可以只部署静态HTML文件在你的服务器上。</p>
-<h2><a name='3'>开始吧</a></h2>
+<h2 id="_3">开始吧</h2>
 <p>创建一个<a href="">冻结器</a>实例和你的app对象放在一起，然后调用它的<a href="">freeze()</a>方法。将其放入一个freeze.py的脚本文件(名字无所谓其实)</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -113,7 +115,7 @@ The [configuration]() allows you to change the destination directory, or control
 
 
 <p>This build will be most likely be partial since Frozen-Flask can only guess so much about your application.</p>
-<h2>寻找URL地址</h2>
+<h2 id="url">寻找URL地址</h2>
 <p>Frozen-Flask 通过在WSGI层模拟请求并且写出返回信息给相应的文件。所以它需要知道在你的应用里面都有哪些URL链接。</p>
 <p>下列URLs可以被自动找到
 - 被你的Flask应用或者它的<a href="http://flask.pocoo.org/docs/0.11/blueprints/">蓝图</a>控制的静态文件
@@ -121,7 +123,7 @@ The [configuration]() allows you to change the destination directory, or control
 - 0.6版新功能: 通过<a href="http://flask.pocoo.org/docs/0.11/api/#flask.url_for">flask.url_for()</a>请求的地址</p>
 <p>这意味着如果你的应用在URL地址（没有参数）有索引页并且其他所有的相关页面可以通过那个地址递归调用url_for()找到，那么Frozen-Flask就可以全部自动地找到。</p>
 <p>否则，你需要编写URL生成器</p>
-<h2><a name='4'>URL生成器</a></h2>
+<h2 id="url_1">URL生成器</h2>
 <p>让我们假设你的应用看上去像这样</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -212,7 +214,7 @@ The [configuration]() allows you to change the destination directory, or control
 </td></tr></table>
 
 <p>多次生成一个URL是Ok的，Frozen-Flask会只创建一次。给不同的函数起同样的名字并不是一个好的习惯，但是这里仍然可以使用，因为它们只被装饰器调用。你可能有一个模块for views，另一个模块for freezer 和 URL generator, 所以相同的名字不是问题。</p>
-<h2><a name='5'>测试URL生成器</a></h2>
+<h2 id="url_2">测试URL生成器</h2>
 <p>Frozen Flask 背后的点子是你<a href="#2"><strong>可以直接使用Flask</strong></a>来开发并测试你的应用。况且在部署在服务器之前，非常有必要来测试你的URL生成器，以免有内容丢失。</p>
 <p>你可以在浏览器打开新生成的静态HTML文件，但是链接可能不能使用。FREEZER_RELATIVE_URLS<a href="">设置</a>可以修复这个问题，但是添加一个可见的index.html到链接。或者使用[run()]方法来使用生成的网页来大件一个HTTP服务器。这样一来你就可以在上传之前确认是否工作正常：</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -223,7 +225,7 @@ The [configuration]() allows you to change the destination directory, or control
 
 <p><a href="">Freeze.run()</a>在服务前冻结你的应用并且当重载器kicks in.但是reloader只会查看Python的文件，而不是模板或静态文件。因为这样，你可能想要只用<a href="">Freeze.run()</a>来测试URL生成器，其他情况照常使用<a href="http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run">app.run()</a></p>
 <p><a href="http://flask-script.readthedocs.io/en/latest/"><strong>Flask-Script</strong></a>may come in handy here.</p>
-<h2><a name='6'>配置</a></h2>
+<h2 id="_4">配置</h2>
 <p>Frozen-Flask可以通过Flask的<a href="http://flask.pocoo.org/docs/0.11/config/">配置系统</a>。下列是可用配置属性。</p>
 <p>FREEZER_BASE_URL</p>
 <blockquote>
@@ -261,7 +263,7 @@ The [configuration]() allows you to change the destination directory, or control
 <blockquote>
 <p>如果设置为True（默认False），Frozen-Flask不会在遇到404错误返回时停止你的应用。在这种情况下，会有一个警告会被显示并且会使用你的404错误处理器或Flask默认设置来生成一个404错误网页。这项功能在你开发过程中网页链接到还没有写的网页时很有用。（0.12版更新）</p>
 </blockquote>
-<h2><a name='7'>文件名和MIME类型</a></h2>
+<h2 id="mime">文件名和MIME类型</h2>
 <p>对于每一个URL，Frozen-Flask模拟一个请求并且将内容保存在FREEZER_DESTINATION 下的文件夹内。文件名字是根据URL地址来定的。URL有一个尾斜杠来表示一个文件夹名，内容存放于该文件夹下index.html下.</p>
 <p>被从URL里面移除的查询字符串用来建立文件名字。例如/lorem/?page=ipsum被保存为lorem/index.html. URL只有在它们的查询字符串相同时不同。它们应该返回相同的结果，否则，行为会被当做未定义行为。</p>
 <p>另外，扩展检查了文件扩展名是否与Content-Type HTTP response header提供的MIME类型相匹配，Content-Type是一个静态web服务器可能会传送不是你期望的内容，这样Frozen-flask回发出警告</p>
@@ -303,10 +305,10 @@ The [configuration]() allows you to change the destination directory, or control
 </td></tr></table>
 
 <p>你也可以通过<a href="#6">配置</a>来禁用。</p>
-<h2><a name='8'>字符编码</a></h2>
+<h2 id="_5">字符编码</h2>
 <p>Flask内部使用Unicode，默认是UTF8来进行I/O操作.它会把一个MIME类型和编码方式发送到正确的Content-Type header。Frozen-Flask会尝试通过文件扩展名<a href="#7">保存MIME类型</a>，但是它不能保护编码元数据。你可能需要添加正确的<meta>标签到你的HTML。</p>
 <p>对于URL，Flask的默认也是UTF8编码，所以你的web服务器会得到URL-encoded UTF-8 HTTP 请求。由你来转换这些到你的文件系统默认编码。Frozen-Flask总是使用Unicode描写文件名。</p>
-<h2><a name='9'>API</a></h2>
+<h2 id="api"><a name='9'>API</h2>
 <p>class flask_frozen.Freezer(app=None, with_static_files=True,with_no_argument_rules=True, log_url_for=True)</p>
 <blockquote>
 <p><strong>参数</strong>：
@@ -350,6 +352,7 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
 
 
 <p>如果FREEZER_RELATIVE_URLS<a href="#6">配置</a>是True，frozen-Flask会自动修补应用程序的Jinja环境来让模板中的url_for变成这个函数。</p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -363,12 +366,12 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -420,25 +423,21 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>安装</a></li>
-	    
-		    <li><a href='#2'>上下文</a></li>
-	    
-		    <li><a href='#3'>开始吧</a></li>
-	    
-		    <li><a href='#4'>URL生成器</a></li>
-	    
-		    <li><a href='#5'>测试URL生成器</a></li>
-	    
-		    <li><a href='#6'>配置</a></li>
-	    
-		    <li><a href='#7'>文件名和MIME类型</a></li>
-	    
-		    <li><a href='#8'>字符编码</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">安装</a></li>
+<li><a href="#_2">上下文</a></li>
+<li><a href="#_3">开始吧</a></li>
+<li><a href="#url">寻找URL地址</a></li>
+<li><a href="#url_1">URL生成器</a></li>
+<li><a href="#url_2">测试URL生成器</a></li>
+<li><a href="#_4">配置</a></li>
+<li><a href="#mime">文件名和MIME类型</a></li>
+<li><a href="#_5">字符编码</a></li>
+<li><a href="#api"><a name='9'>API</a></li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -448,12 +447,12 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -475,10 +474,38 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -488,14 +515,14 @@ URLs 否则也会以 &#39;/&#39;结束来加载index.html。 也正因为如此�
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

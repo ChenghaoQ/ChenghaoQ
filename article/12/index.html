@@ -4,13 +4,13 @@
         <meta charset='utf-8'>
         <title>
 Python爬虫：二层爬虫之爬取整个相册
-|| ChenghaoQ</title>
+|| 老钱</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel='stylesheet' href='/static/css/normalize.css'>
 		<link rel='stylesheet' href="/static/css/mono.css">
 		<link rel='stylesheet' href='/static/css/bootstrap.css'>
-		<link rel='stylesheet' media="screen and (min-width:1024px)"  href='/static/css/homepage.css'>
-		<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/ihomepage.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
         
 
 <link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
@@ -39,14 +39,14 @@ Python爬虫：二层爬虫之爬取整个相册
            <div class="mask"></div>
             <header>
                 <nav>
-                    <div class="logo"><a href="#">老钱</a></div>
+                    <div class="logo"><a href="/">老钱</a></div>
                     <button class="menu_trigger">☰</button>
                     <ul class="menu">
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>     
+                        <!--<li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>  -->   
                     </ul>
                     
                 </nav>
@@ -57,14 +57,16 @@ Python爬虫：二层爬虫之爬取整个相册
                     
     <div class="article_header">
         <h1 class="article_title"><a>Python爬虫：二层爬虫之爬取整个相册</a></h1>                   
-		<div class="article_info">2016-10-06 | 分类于: <a class = 'tag' href="None">Python爬虫</a></div>
+		<div class="article_info">2016-10-06 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
 	</div>
 	<article>
-		
-		<p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
-<!--More-->
+        
 
-<h2><a name ='1'>结构与模块分析</a></h2>
+<p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
+
+        
+
+<h2 id="_1">结构与模块分析</h2>
 <p>还记得上次我们的逻辑顺序是什么吗？</p>
 <blockquote>
 <p>加载列表页-&gt;获取图片地址-&gt;下载图片-&gt;页面跳转</p>
@@ -74,7 +76,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <p>加载列表页-&gt;获取所有相册首页地址（需要初步页面跳转）-&gt;判断相册所有页面地址-&gt;从地址解析图片地址-&gt;创建文件夹并保存-&gt;跳转至下一相册</p>
 </blockquote>
 <p>我们来拆开一步一步分析，首先来看我们的工具准备</p>
-<h2><a name ='2'>工具准备</a></h2>
+<h2 id="_2">工具准备</h2>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -99,7 +101,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>girl_entry 是相册热口链接的集合，每次<a href="7">worker</a>都会从里面取得一个链接</li>
 </ul>
 <p>好了，上车吧。</p>
-<h2><a name ='3'>获取所有相册入口地址</a></h2>
+<h2 id="_3">获取所有相册入口地址</h2>
 <p>和我们上次的爬取过程一样，只不过我们爬取的内容不一样。上一次我们爬取的是图片链接，而这次我们爬取的是相册入口链接。这两者并没有特别大的区别，因为当你点击图片时就可以进入相册，这说明该链接和图片应该在同一个区块内（即你点击的其实是图片和链接的结合）。所以我们只需要更换我们的正则表达式就可以啦，下面这段代码是不是看着很眼熟呢，</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -145,7 +147,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>我们不难发现这段代码我们使用了两次正则表达式，因为如果只使用第14行的正则表达式的话，很容易将导航栏的li标签的内容和我们真正需要的内容混在一起，这时候我们需要对网页进行预先切片，先使用12,13行网页中的完整列表切出来再进行二次匹配可以提高精准度。要注意的是我们的list_part输出的内容是正则表达式输出的元组，所以第15行要使用[0]来表示其中的内容</li>
 <li>第二个正则表达式提取出来的内容有两个并以元组的方式展现 (一个去掉.html后缀的入口链接,一个标题)。入口链接是用在网页搜索中，标题名称是为我们创建的相册文件夹命名。</li>
 </ul>
-<h2><a name ='4'>获取所有相册页面</a></h2>
+<h2 id="_4">获取所有相册页面</h2>
 <p>当我们满怀欣喜地点击进入相册后，你发现了几个问题：</p>
 <ul>
 <li>每一个网页只有一张图片,旁边还有温馨提示，“点击图片进行下一页”,<strong>而我们并不能知道这个相册有多少页</strong>。 要不我们一个一个试吧，这样很浪费时间，如果中途出错了的话会影响后面的爬取。</li>
@@ -206,7 +208,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>第18行：将我们获得的数字添加到base后面生成链接</li>
 <li>最后一行返回一个链接集合列表</li>
 </ul>
-<h2><a name ='5'>获取图片地址</a></h2>
+<h2 id="_5">获取图片地址</h2>
 <p>当然我们的最终目的还是要找到图片地址，有了我们之前的基础，这一步并不难实现。值得注意的是我们的这个函数作为一个图片链接搜索的整体</p>
 <div class="codehilite"><pre><span></span>获得入口地址 －&gt; 输出所有图片地址
 </pre></div>
@@ -250,7 +252,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>第5－13行遍历所有地址并执行抓取操作</li>
 <li>最后返回相册所有图片链接，到了这一步我们获得了我们需要的内容，只剩下下载了</li>
 </ul>
-<h2><a name ='6'>保存至本地文件夹</a></h2>
+<h2 id="_6">保存至本地文件夹</h2>
 <p>虽然到了简单的最后一步我们仍然不能掉以轻心，因为这里有一个陷阱：有的图片被压缩了，有的并没有被压缩。如果我们直接下载的话会下载到一些损坏的文件，而直接使用gzip会报错，所以我们要使用try..except..。另外我们还需要将我们的妹子图保存在一个文件夹中以免和其他的混在一起，直接上代码</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -304,7 +306,7 @@ Python爬虫：二层爬虫之爬取整个相册
 <li>第2-5行我们使用了os模块对系统进行一定的操作，判断当前目录下是否有这个文件夹，如果有的话就跳过，没有的话就创建一个新的文件夹。由于我们使用了os模块，在运行我们的程序时<strong>需要管理员权限</strong>才能对系统进行操作。</li>
 <li>第10-18行我们默认使用gzip，因为使用urlopen并不能识别是否被压缩而直接下载全部内容</li>
 </ul>
-<h2><a name ='7'>对相册下载器进行封装</a></h2>
+<h2 id="_7">对相册下载器进行封装</h2>
 <p>其实有了之前的内容我们就已经可以完成我们的工作了，但是封装这一步并不是画蛇添足因为它的作用是减少代码的重复。这是一个很好的习惯，让一个函数完成一个完整的动作，这样我们在后面开发过程中调用更加方便。这里我们定义了一个worker，它整合了之前的几个函数，所以它可以接受一个入口链接并完成搜索下载的功能。这样做的好处是如果以后使用多线程的时候，每个线程添加一个worker就OK。</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -319,7 +321,7 @@ Python爬虫：二层爬虫之爬取整个相册
 </td></tr></table>
 
 <p>要注意的是第2行的pop方法，它的作用是将列表中的元素传递出去并从列表中删除。这个原理有点像枪把子弹发射出去一样，每发射出去一颗子弹弹夹里面便少一颗。</p>
-<h2><a name ='8'>主函数</a></h2>
+<h2 id="_8">主函数</h2>
 <p>主函数逻辑简单，创建一个入口集合，从里面获取链接交给worker工作</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -347,6 +349,7 @@ Python爬虫：二层爬虫之爬取整个相册
 </td></tr></table>
 
 <p>怎么样，是不是有了更深入的了解呢</p>
+		
 	</article>
 	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
 	<hr>
@@ -360,12 +363,12 @@ Python爬虫：二层爬虫之爬取整个相册
             
             <footer>
                 <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
                     <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                    <li><a href="#">item</a></li>
-                </ul>    
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
                 <div class="copyright">
                     &copy ChenghaoQ;
                 </div>
@@ -417,25 +420,19 @@ Python爬虫：二层爬虫之爬取整个相册
     </div>
     <div class="nav-con-title">目录</div>
     <div class="inner-content">
-        <ul>
-	    
-		    <li><a href='#1'>结构与模块分析</a></li>
-	    
-		    <li><a href='#2'>工具准备</a></li>
-	    
-		    <li><a href='#3'>获取所有相册入口地址</a></li>
-	    
-		    <li><a href='#4'>获取所有相册页面</a></li>
-	    
-		    <li><a href='#5'>获取图片地址</a></li>
-	    
-		    <li><a href='#6'>保存至本地文件夹</a></li>
-	    
-		    <li><a href='#7'>worker封装</a></li>
-	    
-		    <li><a href='#8'>主函数</a></li>
-	    
-	    </ul>
+        <div class="toc">
+<ul>
+<li><a href="#_1">结构与模块分析</a></li>
+<li><a href="#_2">工具准备</a></li>
+<li><a href="#_3">获取所有相册入口地址</a></li>
+<li><a href="#_4">获取所有相册页面</a></li>
+<li><a href="#_5">获取图片地址</a></li>
+<li><a href="#_6">保存至本地文件夹</a></li>
+<li><a href="#_7">对相册下载器进行封装</a></li>
+<li><a href="#_8">主函数</a></li>
+</ul>
+</div>
+
     </div>
 </div>
 
@@ -445,12 +442,12 @@ Python爬虫：二层爬虫之爬取整个相册
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"></div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'</div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
                 
-                            <h3 class="myself">OldMoney</h3>
+                            <h3 class="myself">老钱</h3>
                             
                             <ul class="posts-info">
                             </ul>
@@ -472,10 +469,38 @@ Python爬虫：二层爬虫之爬取整个相册
 		<script src="/static/js/jquery.js"></script>
         <script src="/static/js/home.js"></script>
         <script src="/static/ijs/ihome.js"></script>
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            /*unfinished*/
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                var temp = status;
+            $(window).resize(function(status){   //might be here,cannot use this type function to get parameters
+                
+                if($(window).width()>1024){
+                    status = 'desktop';
+                    $.getScript("/static/js/home.js");
+                }
+                else
+                {
+                    status = 'mobile';
+                    $.getScript("/static/ijs/ihome.js");
+                }
+                if (status!= temp)
+                {
+                    refresh();
+                    temp = status;
+                }
+            });
+        });
+        </script>
+
         
         
 
-        
+<!--         
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -485,14 +510,14 @@ Python爬虫：二层爬虫之爬取整个相册
         v.src = "http://assets.vicomi.com/assets/widgets_static.js";
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
         })();
-        </script> 
+        </script>  -->
 
 
         <!-- Carnival comments -->
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", Carnival.init);
-        </script>
+        </script> -->
 
 
 

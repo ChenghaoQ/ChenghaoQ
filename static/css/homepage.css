@@ -189,18 +189,22 @@ body
     color:#e2e2e2;
 }
 
-#site-view-content .selfie
+#site-view-content .selfie,.selfie img
 {
     height:120px;
     width:120px;
     margin:20% auto 5% auto;
     background: transparent;
     right:65px;
-    background:transparent url(../img/Selfie.JPG);
+    background:transparent ;
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position:bottom;
+    background-size: cover;
+    background-position:center;
     border-radius: 5px;
+}
+#site-view-content .selfie img
+{
+    width:100%;
 }
 
 #sidebar-content .inner-content .extern-links ul
@@ -405,4 +409,10 @@ a:focus {
 a:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+}
+
+table
+{
+    width:80%;
+    margin:0 auto;
 }

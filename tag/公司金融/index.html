@@ -59,6 +59,47 @@ Posts
     
 		<li class="post_preview">
 			<div class="post_header">
+				<div class="post_title">财务报表分析:比率分析简介</div>
+				<div class="post_info">2016-09-20 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
+			</div>
+			<div class="post_body">
+
+<h2 id="_1">比率分析简介</h2>
+<p>比率分析是一种常用的分析手段，它可以根据公司的财务数据进行公式化的计算。从而可以更方便地进行横向（公司之间）比较和纵向（不同时间点）的比较。有了财务比率分析：</p>
+<ul>
+<li>财务经理可以更清楚地了解公司的运营状况并找到可以提升的空间</li>
+<li>外部投资者可以更具体地了解公司的状况并作出投资决策</li>
+<li>债权人可以评估公司的清场债务的能力</li>
+<li>证券分析师可以准确地对股票进行估值</li>
+</ul>
+<h2 id="_2">短期偿付能力指标（流动性指标）</h2>
+<p>短期偿付能力指标，又称为流动性指标。它展示公司目前的流动性，并且指出公司清偿短期债务的能力。通常来讲，流动性越高，公司的偿债能力就越强，风险就越小；但是保持过高的流动性会造成一定的资源浪费（钱不能用于投资以及生产活动），会使得收益下降。</p>
+<ul>
+<li>
+<p>流动比率(Current Ratio)
+流动比率是衡量一个公司的流动性的基础标准，建立于流动资产和流动债务的数据之上</p>
+<div class="codehilite"><pre><span></span>流动比率(Current ratio) = 流动资产(Current assets) / 流动债务(Current Liabilities)
+</pre></div>
+
+
+</li>
+<li>
+<p>速动比率(Quick Ratio): </p>
+</li>
+</ul>
+<p>速动资产 = 流动资产 － 存货</p>
+<p>排除了存货，相比流动资产速动资产变现的能力更加强也更加快速，通常可以在一天内 或者几个小时之内套现。</p>
+<p>速动比率和流动比率类似，区别是这里使用了速动资产而不是流动资产。</p>
+<div class="codehilite"><pre><span></span>    速动比率(Quick ratio) = 速动资产(Quick assets) / 流动债务(Current Liabilities)
+</pre></div>
+
+
+...</div>
+			<div class="more link_tag"><a href="/article/9/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
 				<div class="post_title">财务报表分析：报表简介</div>
 				<div class="post_info">2016-09-08 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
 			</div>
@@ -94,84 +135,6 @@ Posts
 	
 		<li class="post_preview">
 			<div class="post_header">
-				<div class="post_title">使用Flask搭建个人静态博客</div>
-				<div class="post_info">2016-09-01 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body">
-
-<p>这篇文章教你如何一步一步地使用搭建自己的博客。由于Flask是一个动态网页的Web框架，所以关于Flask搭建静态博客的文章少之又少。（这是Flask的神奇之处，动态静态网页都支持，日后转换时可省去不必要的麻烦)。本系列以<a href="">Steven loria</a>的Flask<a href="">静态博客实例</a>为基础并加以改进，增添了一些更加有用的功能并详细介绍</p>
-<p>搭建一个Flask静态博客，你需要:</p>
-<ul>
-<li>Python3 （Steven loria采用python2.x)</li>
-<li>Flask</li>
-<li>Frozen-Flask</li>
-<li>Flask-Flatpages</li>
-<li>Pygments(可选，用于代码语法高亮)</li>
-<li>Github 或 Coding</li>
-</ul>
-<p>首先来看我们的目录结构:</p>
-<h2 id="_1">博客应用的目录结构</h2>
-<div class="codehilite"><pre><span></span>| ---project
-│    |---blog
-│    │    ├── __init__.py
-│    │    ├── settings.py
-│    │    ├── views.py
-│    │    ├── templates
-│    │    │   ├── base.html
-│    │    │   ├── page.html
-│    │    │   └── posts.html
-│    │    ├── static
-│    │    │   ├── home.css
-│    │    │   └── home.js
-│    │--- posts
-│    │    ├── pages
-│    │    │   ├── firstpost
-│    │    │   │   ├── index.html
-│    │    ├── posts.html
-│    │    ├── index.html
-│    ├── app.py
-│    ├── freezer.py
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/6/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">python3使用相对路径import</div>
-				<div class="post_info">2016-08-29 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
-			</div>
-			<div class="post_body">
-
-<p>python3在导入不同目录的模块时是怎么做的</p>
-<p>先来看一下我们的Project目录</p>
-<div class="codehilite"><pre><span></span>    |---myproject
-    ├── __init__.py
-    ├── settings.py
-    ├── folderA
-    │   └── testA.py
-    ├── folderB
-    │   ├── __init__.py
-    │   ├── testB.py
-    ├── test.py
-</pre></div>
-
-
-<h2 id="_1">在相同目录下</h2>
-<p>我们现在在myproject/目录下</p>
-<p>在同一目录下，我们可以使用'.'来表示当前目录：</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/5/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
 				<div class="post_title">为什么你要学公司金融（Corporate Finance)</div>
 				<div class="post_info">2016-08-26 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
 			</div>
@@ -196,73 +159,19 @@ Posts
 			<div class="more link_tag"><a href="/article/4/">More -></a></div>
 		</li>
 	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Frozen-Flask说明</div>
-				<div class="post_info">2016-08-23 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body">
-
-<p>Frozen-Flask（原名Flask-Static)是一个基于<a href="">Flask</a>的Static(静态)网页生成器。它可以轻松地冻结你现在已有的Flask项目，生成一系列的静态网页（例如：静态博客),然后直接搭载在HTTP服务器上而不需要安装其他的软件。相对于动态网页，Frozen-Flask生成的网站更易于托管，比如Github-Pages或Coding-Pages上面。同时当你的网站足够庞大以至于静态网页不能满足你的需求时，与其他静态网页生成器相比，基于Flask的Frozen-Flask可以让你的网站更快捷地迁移到动态的Flask上面。本文带你进一步了解这个神奇的工具。</p>
-<p>（翻译自官方文档，英文版请点击<a href="http://pythonhosted.org/Frozen-Flask/#flask_frozen.relative_url_for">这里</a></p>
-<h2 id="_1">安装</h2>
-<p>通过以下其中一个安装本扩展</p>
-<div class="codehilite"><pre><span></span>$ easy_install Frozen-Flask
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/3/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Flask-FlatPages 使用手册</div>
-				<div class="post_info">2016-08-15 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body"><p>Flask-FlatPages是Flask应用的一个小工具，规则基于YAML和Markdown，实现了文本文档和模板的结合。用户可以通过编写‘.md’（默认）文本文档即可轻松生成网页。在与Frozen-Flask配合使用是可以更轻松地实现资源管理。</p>
-<p>（翻译自官方文档，英文版请点击<a href="https://pythonhosted.org/Flask-FlatPages/">这里</a>)。</p>
-<h2 id="flask-flatpages"><a name='1'>什么是Flask FlatPages</a></h2>
-<p>Flask-FlatPages 为你的<a href="http://flask.pocoo.org/">Flask</a>应用提供了一系列的网页，这些网页基于文本文档(flat text files)而不是关系型数据库。</p>
-<ul>
-<li>BSD licensed</li>
-<li>最新的文档在<a href="https://pythonhosted.org/Flask-FlatPages/">python.org</a></li>
-<li>源码，问题和访问请求在<a href="https://github.com/SimonSapin/Flask-FlatPages/">Github</a></li>
-<li>发行在<a href="https://pypi.python.org/pypi/Flask-FlatPages">PyPI</a></li>
-</ul>
-...</div>
-			<div class="more link_tag"><a href="/article/2/">More -></a></div>
-		</li>
-	
 	
 	
     <div class="pagination">
 		
-    		<div class ="prev_next"><a href ="/page/2/">&laquo</a></div>
-		
 		<ul class='pager'>
 			
 				
-					<li><a href ="/page/1/">1</a></li>
-				
-			
-				
-					<li><a href ="/page/2/">2</a></li>
-				
-			
-				
-					<li><b>3</b></li>
-				
-			
-				
-					<li><a href ="/page/4/">4</a></li>
+					<li><b>1</b></li>
 				
 			
 		</ul>
 		
 		
-		
-		<div class ="prev_next"><a href ="/page/4/">&raquo</a></div>
 		
     </div>
 
