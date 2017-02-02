@@ -2,22 +2,45 @@
 
 (function()
 {
-    function hidesidecontent(sidecont,maincont,sideme)
+	function opensidecontent(sidecont,maincont)
+	{
+		sidecont.animate({'left':50},{duration:500,queue:false});
+		maincont.animate({'margin-left':sidecont.width()},{duration:500,queue:false});
+
+	}
+    function hidesidecontent(sidecont,maincont,MenuContNow)
     {
-        sidecont.animate({'left':sideme.width()-sidecont.width()},{duration:500,queue:false});
+		sidecont.animate({'left':-250},{duration:500,queue:false});
+		maincont.animate({'margin-left':50},{duration:500,queue:false});
+		MenuContNow.fadeOut(500);
+  //       sidecont.animate({'left':sideme.width()-sidecont.width()},{duration:500,queue:false});
             
-		maincont.animate({'margin-left':sideme.width()},{duration:500,queue:false});
+		// maincont.animate({'margin-left':sideme.width()},{duration:500,queue:false});
+    }
+    function opensidemenu(sidecont,maincont,sideme,closeBarEl)
+    {
+    	sideme.animate({'left':0},{duration:300,queue:false});
+		
+		maincont.delay(500).animate({'margin-left':sideme.width()},{duration:300,queue:false});
+		console.log('111');
+		sidecont.delay(1000).animate({'left':sideme.width()-sidecont.width()},{duration:0});
+		closeBarEl.className= 'closebar';
+		
     }
     function hidesidemenu(sidecont,maincont,sideme,closeBarEl)
     {
         sidecont.animate({'left':-sidecont.width()},{duration:0});
-        console.log('ccc');
         maincont.animate({'margin-left':0},{duration:500,queue:false});
 			
         sideme.animate({'left':-sideme.width()},{duration:500,queue:false});
         closeBarEl.className= 'showbar';
     }
-    
+    function closeAll(sidecont,maincont,sideme,closeBarEl)
+    {
+    	hidesidecontent(sidecont,maincont,sideme);
+    	hidesidemenu(sidecont,maincont,sideme,closeBarEl);
+    	// +++++++++++++
+    }
     
 	var Sidemenu = function()
 	{
@@ -41,9 +64,8 @@
 					menuContEl = $('#'+evt.currentTarget.id+'-content');
 
 				if(self.state === 'allClosed'){
-					self.sidecont.animate({'left':50},{duration:500,queue:false});
-					self.maincont.animate({'margin-left':300},{duration:500,queue:false});
-					/*menuContEl.delay(800).fadeIn(500);*/
+
+					opensidecontent(self.sidecont,self.maincont)
 
 					self.state = 'oneOpened';
 					self.MenuContNow = menuContEl;
@@ -59,9 +81,7 @@
 			});	
 		}
 		$('.nav-con-close').on('click',function(){
-					
-					self.sidecont.animate({'left':-250},{duration:500,queue:false});
-					self.maincont.animate({'margin-left':50},{duration:500,queue:false});
+					hidesidecontent(self.sidecont,self.maincont,self.MenuContNow)
 					self.state = 'allClosed';
 				});
 		
@@ -92,35 +112,15 @@
 		
 		if(this.sidemenu.state === 'oneOpened')
 		{
-			/*onsole.log(this.sidemenu.state);
-			this.contel.className ='a hide-back';
-			this.contel.className ='a hide-back-again';*/
-			/*this.sidecont.animate({'left':this.sideme.width()-this.sidecont.width()},{duration:500});
-            
-			this.maincont.animate({'margin-left':this.sideme.width()},{duration:500});*/
-			/*hidesidecontent(this.sidecont,this.maincont,this.sideme);
-            console.log('aaa');
-            /*this.sidecont.animate({'left':-this.sidecont.width()},{duration:0,queue:false});*/
+
             hidesidemenu(this.sidecont,this.maincont,this.sideme,this.closeBarEl);
-			/*this.sidecont.animate({'left':-this.sidecont.width()},{duration:500});
-			this.maincont.delay(500)..animate({'margin-left':0},{duration:500});
-            
-			this.sideme.delay(500).animate({'left':-this.sideme.width()},{duration:500});
-			this.sideclose.animate({'left':40},{duration:500});*/
-            /*this.closeBarEl.className= 'showbar';*/
+
             this.sidemenu.state = 'allClosed';
 		}
 		else if(this.sidemenu.state === 'allClosed')
 		{
             hidesidemenu(this.sidecont,this.maincont,this.sideme,this.closeBarEl);
-			/*this.sidecont.animate({'left':-this.sidecont.width()},{duration:0,queue:false});
-			console.log(this.sideme.width());
-			
-			
-			this.maincont.animate({'margin-left':0},{duration:800,queue:false});
-			
-			this.sideme.animate({'left':-this.sideme.width()},{duration:500,queue:false});*/
-			/*this.closeBarEl.className= 'showbar';*/
+
 		}
 
 		
@@ -129,13 +129,9 @@
 	Sidebar.prototype.open = function(){
 		this.state = 'opened';
 		
-		this.sideme.animate({'left':0},{duration:300,queue:false});
-		
-		this.maincont.delay(500).animate({'margin-left':this.sideme.width()},{duration:300,queue:false});
-		console.log('111');
-		this.sidecont.delay(1000).animate({'left':this.sideme.width()-this.sidecont.width()},{duration:0});
 
-		this.closeBarEl.className= 'closebar';
+		opensidemenu(this.sidecont,this.maincont,this.sideme,this.closeBarEl)
+
 		
 	};
 	Sidebar.prototype.switchTrigger = function(){
