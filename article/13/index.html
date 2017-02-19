@@ -20,6 +20,22 @@ Python爬虫:多线程爬虫入门
 
 
         
+                 <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-83291137-1', 'auto');
+              ga('send', 'pageview');
+
+        </script> 
+        
+        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", Carnival.init);
+</script>
+        
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -31,21 +47,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 })();
 </script> 
         
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", Carnival.init);
-</script>
-        
-<!--         <script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-              ga('create', 'UA-83291137-1', 'auto');
-              ga('send', 'pageview');
-
-        </script> -->
     
     
     </head>
@@ -62,8 +64,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <!--<li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>  -->   
+<!--
+                        <li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>     
+-->
                     </ul>
                     
                 </nav>
@@ -78,13 +82,13 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 	</div>
 	<article>
         
+        
 
 <p>看了<a href="../12">上一篇文章</a>的朋友们会发现虽然我们可以爬取整个相册，但是<strong>速度非常慢</strong>，需要一个一个来爬，排队等待的效率是极其低下的。针对这种大部分时间浪费在网络阻塞的情况，python的多线程方法在这里大显神威。那什么是多线程呢，很简单: 假如需要做的事情是搬砖，而电脑是搬砖工人，通常程序都是单线程运行。也就是说只有一个工人在搬砖。如果觉得这样速度很慢，你可以</p>
 <blockquote>
 <p><strong>多请几个工人</strong></p>
 </blockquote>
-
-        
+<!--More-->
 
 <p>首先让我们引入python自带的多线程的库threading</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>

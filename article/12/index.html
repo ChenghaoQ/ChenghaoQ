@@ -20,6 +20,22 @@ Python爬虫：二层爬虫之爬取整个相册
 
 
         
+                 <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-83291137-1', 'auto');
+              ga('send', 'pageview');
+
+        </script> 
+        
+        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", Carnival.init);
+</script>
+        
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -31,21 +47,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 })();
 </script> 
         
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", Carnival.init);
-</script>
-        
-<!--         <script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-              ga('create', 'UA-83291137-1', 'auto');
-              ga('send', 'pageview');
-
-        </script> -->
     
     
     </head>
@@ -62,8 +64,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
                         
                            
                         <li><a href='/'>文章</a></li> 
-                        <!--<li><a href='#'>归档</a></li> 
-                        <li><a href='#'>关于</a></li>  -->   
+<!--
+                        <li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>     
+-->
                     </ul>
                     
                 </nav>
@@ -78,10 +82,10 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 	</div>
 	<article>
         
+        
 
 <p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
-
-        
+<!--More-->
 
 <h2 id="_1">结构与模块分析</h2>
 <p>还记得上次我们的逻辑顺序是什么吗？</p>
