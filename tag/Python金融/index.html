@@ -81,122 +81,29 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
     
 		<li class="post_preview">
 			<div class="post_header">
-				<div class="post_title">数据可视化(2)：五种基本图形</div>
-				<div class="post_info">2016-11-24 | 分类于:  <a class = 'tag' href="/tag/Python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">Python数据可视化</a></div>
+				<div class="post_title">Python金融：投资组合分析 － 使用pandas分析有效边界</div>
+				<div class="post_info">2017-02-25 | 分类于:  <a class = 'tag' href="/tag/Python%E9%87%91%E8%9E%8D/">Python金融</a></div>
 			</div>
 			<div class="post_body">
 
-<p>上一次通过一个简单例子学习了图形的基本绘制方法，这次我们通过农企(AMD)的数据来学习五种基本图形的绘制</p>
-<h2 id="_1">工具准备</h2>
-<ul>
-<li>AMD股票数据(Nov 21,2015 - Nov 21,2016),<a href="http://chart.finance.yahoo.com/table.csv?s=AMD&amp;a=10&amp;b=21&amp;c=2015&amp;d=10&amp;e=21&amp;f=2016&amp;g=d&amp;ignore=.csv">下载</a></li>
-<li>S&amp;P500同期指数，<a href="http://chart.finance.yahoo.com/table.csv?s=^GSPC&amp;a=10&amp;b=21&amp;c=2015&amp;d=10&amp;e=21&amp;f=2016&amp;g=d&amp;ignore=.csv">下载</a></li>
-<li>AMD最近四个季度的财报</li>
-<li>S&amp;P500 同时段（AMD)的指数
+<p>本实例从获取数据开始讲解如何使用Pandas对股票数据进行简单的投资组合分析，画出有效边界。</p>
 ...</div>
-			<div class="more link_tag"><a href="/article/16/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">使用Echosim语音控制2048</div>
-				<div class="post_info">2016-11-06 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body">
-
-<p>前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。</p>
-<p><img alt="" src="" /></p>
-<p>让我们开始吧！</p>
-...</div>
-			<div class="more link_tag"><a href="/article/15/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">数据可视化（1）：使用Pylab进行净现值曲线分析</div>
-				<div class="post_info">2016-10-25 | 分类于:  <a class = 'tag' href="/tag/Python%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">Python数据可视化</a></div>
-			</div>
-			<div class="post_body">
-
-<p>之前我们学习python的爬虫，在数据科学中，爬虫是获取数据的重要工具。Python的作用并不止步于此，我们还可以通过python进行数据分析。比如我们现在有两个项目</p>
-<ul>
-<li>项目A： 初始投入1500，之后6年每年获得收益450</li>
-<li>项目B： 初始投入1200，到第六年年底一次性获得3000</li>
-</ul>
-<p>我们投资需要用的钱是借来的，借来是有利率的，</p>
-<p>我们要通过python来对这两项投资进行收益分析(净现值曲线)，通过作图来进行判断，根据利率的变化来选择不同的项目 </p>
-...</div>
-			<div class="more link_tag"><a href="/article/14/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Python爬虫:多线程爬虫入门</div>
-				<div class="post_info">2016-10-22 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
-			</div>
-			<div class="post_body">
-
-<p>看了<a href="../12">上一篇文章</a>的朋友们会发现虽然我们可以爬取整个相册，但是<strong>速度非常慢</strong>，需要一个一个来爬，排队等待的效率是极其低下的。针对这种大部分时间浪费在网络阻塞的情况，python的多线程方法在这里大显神威。那什么是多线程呢，很简单: 假如需要做的事情是搬砖，而电脑是搬砖工人，通常程序都是单线程运行。也就是说只有一个工人在搬砖。如果觉得这样速度很慢，你可以</p>
-<blockquote>
-<p><strong>多请几个工人</strong></p>
-</blockquote>
-...</div>
-			<div class="more link_tag"><a href="/article/13/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Python爬虫：二层爬虫之爬取整个相册</div>
-				<div class="post_info">2016-10-06 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
-			</div>
-			<div class="post_body">
-
-<p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
-...</div>
-			<div class="more link_tag"><a href="/article/12/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">Flask分页方法</div>
-				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body">
-
-<p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>
-...</div>
-			<div class="more link_tag"><a href="/article/11/">More -></a></div>
+			<div class="more link_tag"><a href="/article/21/">More -></a></div>
 		</li>
 	
 	
 	
     <div class="pagination">
 		
-    		<div class ="prev_next"><a href ="/page/1/">&laquo</a></div>
-		
 		<ul class='pager'>
 			
 				
-					<li><a href ="/page/1/">1</a></li>
-				
-			
-				
-					<li><b>2</b></li>
-				
-			
-				
-					<li><a href ="/page/3/">3</a></li>
-				
-			
-				
-					<li><a href ="/page/4/">4</a></li>
+					<li><b>1</b></li>
 				
 			
 		</ul>
 		
 		
-		
-		<div class ="prev_next"><a href ="/page/3/">&raquo</a></div>
 		
     </div>
 

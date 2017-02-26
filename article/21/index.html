@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>
+Python金融：投资组合分析 － 使用pandas分析有效边界
+|| 老钱</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel='stylesheet' href='/static/css/normalize.css'>
+		<link rel='stylesheet' href="/static/css/mono.css">
+		<link rel='stylesheet' href='/static/css/bootstrap.css'>
+		<link rel='stylesheet' media="screen and (min-width:1023px)"  href='/static/css/homepage.css'>
+		<link rel='stylesheet' media="screen and (max-width:1023px)"  href='/static/icss/ihomepage.css'>
+        
+
+<link rel='stylesheet' media="screen and (min-width:1025px)"  href='/static/css/article.css'>
+
+
+<link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/iarticle.css'>
+
+
+        
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
+
+
+<script>
+(function() {
+var v = document.createElement('script'); v.async = true;
+v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+})();
+</script> 
+        
+                 <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-83291137-1', 'auto');
+              ga('send', 'pageview');
+
+        </script> 
+        
+        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", Carnival.init);
+</script>
+        
+
+    
+    
+    </head>
+    
+    <body>
+        <div id="wrapper">
+        <div id='main-page'>
+           <div class="mask"></div>
+            <header>
+                <nav>
+                    <div class="logo"><a href="/">老钱</a></div>
+                    <button class="menu_trigger">☰</button>
+                    <ul class="menu">
+                        
+                           
+                        <li><a href='/'>文章</a></li> 
+<!--
+                        <li><a href='#'>归档</a></li> 
+                        <li><a href='#'>关于</a></li>     
+-->
+                    </ul>
+                    
+                </nav>
+                <div class="hr"></div>
+            </header>
+            <div class='content'>
+                <div class="content_wrapper">
+                    
+    <div class="article_header">
+        <h1 class="article_title"><a>Python金融：投资组合分析 － 使用pandas分析有效边界</a></h1>                   
+		<div class="article_info">2017-02-25 | 分类于:  <a class = 'tag' href="/tag/Python%E9%87%91%E8%9E%8D/">Python金融</a></div>
+	</div>
+	<article>
+        
+        
+
+<p>本实例从获取数据开始讲解如何使用Pandas对股票数据进行简单的投资组合分析，画出有效边界。</p>
+<!--More-->
+
+<h2 id="_1">数据准备</h2>
+<p>首先我们打开python解释器，引入我们今天所需要的工具,numpy/Matplotlib/Pandas</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+</pre></div>
+</td></tr></table>
+
+<p>接着我们从Yahoo Finance 上面找到需要的股票数据，我们以亚马逊，Netflix,英伟达，Adobe,Priceline这几家比较熟悉的公司为例，它们的标志是</p>
+<div class="codehilite"><pre><span></span>tickers=[&#39;AMZN&#39;,&#39;NFLX&#39;,&#39;NVDA&#39;,&#39;ADBE&#39;,&#39;PCLN&#39;]
+</pre></div>
+
+
+<p>我们把它们最近一年的股票价格历史数据下载下来，放在解释器运行的目录里，并给他们按Ticker更改名称（AMZN.csv），然后使用pandas.read_csv方法加载</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">amzn</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;AMZN.csv&#39;</span><span class="p">)</span>
+<span class="n">nflx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;NFLX.csv&#39;</span><span class="p">)</span>
+<span class="n">nvda</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;NVDA.csv&#39;</span><span class="p">)</span>
+<span class="n">adbe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;ADBE.csv&#39;</span><span class="p">)</span>
+<span class="n">pcln</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;PCLN.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>由于我们使用pandas进行加载，pandas自身会对数据进行优化操作，所以我们可以看到加载后整齐的输出结果，我们来看下amazon的股价</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">65</span><span class="p">]:</span> <span class="n">amzn</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">65</span><span class="p">]:</span> 
+           <span class="n">Date</span>        <span class="n">Open</span>        <span class="n">High</span>         <span class="n">Low</span>       <span class="n">Close</span>    <span class="n">Volume</span>   <span class="n">Adj</span> <span class="n">Close</span>
+<span class="mi">0</span>    <span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">24</span>  <span class="mf">844.690002</span>  <span class="mf">845.809998</span>  <span class="mf">837.750000</span>  <span class="mf">845.239990</span>   <span class="mi">3676400</span>  <span class="mf">845.239990</span>
+<span class="mi">1</span>    <span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">23</span>  <span class="mf">857.570007</span>  <span class="mf">860.859985</span>  <span class="mf">848.000000</span>  <span class="mf">852.190002</span>   <span class="mi">3454600</span>  <span class="mf">852.190002</span>
+<span class="mi">2</span>    <span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">22</span>  <span class="mf">856.950012</span>  <span class="mf">858.429993</span>  <span class="mf">852.179993</span>  <span class="mf">855.609985</span>   <span class="mi">2613400</span>  <span class="mf">855.609985</span>
+<span class="mi">3</span>    <span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">21</span>  <span class="mf">848.840027</span>  <span class="mf">857.979980</span>  <span class="mf">847.250000</span>  <span class="mf">856.440002</span>   <span class="mi">3490100</span>  <span class="mf">856.440002</span>
+<span class="mi">4</span>    <span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">17</span>  <span class="mf">842.000000</span>  <span class="mf">847.270020</span>  <span class="mf">840.729980</span>  <span class="mf">845.070007</span>   <span class="mi">3029800</span>  <span class="mf">845.070007</span>
+<span class="o">..</span>          <span class="o">...</span>         <span class="o">...</span>         <span class="o">...</span>         <span class="o">...</span>         <span class="o">...</span>       <span class="o">...</span>         <span class="o">...</span>
+<span class="mi">249</span>  <span class="mi">2016</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">556.289978</span>  <span class="mf">579.250000</span>  <span class="mf">556.000000</span>  <span class="mf">579.039978</span>   <span class="mi">5038500</span>  <span class="mf">579.039978</span>
+<span class="mi">250</span>  <span class="mi">2016</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">29</span>  <span class="mf">554.000000</span>  <span class="mf">564.809998</span>  <span class="mf">552.510010</span>  <span class="mf">552.520020</span>   <span class="mi">4145400</span>  <span class="mf">552.520020</span>
+<span class="mi">251</span>  <span class="mi">2016</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">26</span>  <span class="mf">560.119995</span>  <span class="mf">562.500000</span>  <span class="mf">553.169983</span>  <span class="mf">555.229980</span>   <span class="mi">4877000</span>  <span class="mf">555.229980</span>
+<span class="mi">252</span>  <span class="mi">2016</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">25</span>  <span class="mf">555.520020</span>  <span class="mf">559.390015</span>  <span class="mf">545.289978</span>  <span class="mf">555.150024</span>   <span class="mi">4525500</span>  <span class="mf">555.150024</span>
+</pre></div>
+</td></tr></table>
+
+<p>现在我们有了这些数据，但是这些并不都是我们需要的。在这次投资组合分析中，我们需要找到的每日股价涨跌幅：<strong>用当日的收盘价除以前一天的收盘价</strong>，为什么不用开盘价呢？因为有After 和 Pre market交易的存在。所以即使交易所3点后停止交易，很多机构投资者仍然可以通过其他渠道进行交易。由于我们在计算过程中需要使用前一天的收盘价，所以数据上最早的一天的涨幅我们无法计算。下面代码会计算出每家公司股价全年的涨跌幅并将这五个子列表放入同一个列表中</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">roc</span> <span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">raw_data</span><span class="p">:</span>
+    <span class="n">roc</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">each</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">each</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>第三行看着有点长，但逻辑很简单</p>
+<ol>
+<li>each['Close'].values是指each(在循环中指代公司)中的'Close'这一列的值，相当于Excel直接选择某一列，我们可以按顺序得到当日的收盘价</li>
+<li>np.rool(each['Close'].values,-1)表示将这个列表向前推一格，即(1,2,3,4)变成(2,3,4,1).这样我们可以得到上一日的收盘价</li>
+<li>将两个数组做一个除法 （1,2,3)/(2,3,1) = (1/2,2/3,3/1)</li>
+<li>最后一行的数据由于没有之前的收盘价，所以用[:-1]删掉。我们之前平移数组顶掉的数字也在这一行，一同删掉。</li>
+<li>用[::-1]将列表反转，从前往后</li>
+<li>由于使用小数，为了便于查看，我们 x 100 变成百分数</li>
+<li>append方法将这个处理好的数组放在roc的列表中</li>
+</ol>
+<p>得到的列表应该是这样的,5个子列表，每个列表252条数据</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="p">[[</span> <span class="mf">0.01440</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.48808</span><span class="p">,</span>  <span class="mf">4.79982</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09691</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.39971</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.81555</span><span class="p">],</span>   
+   <span class="p">[</span> <span class="mf">0.27505</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.45585</span><span class="p">,</span>  <span class="mf">5.23498</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>  <span class="mf">0.88359</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75073</span><span class="p">,</span>  <span class="mf">0.32918</span><span class="p">],</span> 
+   <span class="p">[</span><span class="o">-</span><span class="mf">0.65851</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.01010</span><span class="p">,</span>  <span class="mf">4.43239</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.27910</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.27230</span><span class="p">,</span>  <span class="mf">0.96527</span><span class="p">],</span>
+   <span class="p">[</span><span class="o">-</span><span class="mf">0.09230</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.67436</span><span class="p">,</span>  <span class="mf">3.78156</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.13374</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.53570</span><span class="p">,</span>  <span class="mf">0.40394</span><span class="p">],</span>
+   <span class="p">[</span><span class="o">-</span><span class="mf">0.72344</span><span class="p">,</span>  <span class="mf">0.87222</span><span class="p">,</span>  <span class="mf">2.42727</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>  <span class="mf">0.28780</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.87665</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.34448</span><span class="p">]]</span>
+</pre></div>
+</td></tr></table>
+
+<p>由于roc是python的列表，仍不具有numpy array的优势，而且要使用pandas,我们需要以行为单位而不是列为单位，所以我们要以日期为基准获得252行
+我们要先将roc转化为一个二维的的矩阵（数组），然后对其进行翻转（.T表示Transpose，即获得转置矩阵。）</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">roc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roc</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</td></tr></table>
+
+<p>下面是转置后的矩阵</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">67</span><span class="p">]:</span> <span class="n">roc</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">67</span><span class="p">]:</span> 
+<span class="n">array</span><span class="p">([[</span> <span class="mf">0.01440</span><span class="p">,</span>  <span class="mf">0.27505</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.65851</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.09230</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.72344</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.48808</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.45585</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.01010</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.67436</span><span class="p">,</span>  <span class="mf">0.87222</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">4.79982</span><span class="p">,</span>  <span class="mf">5.23498</span><span class="p">,</span>  <span class="mf">4.43239</span><span class="p">,</span>  <span class="mf">3.78156</span><span class="p">,</span>  <span class="mf">2.42727</span><span class="p">],</span>
+       <span class="o">...</span><span class="p">,</span> 
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.09691</span><span class="p">,</span>  <span class="mf">0.88359</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.27910</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.13374</span><span class="p">,</span>  <span class="mf">0.28780</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.39971</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75073</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.27230</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.53570</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.87665</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.81555</span><span class="p">,</span>  <span class="mf">0.32918</span><span class="p">,</span>  <span class="mf">0.96527</span><span class="p">,</span>  <span class="mf">0.40394</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.34448</span><span class="p">]])</span>
+</pre></div>
+</td></tr></table>
+
+<p>我们现在有252行数据了，需要一个日期来对每一行进行标记方便查看，直接从之前提取的数据中获得。处理方式同涨跌幅类似，去掉最早一天，反转</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">amzn</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</td></tr></table>
+
+<p>然后我们使用pandas 的dataFrame来创建一个新的数据框架,列名称为ticker，行名称为日期</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">rocdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">roc</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">tickers</span><span class="p">)</span>
+<span class="c1">#index接受日期列表</span>
+<span class="c1">#columns接收ticker列表</span>
+
+                <span class="n">AMZN</span>      <span class="n">NFLX</span>      <span class="n">NVDA</span>      <span class="n">ADBE</span>      <span class="n">PCLN</span>
+<span class="n">Date</span>                                                        
+<span class="mi">2016</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">26</span>  <span class="mf">0.014403</span>  <span class="mf">0.275047</span> <span class="o">-</span><span class="mf">0.658511</span> <span class="o">-</span><span class="mf">0.092296</span> <span class="o">-</span><span class="mf">0.723440</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">29</span> <span class="o">-</span><span class="mf">0.488079</span> <span class="o">-</span><span class="mf">1.455847</span> <span class="o">-</span><span class="mf">1.010098</span> <span class="o">-</span><span class="mf">1.674360</span>  <span class="mf">0.872216</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mo">01</span>  <span class="mf">4.799818</span>  <span class="mf">5.234984</span>  <span class="mf">4.432395</span>  <span class="mf">3.781563</span>  <span class="mf">2.427272</span>
+<span class="o">...</span>              <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>       <span class="o">...</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">22</span> <span class="o">-</span><span class="mf">0.096915</span>  <span class="mf">0.883587</span> <span class="o">-</span><span class="mf">0.279101</span> <span class="o">-</span><span class="mf">0.133742</span>  <span class="mf">0.287795</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">23</span> <span class="o">-</span><span class="mf">0.399713</span> <span class="o">-</span><span class="mf">0.750731</span> <span class="o">-</span><span class="mf">9.272304</span> <span class="o">-</span><span class="mf">0.535698</span> <span class="o">-</span><span class="mf">0.876650</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mo">02</span><span class="o">-</span><span class="mi">24</span> <span class="o">-</span><span class="mf">0.815547</span>  <span class="mf">0.329178</span>  <span class="mf">0.965271</span>  <span class="mf">0.403935</span> <span class="o">-</span><span class="mf">0.344479</span>
+</pre></div>
+</td></tr></table>
+
+<p>这样我们前期的数据准备工作都基本做好了,接下来我们来看如何将其运用到投资组合分析上。</p>
+<h2 id="_2">两个投资方案</h2>
+<p>在进行分析前，我们先看我们收集的信息，pandas提供describe()来描述数据的基本信息，包含基本的均值，标准差，最大最小值等</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">70</span><span class="p">]:</span> <span class="n">rocdf</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">70</span><span class="p">]:</span> 
+             <span class="n">AMZN</span>        <span class="n">NFLX</span>        <span class="n">NVDA</span>        <span class="n">ADBE</span>        <span class="n">PCLN</span>
+<span class="n">count</span>  <span class="mf">252.000000</span>  <span class="mf">252.000000</span>  <span class="mf">252.000000</span>  <span class="mf">252.000000</span>  <span class="mf">252.000000</span>
+<span class="n">mean</span>     <span class="mf">0.177009</span>    <span class="mf">0.194823</span>    <span class="mf">0.499515</span>    <span class="mf">0.134487</span>    <span class="mf">0.112379</span>
+<span class="n">std</span>      <span class="mf">1.428119</span>    <span class="mf">2.451156</span>    <span class="mf">2.913356</span>    <span class="mf">1.238686</span>    <span class="mf">1.460104</span>
+<span class="nb">min</span>     <span class="o">-</span><span class="mf">5.137101</span>  <span class="o">-</span><span class="mf">13.126204</span>   <span class="o">-</span><span class="mf">9.272304</span>   <span class="o">-</span><span class="mf">5.726032</span>  <span class="o">-</span><span class="mf">11.369583</span>
+<span class="mi">25</span><span class="o">%</span>     <span class="o">-</span><span class="mf">0.556960</span>   <span class="o">-</span><span class="mf">0.831909</span>   <span class="o">-</span><span class="mf">0.678360</span>   <span class="o">-</span><span class="mf">0.488501</span>   <span class="o">-</span><span class="mf">0.512958</span>
+<span class="mi">50</span><span class="o">%</span>      <span class="mf">0.142906</span>    <span class="mf">0.003979</span>    <span class="mf">0.275135</span>    <span class="mf">0.021979</span>    <span class="mf">0.124173</span>
+<span class="mi">75</span><span class="o">%</span>      <span class="mf">0.867294</span>    <span class="mf">1.224020</span>    <span class="mf">1.614347</span>    <span class="mf">0.724158</span>    <span class="mf">0.755365</span>
+<span class="nb">max</span>      <span class="mf">9.566450</span>   <span class="mf">19.028054</span>   <span class="mf">29.806706</span>    <span class="mf">7.115877</span>    <span class="mf">6.606639</span>
+</pre></div>
+</td></tr></table>
+
+<p>我们需要这其中的均值mean</p>
+<div class="codehilite"><pre><span></span>expret = np.array(rocdf.mean())
+</pre></div>
+
+
+<p>接着，求出方差／协方差的矩阵。(np.dot为矩阵相乘所使用的函数)。</p>
+<blockquote>
+<p><strong>方差／协方差的矩阵(S) = （股价涨跌幅矩阵 － 收益率）（转置）＊（股价涨跌幅矩阵 － 收益率）</strong></p>
+</blockquote>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">var_covar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">((</span><span class="n">rocdf</span><span class="o">.</span><span class="n">values</span><span class="o">-</span><span class="n">expret</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,(</span><span class="n">rocdf</span><span class="o">.</span><span class="n">values</span><span class="o">-</span><span class="n">expret</span><span class="p">))</span>
+</pre></div>
+</td></tr></table>
+
+<p>假设我们现在有两种方案，方案x和y,对五个公司股票的持有率分别是（顺序参见ticker）</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">port_x</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.2</span><span class="p">]</span>
+<span class="n">port_y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]</span>
+</pre></div>
+</td></tr></table>
+
+<p><strong>现在我们需要一种投资方案，是x和y两种方案的结合，根据x和y所占不同比重来获得风险和收益变化曲线。</strong></p>
+<p>首先我们需要对这两个股票分别进行分析</p>
+<p>求出x方案的预期（平均）收益率，该收益率为<strong>各个公司股票收益率与其所占比例的乘积之和</strong>。我们通过矩阵乘法来实现.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">expret</span><span class="p">,</span><span class="n">port_x</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>求出x方案的方差, 等价于X和自身的协方差Covar(X,X)</p>
+<blockquote>
+<p><strong>x方案方差  = x方案权重组合（转置）* 方差／协方差的矩阵(S) * x方案权重组合</strong></p>
+</blockquote>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">x_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">port_x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">var_covar</span><span class="p">),</span><span class="n">port_x</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>y方案同理。</p>
+<p>接着我们求出x,y的协方差Covar(X,Y).可以和刚才求X方差对比一下看看有何异同</p>
+<blockquote>
+<p><strong>x,y协方差  = x方案权重组合（转置）* 方差／协方差的矩阵(S) * y方案权重组合</strong></p>
+</blockquote>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">xy_covar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">port_x</span><span class="p">,</span><span class="n">var_covar</span><span class="p">),</span><span class="n">port_y</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>还有相关系数</p>
+<blockquote>
+<p>*<em>相关系数 = x,y协方差/根号下(x方案方差</em>y方案方差)</p>
+</blockquote>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">xy_corr</span> <span class="o">=</span> <span class="n">xy_covar</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_var</span><span class="o">*</span><span class="n">y_var</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>有了这些信息后，我们可以将两个方案按一定比例结合在一起</p>
+<h2 id="_3">投资组合分析</h2>
+<p>假设我们x方案占30%，</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">x_in_comb</span> <span class="o">=</span> <span class="mf">0.3</span>
+</pre></div>
+</td></tr></table>
+
+<p>那么y方案占 1-x_in_comb = 0.7</p>
+<p>求出新组合的预期（平均）收益，同样是加权平均</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">comb_mean</span> <span class="o">=</span> <span class="n">x_mean</span><span class="o">*</span><span class="n">x_in_comb</span><span class="o">+</span><span class="n">y_mean</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>求出新组合的加权后的方差和标准差(np.sqrt为开平方)</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">comb_var</span> <span class="o">=</span> <span class="n">x_in_comb</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x_var</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y_var</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x_in_comb</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span><span class="o">*</span><span class="n">xy_covar</span>
+<span class="n">comb_stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">comb_var</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>至此，我们获得新组合的均值和标准差，分别代表了该组合的收益(Return)和风险(Risk).但是这并不能直观地带给我们什么信息，因为我们所得数据只是基于x方案占30%这一假设之上。我们需要根据一系列假设来获得一系列的收益(Return)和风险(Risk)值并进行分析。这时候我们需要使用np.arange来生成－5到＋5之间的数字（负代表做空，大于1代表使用杠杆），间隔为0.1</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c1">#np.arange(最小值，最大值(不包括），间隔)</span>
+<span class="n">portfolio</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">5.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<p>然后再将刚才我们求新组合的标准差和均值的方法写成函数重复利用</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">table_of_returns</span><span class="p">(</span><span class="n">x_in_comb</span><span class="p">):</span>    
+    <span class="n">comb_mean</span> <span class="o">=</span> <span class="n">x_mean</span><span class="o">*</span><span class="n">x_in_comb</span><span class="o">+</span><span class="n">y_mean</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span>
+    <span class="n">comb_var</span> <span class="o">=</span> <span class="n">x_in_comb</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x_var</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y_var</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x_in_comb</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x_in_comb</span><span class="p">)</span><span class="o">*</span><span class="n">xy_covar</span>
+    <span class="n">comb_stddev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">comb_var</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">comb_stddev</span><span class="p">,</span><span class="n">comb_mean</span>
+</pre></div>
+</td></tr></table>
+
+<p>生成-5到+5之间的各种情况，类似于excel的data table,并使用pandas处理为DataFrame形式</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">table_of_returns</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">portfolio</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">portfolio</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Risk (stddev)&#39;</span><span class="p">,</span><span class="s1">&#39;Return (mean)&#39;</span><span class="p">])</span>
+</pre></div>
+</td></tr></table>
+
+<p>查看结果</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">75</span><span class="p">]:</span> <span class="n">df</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">75</span><span class="p">]:</span> 
+      <span class="n">Risk</span> <span class="p">(</span><span class="n">stddev</span><span class="p">)</span>  <span class="n">Return</span> <span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+<span class="o">-</span><span class="mf">5.0</span>      <span class="mf">61.351124</span>       <span class="mf">0.504043</span>
+<span class="o">-</span><span class="mf">4.9</span>      <span class="mf">60.489123</span>       <span class="mf">0.498965</span>
+<span class="o">-</span><span class="mf">4.8</span>      <span class="mf">59.628240</span>       <span class="mf">0.493887</span>
+<span class="o">-</span><span class="mf">4.7</span>      <span class="mf">58.768522</span>       <span class="mf">0.488809</span>
+<span class="o">-</span><span class="mf">4.6</span>      <span class="mf">57.910022</span>       <span class="mf">0.483731</span>
+<span class="o">-</span><span class="mf">4.5</span>      <span class="mf">57.052795</span>       <span class="mf">0.478653</span>
+<span class="o">...</span>             <span class="o">...</span>            <span class="o">...</span>
+ <span class="mf">2.1</span>      <span class="mf">18.192939</span>       <span class="mf">0.143499</span>
+ <span class="mf">2.2</span>      <span class="mf">18.464156</span>       <span class="mf">0.138421</span>
+ <span class="mf">2.3</span>      <span class="mf">18.774621</span>       <span class="mf">0.133342</span>
+ <span class="mf">2.4</span>      <span class="mf">19.122421</span>       <span class="mf">0.128264</span>
+ <span class="mf">2.5</span>      <span class="mf">19.505559</span>       <span class="mf">0.123186</span>
+<span class="o">...</span>
+</pre></div>
+</td></tr></table>
+
+<h2 id="envelop-portfolio">画出Envelop portfolio曲线图</h2>
+<p>这次仍然使用我们之前的Matplotlib来做图</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Risk (stddev)&#39;</span><span class="p">],</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Return (mean)&#39;</span><span class="p">],</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#51ADD8&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Envelop Portfolio&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Return - Risk Envelop&#39;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
+<blockquote>
+<p><strong>&gt;&gt;&gt;plt.show()</strong></p>
+</blockquote>
+<p><img alt="" src="/image/21/result.png" /></p>
+<p>图为Envelop Portfolio根据图我们不难看出，</p>
+<ul>
+<li>即便是在低收益率的情况下，风险反而会增高。</li>
+<li>同一个风险值可能会对应两个不同的收益率，我们当然会选择高收益的那一点，所以该曲线下半部分是无效的。而上半部分我们称为有效边界（Efficient Frontier),由美国著名经济学家哈里•马科维茨（Harry Markowitz ）提出</li>
+<li>有效边界为当前组合最优结果，超过该边界即各组合之和大于100%(不可行)，低于该边界可行但是不是最有效的</li>
+<li>该边界只是当前组合的最优模型，而不是最优组合</li>
+</ul>
+<p>那我们有没有更好的组合呢？能不能找到一个在有效边界上的最优点呢？我们下期继续</p>
+		
+	</article>
+	<div id="copyright"><a href="/copyright">&copy;著作权归作者所有</a></div>
+	<hr>
+    <div id="vc-main" data-access-token="11c8370248773a268137e6fb158a3884"></div>
+    
+    <div id="vc-feelback-main" data-access-token="bd6f14702ab835406654dbd001f2c721" data-display-type="4" ></div> 
+
+                </div>
+    
+            </div>
+            
+            <footer>
+                <ul class="share-group">
+                    <li><a href="#">Jalapeno急速运转中</a></li>
+                    <!--<li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>
+                    <li><a href="#">item</a></li>--> 
+                </ul>   
+                <div class="copyright">
+                    &copy ChenghaoQ;
+                </div>
+
+            </footer>
+            
+            
+            <div class="back-to-top">
+            	<span class="glyphicon glyphicon-chevron-up"></span>
+            </div>
+            <div id="closeBar">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
+        
+        </div>
+          
+            
+        
+        
+        
+        
+        
+        
+        <div id="sidebar">
+            <div id="sidebar-menu">
+
+               	<div id="home"><a href="/"><span class="glyphicon glyphicon-home"></span></a></div>
+               	<ul>
+               	    
+<li id="catalog" class="item">
+    <span class="glyphicon glyphicon-list-alt"></span>
+
+</li>
+
+
+               	    <li id="site-view" class="item">
+                        <span class="glyphicon glyphicon-align-center"></span>
+                    
+                    </li>
+               	 </ul>
+                
+            </div>
+            <div id="sidebar-content" >
+                
+
+<div class="nav-content" id="catalog-content">
+    <div class="nav-con-close">
+        <span class='glyphicon glyphicon-chevron-right'></span>
+    </div>
+    <div class="nav-con-title">目录</div>
+    <div class="inner-content">
+        <p>［TOC]</p>
+
+    </div>
+</div>
+
+                    <div class="nav-content" id="site-view-content">
+                    <div class="nav-con-close">
+                        <span class='glyphicon glyphicon-chevron-right'></span>
+                    </div>
+                
+                    <div class="inner-content">
+                        <div class="selfie"><img src='/image/theme/Selfie.JPG'</div>
+                        <div class="site-view-info">
+                         
+                            <p class="motto">你总有一个坚持下去的理由</p>
+                
+                            <h3 class="myself">老钱</h3>
+                            
+                            <ul class="posts-info">
+                            </ul>
+                            <div class="extern-links">
+                               <ul>
+                                   <li><a href="https://github.com/ChenghaoQ">Github</a></li>
+                               <li><a>Wechat</a></li>            
+                               </ul>
+     
+                            </div>
+                
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+            
+        </div>
+		<script src="/static/js/jquery.js"></script>
+        <!--<script src="/static/js/home.js"></script>
+        <script src="/static/ijs/ihome.js"></script>-->
+        <script type = "text/javascript">
+        $(document).ready(function(){
+            if($(window).width()>1024){
+                temp = 'desktop';
+                $.getScript( "/static/js/home.js" )
+            }
+            else
+            {
+                temp = 'mobile';
+                $.getScript( "/static/ijs/ihome.js" )
+            }
+            console.log('reload');
+            function refresher(){
+                if($(window).width()>1024)
+                    var status = 'desktop';
+                else
+                    var status = 'mobile';
+                if (status!= temp)
+                {
+                    location=location;//refresh page
+                    
+                    temp = status;
+                    
+                }
+                console.log(temp)
+            };
+
+            $(window).resize(refresher);
+        });
+        </script>
+
+        
+        
+
+<!--         
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
+
+
+        <script>
+        (function() {
+        var v = document.createElement('script'); v.async = true;
+        v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+        })();
+        </script>  -->
+
+
+        <!-- Carnival comments -->
+        <!-- <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", Carnival.init);
+        </script> -->
+
+
+
+    </body>
+
+
+
+
+
+</html>

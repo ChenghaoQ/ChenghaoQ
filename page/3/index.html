@@ -20,6 +20,17 @@ Posts
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/iposts.css'>
 
         
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
+
+
+<script>
+(function() {
+var v = document.createElement('script'); v.async = true;
+v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+})();
+</script> 
+        
                  <script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -35,17 +46,6 @@ Posts
 <script>
     document.addEventListener("DOMContentLoaded", Carnival.init);
 </script>
-        
-        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
-
-
-<script>
-(function() {
-var v = document.createElement('script'); v.async = true;
-v.src = "http://assets.vicomi.com/assets/widgets_static.js";
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
-})();
-</script> 
         
 
     
@@ -79,6 +79,37 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
 <ul class="post_list">
     
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Python爬虫： 带你上车之爬取妹子图</div>
+				<div class="post_info">2016-09-27 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
+			</div>
+			<div class="post_body">
+
+<h2 id="_1">简介</h2>
+<p>30行python轻松爬取成百上千的妹子图到本地。没时间解释了，快上车。</p>
+<h3 id="_2">什么是爬虫？</h3>
+<p>网络爬虫，顾名思义就是在网上爬来爬去的“虫子”，它能够按照一定规则自动抓取网络数据的脚本。比如说你找到了一个特别棒的网站，上面全是妹子图。而你想把它们存到你的随身硬盘当中。如果你要一张一张保存的话那需要比较持久的耐力，这个时候你就需要通过爬虫来帮你抓取你心心念念的妹子图。</p>
+<p>那么如何通过爬虫来完成任务呢？</p>
+<h3 id="_3">运行机制</h3>
+<p>其实爬虫的工作流程和人是一样的，都需要经过下面几个步骤：</p>
+<blockquote>
+<p>使用本机的IP连接到网络 -&gt;使用地址登入网站 -&gt;看到网页内容 -&gt;筛选需要的信息 -&gt; 保存下载 -&gt; 登入新网页 -&gt;重复之前的动作</p>
+</blockquote>
+<p>是不是非常相似？</p>
+<h3 id="python">为什么使用python</h3>
+<p>很多编程语言都可以写爬虫，可我们为什么选择python呢？总的来说就是四个字：<strong>简单够用</strong>：</p>
+<ul>
+<li>Python语法简单，开发效率高</li>
+<li>Python 有着丰富第三方爬虫工具库(requests,scrapy,BeautifulSoup)</li>
+<li>爬虫的速度瓶颈大多是在网络阻塞上，非超大规模爬取很少遇到计算性能瓶颈</li>
+<li>Python起初被用来开发搜索引擎，所以关于爬虫的资料很多，社区活跃</li>
+</ul>
+<p>让我们开始吧！</p>
+...</div>
+			<div class="more link_tag"><a href="/article/10/">More -></a></div>
+		</li>
+	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">财务报表分析:比率分析简介</div>
@@ -243,32 +274,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
 ...</div>
 			<div class="more link_tag"><a href="/article/5/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">为什么你要学公司金融（Corporate Finance)</div>
-				<div class="post_info">2016-08-26 | 分类于:  <a class = 'tag' href="/tag/%E5%85%AC%E5%8F%B8%E9%87%91%E8%9E%8D/">公司金融</a></div>
-			</div>
-			<div class="post_body">
-
-<p>通常来讲，一个公司可以通过投资实物资产来获得现金流(cash flow)和收入(income)。而资产有两种，一种是有形的资产，比如说设备，建筑等；另一种是看不见摸不着的无形资产，就像品牌，专利等。要获得这些资产有很多种手段，比如借贷，将投资收益进行再投资，或者也可以卖出一些股份来进行融资。在这种模式下，公司就会变得越来越健壮，但是这涉及到很多金融方面的知识。金融管理就是要研究金融经理是如何将持券人（债券）和股东（股票）手里的资本部署到可以升值的项目中的。</p>
-<!--公司理财(一) 简介-->
-
-<p>在这个过程中，通常问题集中在两个方面:</p>
-<ul>
-<li>投资给谁？（如何选择投资对象)</li>
-<li>怎么投资？（钱怎么花）</li>
-</ul>
-<p>对于一个公司，总是有成百上千的股东，而每个股东的财力，风险承受能力等都是不一样的。但是他们都有同样的目标：挣钱啊。财务经理能够有效地投资并且快速的让公司变得更有价值，同时也能让股票升值。之前手里一股3块钱，现在变成6块，手里的钱就多了一倍。为了实现大众的目标，财务经理的策略是：</p>
-<ul>
-<li>低价进行资金筹措</li>
-<li>投资高利润率的基金</li>
-</ul>
-<p>说白了，就是<strong>低价买进，高价卖出</strong>但是说起来容易做起来难，怎么才能够做到低价买进高价卖出呢？</p>
-<p>这就是学习公司理财的意义。</p>
-...</div>
-			<div class="more link_tag"><a href="/article/4/">More -></a></div>
 		</li>
 	
 	
