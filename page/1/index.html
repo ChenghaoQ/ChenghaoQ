@@ -20,17 +20,6 @@ Posts
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/iposts.css'>
 
         
-        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
-
-
-<script>
-(function() {
-var v = document.createElement('script'); v.async = true;
-v.src = "http://assets.vicomi.com/assets/widgets_static.js";
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
-})();
-</script> 
-        
                  <script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -42,10 +31,16 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
         </script> 
         
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", Carnival.init);
-</script>
+(function() {
+var v = document.createElement('script'); v.async = true;
+v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+})();
+</script> 
         
 
     
@@ -79,6 +74,31 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
 <ul class="post_list">
     
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Python:建立一个IP代理池</div>
+				<div class="post_info">2018-04-14 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
+			</div>
+			<div class="post_body">
+
+<p>生活中我们经常会用到一些代理服务器，尤其在做爬虫抓取对方网站数据的时候，很容易会被对方服务器封IP。通常我在抓取数据的时候会采用<strong>抓取数据-&gt;IP被封时触发代理抓取机制-&gt;使用代理继续抓取-&gt;代理耗尽重新抓取</strong>的机制，显得有些粗糙，而且在抓取代理的时候会阻塞，非常影响效率。痛定思痛，在开发Jalapeno的时候接触到事件驱动引擎，于是决定开发这个独立持续运转的代理池。</p>
+<p>本节我会从事件驱动引擎开始演示并逐步实现抓取、存活验证等功能，最后完成使用Queue多线程多进程的并行及使用控制器通信。</p>
+...</div>
+			<div class="more link_tag"><a href="/article/23/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Python金融：投资组合分析 － 使用pandas分析有效边界</div>
+				<div class="post_info">2017-02-25 | 分类于:  <a class = 'tag' href="/tag/Python%E9%87%91%E8%9E%8D/">Python金融</a></div>
+			</div>
+			<div class="post_body">
+
+<p>本实例从获取数据开始讲解如何使用Pandas对股票数据进行简单的投资组合分析，画出有效边界。</p>
+...</div>
+			<div class="more link_tag"><a href="/article/21%20copy/">More -></a></div>
+		</li>
+	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">Python金融：投资组合分析 － 使用pandas分析有效边界</div>
@@ -128,47 +148,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 <p>注：Jalapeno当前支持Mac/Linux， Windows目前尚未测试。</p>
 ...</div>
 			<div class="more link_tag"><a href="/article/getstart/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">两种Fibnacci递归求解对比</div>
-				<div class="post_info">2016-12-29 | 分类于:  <a class = 'tag' href="/tag/python/">python</a></div>
-			</div>
-			<div class="post_body">
-
-<h2 id="_1">斐波那契数列</h2>
-<p>在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。</p>
-<blockquote>
-<p>斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
-如果设F(n）为该数列的第n项（n∈N*），那么这句话可以写成如下形式：:F(n)=F(n-1)+F(n-2)
-显然这是一个线性递推数列。</p>
-<p>参见<a href="http://baike.baidu.com/item/斐波那契数列">百科词条</a></p>
-</blockquote>
-<p>让我们来看看它是怎么实现的。</p>
-...</div>
-			<div class="more link_tag"><a href="/article/18/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">使用Python实现关键字搜索文件</div>
-				<div class="post_info">2016-12-10 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
-			</div>
-			<div class="post_body">
-
-<p>让我们通过20行python代码实现一个简单的关键字搜索工具</p>
-<h2 id="_1">目录遍历</h2>
-<p>首先我们来看如何实现目录遍历</p>
-<p>目录遍历的过程很简单:</p>
-<ol>
-<li>将目标路径作为当前目录</li>
-<li>罗列出当前目录下的所有内容</li>
-<li>判断每一个目标是否是文件夹。</li>
-<li>如果是，进入该文件夹搜索（将文件夹路径改为当前路径，多级目录在此处会循环)</li>
-</ol>
-...</div>
-			<div class="more link_tag"><a href="/article/17/">More -></a></div>
 		</li>
 	
 	

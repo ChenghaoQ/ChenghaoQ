@@ -20,17 +20,6 @@ Posts
 <link rel='stylesheet' media="screen and (max-width:1024px)"  href='/static/icss/iposts.css'>
 
         
-        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
-
-
-<script>
-(function() {
-var v = document.createElement('script'); v.async = true;
-v.src = "http://assets.vicomi.com/assets/widgets_static.js";
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
-})();
-</script> 
-        
                  <script>
               (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -42,10 +31,16 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
         </script> 
         
-        <script src="https://carnivalapp.io/sites/559/init.js"></script>
+        <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", Carnival.init);
-</script>
+(function() {
+var v = document.createElement('script'); v.async = true;
+v.src = "http://assets.vicomi.com/assets/widgets_static.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
+})();
+</script> 
         
 
     
@@ -79,6 +74,30 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 
 <ul class="post_list">
     
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Python爬虫：二层爬虫之爬取整个相册</div>
+				<div class="post_info">2016-10-06 | 分类于:  <a class = 'tag' href="/tag/Python%E7%88%AC%E8%99%AB/">Python爬虫</a></div>
+			</div>
+			<div class="post_body">
+
+<p>上次读了<a href="../10">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
+...</div>
+			<div class="more link_tag"><a href="/article/12/">More -></a></div>
+		</li>
+	
+		<li class="post_preview">
+			<div class="post_header">
+				<div class="post_title">Flask分页方法</div>
+				<div class="post_info">2016-10-03 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
+			</div>
+			<div class="post_body">
+
+<p>当博客文章达到一定数量的时候，把它们都放在同一个列表页面不是一个明智的选择，因为这样会使页面过大从而影响加载速度，影响读者的阅读体验。所以我们需要一个粉页的功能。在网上搜索了一下，大部分关于Flask的分页都基于SQLAlchemy，但是我们并不是通过数据库来管理文件的。我们需要一种更为通用的方法，构建我们自己的切片方法并设置正确的路由。</p>
+...</div>
+			<div class="more link_tag"><a href="/article/11/">More -></a></div>
+		</li>
+	
 		<li class="post_preview">
 			<div class="post_header">
 				<div class="post_title">Python爬虫： 带你上车之爬取妹子图</div>
@@ -196,84 +215,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 </ul>
 ...</div>
 			<div class="more link_tag"><a href="/article/7/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">使用Flask搭建个人静态博客</div>
-				<div class="post_info">2016-09-01 | 分类于:  <a class = 'tag' href="/tag/Flask/">Flask</a></div>
-			</div>
-			<div class="post_body">
-
-<p>这篇文章教你如何一步一步地使用搭建自己的博客。由于Flask是一个动态网页的Web框架，所以关于Flask搭建静态博客的文章少之又少。（这是Flask的神奇之处，动态静态网页都支持，日后转换时可省去不必要的麻烦)。本系列以<a href="">Steven loria</a>的Flask<a href="">静态博客实例</a>为基础并加以改进，增添了一些更加有用的功能并详细介绍</p>
-<p>搭建一个Flask静态博客，你需要:</p>
-<ul>
-<li>Python3 （Steven loria采用python2.x)</li>
-<li>Flask</li>
-<li>Frozen-Flask</li>
-<li>Flask-Flatpages</li>
-<li>Pygments(可选，用于代码语法高亮)</li>
-<li>Github 或 Coding</li>
-</ul>
-<p>首先来看我们的目录结构:</p>
-<h2 id="_1">博客应用的目录结构</h2>
-<div class="codehilite"><pre><span></span>| ---project
-│    |---blog
-│    │    ├── __init__.py
-│    │    ├── settings.py
-│    │    ├── views.py
-│    │    ├── templates
-│    │    │   ├── base.html
-│    │    │   ├── page.html
-│    │    │   └── posts.html
-│    │    ├── static
-│    │    │   ├── home.css
-│    │    │   └── home.js
-│    │--- posts
-│    │    ├── pages
-│    │    │   ├── firstpost
-│    │    │   │   ├── index.html
-│    │    ├── posts.html
-│    │    ├── index.html
-│    ├── app.py
-│    ├── freezer.py
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/6/">More -></a></div>
-		</li>
-	
-		<li class="post_preview">
-			<div class="post_header">
-				<div class="post_title">python3使用相对路径import</div>
-				<div class="post_info">2016-08-29 | 分类于:  <a class = 'tag' href="/tag/Python/">Python</a></div>
-			</div>
-			<div class="post_body">
-
-<p>python3在导入不同目录的模块时是怎么做的</p>
-<p>先来看一下我们的Project目录</p>
-<div class="codehilite"><pre><span></span>    |---myproject
-    ├── __init__.py
-    ├── settings.py
-    ├── folderA
-    │   └── testA.py
-    ├── folderB
-    │   ├── __init__.py
-    │   ├── testB.py
-    ├── test.py
-</pre></div>
-
-
-<h2 id="_1">在相同目录下</h2>
-<p>我们现在在myproject/目录下</p>
-<p>在同一目录下，我们可以使用'.'来表示当前目录：</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-
-
-...</div>
-			<div class="more link_tag"><a href="/article/5/">More -></a></div>
 		</li>
 	
 	
