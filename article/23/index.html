@@ -20,17 +20,6 @@ Python:建立一个IP代理池
 
 
         
-                 <script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-              ga('create', 'UA-83291137-1', 'auto');
-              ga('send', 'pageview');
-
-        </script> 
-        
         <script type="text/javascript" src="http://assets.vicomi.com/assets/widgets_static.js"></script>
 
 
@@ -41,6 +30,17 @@ v.src = "http://assets.vicomi.com/assets/widgets_static.js";
 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v, s);
 })();
 </script> 
+        
+                 <script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-83291137-1', 'auto');
+              ga('send', 'pageview');
+
+        </script> 
         
 
     
@@ -214,26 +214,35 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(v,
 <h3 id="start">Start()</h3>
 <p>Start()相当于引擎的启动装置，建立通信管道，设置操作模式，最后进入运行。在多进程模式下，由于这是我们启动引擎执行的函数，所以我们使用“args= xxx"将通信和设置变量传入本函数中。</p>
 <p>代码：</p>
-<div class="codehilite"><pre><span></span>#！python
-def Start(self,commander,output,Manual=True):
-    self.__active = True
-    self.commander,self.output = commander,output 
-    self.read_cache()
-    #for each in [&#39;Monitor&#39;]
-    if Manual:
-        self.__Run()
-    else:
-        for each in [&#39;Crawl&#39;,&#39;Monitor&#39;,&#39;Verify&#39;]:
-            self.commander.put(each)
-        self.__Run()
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">Start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">commander</span><span class="p">,</span><span class="n">output</span><span class="p">,</span><span class="n">Manual</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__active</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">commander</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">commander</span><span class="p">,</span><span class="n">output</span> 
+    <span class="bp">self</span><span class="o">.</span><span class="n">read_cache</span><span class="p">()</span>
+    <span class="c1">#for each in [&#39;Monitor&#39;]</span>
+    <span class="k">if</span> <span class="n">Manual</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__Run</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Crawl&#39;</span><span class="p">,</span><span class="s1">&#39;Monitor&#39;</span><span class="p">,</span><span class="s1">&#39;Verify&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">commander</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__Run</span><span class="p">()</span>
 </pre></div>
-
+</td></tr></table>
 
 <p>在Start中：</p>
-<p>1.首先我们设置self.__active=True,表示引擎开始运转。
-2.构建通信管道 self.commander,self.output，这两个变量是由主进程的控制器传入。
-3.读取存档。没有存档会自行创建。
-4.如果设置模式为Manual,则只维持运转，需要指令输入。如果不是，则自动启动爬虫，监测系统和IP筛选工作。</p>
+<p>1.首先我们设置self.__active=True,表示引擎开始运转。</p>
+<p>2.构建通信管道 self.commander,self.output，这两个变量是由主进程的控制器传入。</p>
+<p>3.读取存档。没有存档会自行创建。</p>
+<p>4.如果设置模式为Manual,则只维持运转，需要指令输入。如果不是，则自动启动爬虫，监测系统和IP筛选工作。</p>
 <h3 id="__run">__Run()</h3>
 <p>__Run()是引擎的运转核心，作用机制比较简单。当active指示为True时，维持运转，持续接收指示信号并交付处理。</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -294,9 +303,9 @@ def Start(self,commander,output,Manual=True):
 </td></tr></table>
 
 <p>整个流程分成三步：</p>
-<p>1.关闭active指示
-2.等待workers中的所有子线程任务结束。
-3.write_cache存档，方便下次读取</p>
+<p>1.关闭active指示</p>
+<p>2.等待workers中的所有子线程任务结束。</p>
+<p>3.write_cache存档，方便下次读取</p>
 <blockquote>
 <p>这里需要注意的是关闭active指示需要在第一步。<strong>因为Thread不像Process那样可以调用terminate()强制中止</strong>，所以在相关子线程任务中我们保持了和引擎同步的方法，在任务执行完毕之前<strong>或者self.active=True</strong>的时候，都会保持运行。也就是说如果我们关掉active指示，我们就可以让所有子线程跳出循环自动退出。最后在第二步中用join方法等待任务结束。</p>
 </blockquote>
@@ -370,23 +379,31 @@ def Start(self,commander,output,Manual=True):
 </pre></div>
 </td></tr></table>
 
-<p>1.当爬虫开始运行时设置<strong>worker_is_working = True，表示爬虫结束运行。
-2.接下来就是爬虫的抓取流程并将结果放入self._Raw中，爬虫可以参考我之前的相关文章。在这里要注意三点：
-    - 使用requests(req)添加header的方法
-    - time.sleep(60)设置爬取间隔，减少对方服务器访问压力。此时也可以和IP验证的时间同步
-    - self._Raw使用的结构是队列（QUEUE）的形式，我们在这里用的是线程的Queue()而不是multiprocessing的Queue(),因为线程的Queue()自带线程锁，可以保护数据不错乱。并且可以使用qsize功能来获取队列长度（数量）
-3.抓取完成。</strong>worker_is_working = False，退出。</p>
+<p>1.当爬虫开始运行时设置__worker_is_working = True，表示爬虫结束运行。</p>
+<p>2.接下来就是爬虫的抓取流程并将结果放入self._Raw中，爬虫可以参考我之前的相关文章。在这里要注意三点：</p>
+<ul>
+<li>使用requests(req)添加header的方法</li>
+<li>time.sleep(60)设置爬取间隔，减少对方服务器访问压力。此时也可以和IP验证的时间同步</li>
+<li>self._Raw使用的结构是队列（QUEUE）的形式，我们在这里用的是线程的Queue()而不是multiprocessing的Queue(),因为线程的Queue()自带线程锁，可以保护数据不错乱。并且可以使用qsize功能来获取队列长度（数量）</li>
+</ul>
+<p>3.抓取完成。__worker_is_working = False，退出。</p>
 <h3 id="__monitor">__Monitor()</h3>
 <p>Monitor()的运行机制如下，</p>
-<div class="codehilite"><pre><span></span>def __Monitor(self):
-    while self.__active:
-        if self.__worker_is_working:
-            pass
-        elif self._available.qsize() &lt; self.settings[&#39;Pool_ready&#39;]:
-            self.commander.put(&quot;Crawl&quot;)
-        time.sleep(15)
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">__Monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">__active</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__worker_is_working</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;Pool_ready&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">commander</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;Crawl&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <ul>
 <li>当引擎运行时，检测爬虫是否在工作。</li>
@@ -431,19 +448,29 @@ def Start(self,commander,output,Manual=True):
 
 <h3 id="get_a_proxy-ip">get_a_proxy() 获得一个IP地址（输出）</h3>
 <p>这一块的任务相对来说就简单许多，你只需要从可用的IP队列中获得一个并输出即可。（当可用IP队列为空时我用原始_Raw列队列充数这种事情我是不会说出来的hiahiahia，当然如果愿意用自己的爬虫来验证是否可用而不去检测有效的时候，会有一定的灵活操作空间）</p>
-<div class="codehilite"><pre><span></span>def get_a_proxy(self):
-    try:
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_a_proxy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
 
-        if self._available.qsize() &gt; 0:
-            ip = self._available.get(block=True,timeout=1)
-        else:
-            ip = self._Raw.get(block=True,timeout=1)
-        self.output.put(ip)
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_available</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
 
-    except:
-        self.output.put(&#39;Oops. Both pools Empty.&#39;)
+    <span class="k">except</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;Oops. Both pools Empty.&#39;</span><span class="p">)</span>
 </pre></div>
-
+</td></tr></table>
 
 <h3 id="_4">存档读写</h3>
 <p>抓取了很多很多好用的代理不想白白浪费吧，下次要用的时候不想等重头来过吧。存档读写功能，你值得拥有。</p>
@@ -1005,7 +1032,7 @@ NoNoNo,我们需要一个控制器来操作它。</p>
                     </div>
                 
                     <div class="inner-content">
-                        <div class="selfie"><img src='/image/theme/Selfie.JPG'</div>
+                        <div class="selfie"><img src='/image/theme/Selfie.jpg'></div>
                         <div class="site-view-info">
                          
                             <p class="motto">你总有一个坚持下去的理由</p>
