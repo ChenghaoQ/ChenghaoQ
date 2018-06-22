@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="斐波那契数列在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。  斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, …如果设F(n）为该数列的第n项（n∈N*），那么这句话可以写成如下形式：:F(n)=F(n-1)+F(n-2)显然这是一个线性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="两种Fibnacci递归求解对比">
+<meta property="og:url" content="http://ChenghaoQian.com/article/fib-recur/index.html">
+<meta property="og:site_name" content="Jalapeño">
+<meta property="og:description" content="斐波那契数列在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。  斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, …如果设F(n）为该数列的第n项（n∈N*），那么这句话可以写成如下形式：:F(n)=F(n-1)+F(n-2)显然这是一个线性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://chenghaoqian.com/article/fib-recur/slowfastfib.png">
+<meta property="og:updated_time" content="2018-06-22T05:52:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="两种Fibnacci递归求解对比">
+<meta name="twitter:description" content="斐波那契数列在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。  斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, …如果设F(n）为该数列的第n项（n∈N*），那么这句话可以写成如下形式：:F(n)=F(n-1)+F(n-2)显然这是一个线性">
+<meta name="twitter:image" content="http://chenghaoqian.com/article/fib-recur/slowfastfib.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ChenghaoQian.com/article/fib-recur/"/>
+
+
+
+
+
+  <title>两种Fibnacci递归求解对比 | Jalapeño</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jalapeño</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一点我自己。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ChenghaoQian.com/article/fib-recur/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chenghao Qian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jalapeño">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">两种Fibnacci递归求解对比</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-29T11:10:36+08:00">
+                2016-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h2><p>在我学C的时候，Fibnacci就是作为递归算法入门的经典案例。斐波那契数列是由列奥纳多•斐波那契通过兔子繁殖的例子提出的，对各个科学领域有非常重要的意义。</p>
+<blockquote>
+<p>斐波那契数列：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, …<br>如果设F(n）为该数列的第n项（n∈N*），那么这句话可以写成如下形式：:F(n)=F(n-1)+F(n-2)<br>显然这是一个线性递推数列。</p>
+</blockquote>
+<blockquote>
+<p>参见<a href="http://baike.baidu.com/item/斐波那契数列" target="_blank" rel="noopener">百科词条</a></p>
+</blockquote>
+<p>让我们来看看它是怎么实现的。</p>
+<a id="more"></a>
+<h2 id="普通递归求解"><a href="#普通递归求解" class="headerlink" title="普通递归求解"></a>普通递归求解</h2><pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> n == <span class="number">0</span> <span class="keyword">or</span> n == <span class="number">1</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		<span class="keyword">return</span> fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>)</span><br><span class="line">	<span class="comment">#return 1 if n==1 or n==0 else fib(n-1)+fib(n-2)</span></span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>首先我们定义了fib的函数fib，该递归使用降序，即从n到0或1，到达顶点时不再继续</li>
+<li>设置条件跳出递归循环，当n == 0 or 1</li>
+<li>如果不满足跳出条件（满足循环条件），则执行递归循环(fib(n-1) + fib(n-2))</li>
+</ul>
+<p>我们来看一下执行的具体过程，以n = 5为例</p>
+<p>1.fib(5)<br>2.fib(4)+fib(3)<br>3.(fib(3)+fib(2))+(fib(2)+fib(1))<br>4.((fib(2)+fib(1))+(fib(1)+showfib(0))+((fib(1)+fib(0))+fib(1)<br>5.(((fib(1)+fib(0))+fib(1))+(fib(1)+fib(0))+((fib(1)+fib(0))+fib(1)</p>
+<p>从上面我们不难看出，当我们在对斐波那契数列递归求解时，同样的函数被调用了不只一次（fib(3)被调用了两次，fib(2)被调用了3次，fib(1)被调用了…</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">	       5</span></span><br><span class="line"><span class="string">	   4      3</span></span><br><span class="line"><span class="string">	 3   2   2 1</span></span><br><span class="line"><span class="string">	2 1 1 0 1 0 </span></span><br><span class="line"><span class="string">   1 0 </span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>如果我们把fib函数的调用路径当做一个典型的二叉树，我们来看一下各函数的调用次数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>fib(5)</th>
+<th>fib(4)</th>
+<th>fib(3)</th>
+<th>fib(2)</th>
+<th>fib(1)</th>
+<th>fib(0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>次数</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>5</td>
+<td>3(同2)</td>
+</tr>
+</tbody>
+</table>
+<p>因为我们将1和0看作递归函数的顶点而合并，数量为fib(2)+fib(1)的数量，为8.我们不难看出各项运算次数为1,1,2,3,5,8，该数列即为fibnacci数列，而总的运算次数为fibnacci数列0-5各项之和</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>我们这里来计算一下，fib(40)所用时间<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">localhost:optimization Jakob$ python3 slowfib.py </span><br><span class="line">fib[<span class="number">40</span>]= <span class="number">165580141</span></span><br><span class="line"><span class="number">74.878676</span></span><br></pre></td></tr></table></figure></p>
+<p>计算fib(40)耗时74.87s.</p>
+<h2 id="使用动态规划"><a href="#使用动态规划" class="headerlink" title="使用动态规划"></a>使用动态规划</h2><p>我们看了前面的计算方式后，发现过多的时间浪费在了重复的计算上。我们能不能找到一种方法更快速高效呢？我们来看下面的例子</p>
+<blockquote>
+<p><strong> 1 1 2 3 5 8 13 21 ? 求出’?’所代表的fib(8)</strong></p>
+</blockquote>
+<p>非常简单，我们只需要13+21 ＝ 34就求出来了。但是我们之前的方法在计算时并没有将计算的结果进行保留。所以这次我们要使用dict来将内容进行保留，方便后续运算参考</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fastfib</span><span class="params">(n,memo = &#123;&#125;)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> n == <span class="number">0</span> <span class="keyword">or</span> n == <span class="number">1</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		<span class="keyword">return</span> memo[n]</span><br><span class="line">	<span class="keyword">except</span> KeyError:</span><br><span class="line">		result = fastfib(n<span class="number">-1</span>,memo) + fastfib(n<span class="number">-2</span>,memo)</span><br><span class="line">		memo[n]= result</span><br><span class="line">		<span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+</code></pre><blockquote>
+<p>动态规划算法，是通过状态和状态转移来进行递推：当我们求得fib(3)使，我们的状态应该是fib1到3为已知，再求得fib4时，状态转移为fib1-4为已知</p>
+</blockquote>
+<p>与之前的函数不同的是，我们这次添加了一个memo作为参考dict，而递归的结构是一样的：</p>
+<ul>
+<li>先判断n 是否为1 or 0</li>
+<li>如果不是，<strong>查找当前字典中是否有该项的值（是否已经被计算过）</strong>,我们这里使用try..except来处理</li>
+<li>如果没有找到，计算出结果并添加到memo</li>
+<li><p>将memo中n对应的fib值作为结果返回</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">	       5</span></span><br><span class="line"><span class="string">	   4       3</span></span><br><span class="line"><span class="string">	3     2   2  1</span></span><br><span class="line"><span class="string">   2 1   1 0 1 0 </span></span><br><span class="line"><span class="string">  1 0 </span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>同样是二叉树，过程简单很多</p>
+<ul>
+<li>fib(5)-&gt; call fib(4) -&gt; call fib(3) -&gt; 2,1,从左边第一排开始向下</li>
+<li>结果逐级返回并添加入memo</li>
+<li>返回时只使用索引，无需深入计算</li>
+<li>得到fib(5)</li>
+<li>最后我们可以看出，我们只遍历了最左边一排节点5,4,3,2,1;以及右侧子节点（左数第二排，从下往上）0,1,2,3</li>
+</ul>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><p>我们来看一下fastfib（40)需要多久<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">localhost:optimization Jakob$ python3 slowfastfib.py </span><br><span class="line">fib[<span class="number">40</span>]= <span class="number">165580141</span></span><br><span class="line"><span class="number">0.000112000</span></span><br></pre></td></tr></table></figure></p>
+<p>耗时0.000112秒</p>
+<h2 id="fib-40-对比图"><a href="#fib-40-对比图" class="headerlink" title="fib(40)对比图"></a>fib(40)对比图</h2><p><img src="/article/fib-recur/slowfastfib.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Chenghao Qian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ChenghaoQian.com/article/fib-recur/" title="两种Fibnacci递归求解对比">http://ChenghaoQian.com/article/fib-recur/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/keyword-search/" rel="next" title="使用Python实现关键字搜索文件">
+                <i class="fa fa-chevron-left"></i> 使用Python实现关键字搜索文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/crawler-4-selenium/" rel="prev" title="使用Selenium驱动浏览器的爬虫">
+                使用Selenium驱动浏览器的爬虫 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chenghao Qian" />
+            
+              <p class="site-author-name" itemprop="name">Chenghao Qian</p>
+              <p class="site-description motion-element" itemprop="description">其实一直在路上。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">1.</span> <span class="nav-text">斐波那契数列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通递归求解"><span class="nav-number">2.</span> <span class="nav-text">普通递归求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">2.1.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用动态规划"><span class="nav-number">3.</span> <span class="nav-text">使用动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试-1"><span class="nav-number">3.1.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fib-40-对比图"><span class="nav-number">4.</span> <span class="nav-text">fib(40)对比图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenghao Qian</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><img src="/images/Sign.png" style="width:100px;float:right;padding-right:20px"></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

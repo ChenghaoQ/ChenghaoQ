@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近在帮金融教授爬取优先股的数据，要求不能过滤掉部分信息缺失的数据并将缺失部分用”N/A”填充。这样一来必须要使用正则表达式将原始数据切成很小片，很不方便，好在有解析利器 BeautifulSoup,但是不知道什么原因BeautifulSoup只能索引到多个同类子节点的第一个节点。不能索引给我造成了极大困扰，有时候甚至还是需要使用纯正则来解析数据。思前想后我决定自己为其添加索引功能以备不时之需。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python爬虫之为BeautifulSoup添加索引查找">
+<meta property="og:url" content="http://ChenghaoQian.com/article/crawler-5-bs4index/index.html">
+<meta property="og:site_name" content="Jalapeño">
+<meta property="og:description" content="最近在帮金融教授爬取优先股的数据，要求不能过滤掉部分信息缺失的数据并将缺失部分用”N/A”填充。这样一来必须要使用正则表达式将原始数据切成很小片，很不方便，好在有解析利器 BeautifulSoup,但是不知道什么原因BeautifulSoup只能索引到多个同类子节点的第一个节点。不能索引给我造成了极大困扰，有时候甚至还是需要使用纯正则来解析数据。思前想后我决定自己为其添加索引功能以备不时之需。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://chenghaoqian.com/article/crawler-5-bs4index/stock.png">
+<meta property="og:image" content="http://chenghaoqian.com/article/crawler-5-bs4index/bstree.png">
+<meta property="og:image" content="http://chenghaoqian.com/article/crawler-5-bs4index/hook.png">
+<meta property="og:image" content="http://chenghaoqian.com/article/crawler-5-bs4index/newtree.png">
+<meta property="og:updated_time" content="2018-06-22T06:06:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python爬虫之为BeautifulSoup添加索引查找">
+<meta name="twitter:description" content="最近在帮金融教授爬取优先股的数据，要求不能过滤掉部分信息缺失的数据并将缺失部分用”N/A”填充。这样一来必须要使用正则表达式将原始数据切成很小片，很不方便，好在有解析利器 BeautifulSoup,但是不知道什么原因BeautifulSoup只能索引到多个同类子节点的第一个节点。不能索引给我造成了极大困扰，有时候甚至还是需要使用纯正则来解析数据。思前想后我决定自己为其添加索引功能以备不时之需。">
+<meta name="twitter:image" content="http://chenghaoqian.com/article/crawler-5-bs4index/stock.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ChenghaoQian.com/article/crawler-5-bs4index/"/>
+
+
+
+
+
+  <title>Python爬虫之为BeautifulSoup添加索引查找 | Jalapeño</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jalapeño</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一点我自己。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ChenghaoQian.com/article/crawler-5-bs4index/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chenghao Qian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jalapeño">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python爬虫之为BeautifulSoup添加索引查找</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-18T11:15:05+08:00">
+                2017-02-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">Python爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在帮金融教授爬取优先股的数据，要求不能过滤掉部分信息缺失的数据并将缺失部分用”N/A”填充。这样一来必须要使用正则表达式将原始数据切成很小片，很不方便，好在有解析利器 BeautifulSoup,但是不知道什么原因BeautifulSoup只能索引到多个同类子节点的第一个节点。不能索引给我造成了极大困扰，有时候甚至还是需要使用纯正则来解析数据。思前想后我决定自己为其添加索引功能以备不时之需。</p>
+<a id="more"></a>
+<p>下面我们通过例子来讲解如何为BeautifulSoup添加：</p>
+<ul>
+<li>关键字索引</li>
+<li>列表索引</li>
+</ul>
+<p>##元数据</p>
+<p>这是要摘取几千条数据中的一个</p>
+<p><img src="/article/crawler-5-bs4index/stock.png" alt=""></p>
+<p>我们来看它的源代码</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">37</span>]: p</span><br><span class="line">Out[<span class="number">37</span>]: <span class="string">'&lt;tr bgcolor="#CFCFCF"&gt;\n\t\t&lt;td&gt;\n\t\t&lt;font face="arial, helvetica, sans-serif" size="2"&gt;\n\t\t\t&lt;a</span></span><br><span class="line"><span class="string">href="search.cfm?tickersymbol=ADK-A&amp;amp;sopt=symbol"&gt;&lt;b&gt;ADK-A&lt;/b&gt;&lt;/a&gt;&lt;br</span></span><br><span class="line"><span class="string">/&gt;00650W409\n\t\t&lt;/font&gt;\n\t\t&lt;/td&gt;\n\n\t\t&lt;td&gt;\n\t\t&lt;font face="arial, helvetica, sans-serif" size="2"&gt;&lt;b&gt;AdCare Health</span></span><br><span class="line"><span class="string">Systems, 10.875% Series A Cumulative Redeemable Preferred Stock&lt;/b&gt;&lt;/font&gt;\n\n\n&lt;font size="2"&gt;\n\n\t&lt;br /&gt;&lt;font face=""</span></span><br><span class="line"><span class="string">color="Green"&gt;IPO:\xa011/07/12&lt;/font&gt;\xa0\xa0\xa0\n\n\n\n\n\t\xa0\xa0\xa0&lt;a</span></span><br><span class="line"><span class="string">href="http://www.sec.gov/Archives/edgar/data/1004724/000104746912010172/a2211594z424b5.htm" target="SECEDGAR"&gt;&lt;b&gt;IPO</span></span><br><span class="line"><span class="string">Prospectus @ SEC EDGAR&lt;/b&gt;&lt;/a&gt;\n\t\n\t\t\xa0\xa0\xa0Call</span></span><br><span class="line"><span class="string">Date:\xa012/01/17\n\t&lt;/font&gt;\n\n\n\n\n\t\t&lt;/td&gt;\n\n\t\t\n\t\t\n\n\t\t\n\t\t\n\t\t\n\n\t\t\n\t\t\n\t\t\n\n\n\n\n&lt;td</span></span><br><span class="line"><span class="string">align="center"&gt;\n\t&lt;font size="2"&gt;\n\t\n\t\n\t\n\n\t\n\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t&lt;a</span></span><br><span class="line"><span class="string">href="https://www.nyse.com/quote/XASE:ADKpA" target="QUOTE"&gt;AMEX&lt;/a&gt;&lt;br /&gt;\n\t\t\t&lt;a</span></span><br><span class="line"><span class="string">href="https://www.nyse.com/quote/XASE:ADKpA"</span></span><br><span class="line"><span class="string">target="CHART"&gt;Chart&lt;/a&gt;\n\t\t\n\n\t\n\n\t&lt;/font&gt;\n\n\t\n\n&lt;/td&gt;\n\n\n\n\t\t\n\t\t\n\t\t\n\t&lt;/tr&gt;'</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>##数据结构    </p>
+<p>它的结构应该是这样的</p>
+<pre><code><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">font</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">b</span>&gt;</span></span><br><span class="line">	 ADK-A</span><br><span class="line">	<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">   00650W409</span><br><span class="line">  <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">font</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">b</span>&gt;</span></span><br><span class="line">	AdCare Health Systems, 10.875% Series A Cumulative Redeemable Preferred Stock</span><br><span class="line">   <span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">font</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">font</span>&gt;</span></span><br><span class="line">	IPO: 11/07/12</span><br><span class="line">   <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.sec.gov/Archives/edgar/data/1004724/000104746912010172/a2211594z424b5.htm"</span>"&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">b</span>&gt;</span></span><br><span class="line">	 IPO Prospectus @ SEC EDGAR</span><br><span class="line">	<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">   Call Date: 12/01/17</span><br><span class="line">  <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">font</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">a</span>&gt;</span></span><br><span class="line">	AMEX</span><br><span class="line">   <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">a</span>&gt;</span></span><br><span class="line">	Chart</span><br><span class="line">   <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>对于大多数数据来说，我们完全可以根据这个结构写一个正则表达式来进行抓取，将所需要的内容替换为提取的符号即可进行匹配。但是如果里面某一项内容缺失，比如没有给出IPO日期，则整个表达式不能匹配到该条数据并将其排除在外，造成数据缺失。更不能将缺失的内容进行填补。所以我们先将内容用正则切割成几个小部分（比如按td标签切分成3块），然后再分别用正则匹配。这样很麻烦。</p>
+<p>##BeautifulSoup树形结构图解</p>
+<p>所以我们有了BeautifulSoup这样的神器，只要输入tr.td.font.a.b就能从前往后索引到‘ADK-A’，这条数据。‘’</p>
+<p>但是，不知道为什么，BS只支持第一条个节点的直接索引。比如我想要第二个td标签的第二个b标签，很遗憾，我们并不能使用索引直接链式调用</p>
+<p>好在天无绝人之路，BS提供了一种间接方法，迭代，来调用其他的子节点。说白了就是写个循环是可以接触到这些隐藏的节点的。</p>
+<p>我们来看下图</p>
+<p><img src="/article/crawler-5-bs4index/bstree.png" alt=""></p>
+<p>实线代表可以直接使用链式调用可以接触到的节点，虚线代表使用迭代可以接触到的节点。实际上G1我们同样可以直接在A下面调用，但是即便这样我们还是不能达到我们想要的。那怎么办呢？曲线救国嘛，好在我们可以遍历整个树，把树上的节点全部摘下来放在我们改过结构的树上。</p>
+<p>##使用Hook的树</p>
+<p>首先来看我们关键的组件，钩子Hook.它其实本身有点像二叉树或者链表的节点，一头指向父级元素，一头指向子级元素（的集合）。</p>
+<p><img src="/article/crawler-5-bs4index/hook.png" alt=""></p>
+<p>我们从图中不难看出，hook处在两个BS树节点的中间，其中父级元素指向的节点为自身所代表的BS树节点（因为可以直接调用到）,子级元素指向一个分类过后的字典，我们可以通过字典来对类别进行关键字搜索。每一个类别都是一个列表，这样我们可以按顺序排列后按顺序索引。更完整的例子如下图</p>
+<p><img src="/article/crawler-5-bs4index/newtree.png" alt=""></p>
+<p>值得注意的是，父级Hook的子集是一个子级hook的集合，因为hook可以代表本身的BS树节点。</p>
+<p>##实现</p>
+<p>看图比较复杂，其实代码很简单，首先我们创建一个hook的类</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hook</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,root)</span>:</span></span><br><span class="line">		self.root = root</span><br><span class="line">		self.child = &#123;&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>self.root 是本身的BS树节点</li>
+<li>self.child 是一个字典，可以使用关键字索引</li>
+</ul>
+<p>然后使用递归，从BS的某一节点开始，将分支的内容转移到新的树上并分类。</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_node</span><span class="params">(roottag,child=None)</span>:</span></span><br><span class="line">	hook = Hook(roottag)</span><br><span class="line">	<span class="keyword">for</span> each <span class="keyword">in</span> roottag:</span><br><span class="line">		<span class="keyword">if</span> isinstance(each,Tag):</span><br><span class="line">			subhook = load_node(each,hook.child)</span><br><span class="line">			<span class="keyword">if</span> each.name <span class="keyword">in</span> hook.child:</span><br><span class="line">				hook.child[each.name].append(subhook)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				hook.child[each.name]=[subhook,]</span><br><span class="line">	<span class="keyword">return</span> hook</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>首先先初始化一个hook实例，并将其“挂”在当前节点</li>
+<li>然后迭代子元素，判断是否为Tag（我们需要的节点类型）,如果不是就过滤掉</li>
+<li>递归调用本函数，将该Tag作为该函数的当前节点，返回一个与之对应的hook</li>
+<li>将新的hook添加到我们的字典中</li>
+</ul>
+<p>##演示</p>
+<pre><code><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">27</span>]: test</span><br><span class="line">Out[<span class="number">27</span>]: &lt;__main__.Tode at <span class="number">0x10e7e32e8</span>&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">28</span>]: test.child</span><br><span class="line">Out[<span class="number">28</span>]: </span><br><span class="line">&#123;<span class="string">'td'</span>: [&lt;__main__.Tode at <span class="number">0x10e7e3358</span>&gt;,</span><br><span class="line">  &lt;__main__.Tode at <span class="number">0x10e7e3ef0</span>&gt;,</span><br><span class="line">  &lt;__main__.Tode at <span class="number">0x10e7e31d0</span>&gt;]&#125;</span><br><span class="line"></span><br><span class="line">In [<span class="number">29</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>]</span><br><span class="line">Out[<span class="number">29</span>]: &lt;__main__.Tode at <span class="number">0x10e7e3358</span>&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">30</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child</span><br><span class="line">Out[<span class="number">30</span>]: &#123;<span class="string">'font'</span>: [&lt;__main__.Tode at <span class="number">0x10e7e3278</span>&gt;]&#125;</span><br><span class="line"></span><br><span class="line">In [<span class="number">31</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child[<span class="string">'font'</span>][<span class="number">0</span>]</span><br><span class="line">Out[<span class="number">31</span>]: &lt;__main__.Tode at <span class="number">0x10e7e3278</span>&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">32</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child[<span class="string">'font'</span>][<span class="number">0</span>].child</span><br><span class="line">Out[<span class="number">32</span>]: &#123;<span class="string">'a'</span>: [&lt;__main__.Tode at <span class="number">0x10e7e3d30</span>&gt;], <span class="string">'br'</span>: [&lt;__main__.Tode at <span class="number">0x10e7e3940</span>&gt;]&#125;</span><br><span class="line"></span><br><span class="line">In [<span class="number">33</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child[<span class="string">'font'</span>][<span class="number">0</span>].child[<span class="string">'a'</span>][<span class="number">0</span>]</span><br><span class="line">Out[<span class="number">33</span>]: &lt;__main__.Tode at <span class="number">0x10e7e3d30</span>&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">34</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child[<span class="string">'font'</span>][<span class="number">0</span>].child[<span class="string">'a'</span>][<span class="number">0</span>].root</span><br><span class="line">Out[34]: &lt;a href="search.cfm?tickersymbol=ADK-A&amp;amp;sopt=symbol"&gt;&lt;b&gt;ADK-A&lt;/b&gt;&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">35</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].child[<span class="string">'font'</span>][<span class="number">0</span>].root</span><br><span class="line">Out[<span class="number">35</span>]: </span><br><span class="line">&lt;font face=<span class="string">"arial, helvetica, sans-serif"</span> size=<span class="string">"2"</span>&gt;</span><br><span class="line">&lt;a href="search.cfm?tickersymbol=ADK-A&amp;amp;sopt=symbol"&gt;&lt;b&gt;ADK-A&lt;/b&gt;&lt;/a&gt;&lt;br/&gt;00650W409</span><br><span class="line">		&lt;/font&gt;</span><br><span class="line"></span><br><span class="line">In [<span class="number">36</span>]: test.child[<span class="string">'td'</span>][<span class="number">0</span>].root</span><br><span class="line">Out[<span class="number">36</span>]: </span><br><span class="line">&lt;td&gt;</span><br><span class="line">&lt;font face=<span class="string">"arial, helvetica, sans-serif"</span> size=<span class="string">"2"</span>&gt;</span><br><span class="line">&lt;a href="search.cfm?tickersymbol=ADK-A&amp;amp;sopt=symbol"&gt;&lt;b&gt;ADK-A&lt;/b&gt;&lt;/a&gt;&lt;br/&gt;00650W409</span><br><span class="line">		&lt;/font&gt;</span><br><span class="line">&lt;/td&gt;</span><br></pre></td></tr></table></figure>
+</code></pre><p>嗯，就是这样，还是需要正则提取，但是少了切片会快很多。上面的数据可以作为练习，试着删掉某一块数据</p>
+<p>以后会更新部分方法使调用过程更加方便</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Chenghao Qian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ChenghaoQian.com/article/crawler-5-bs4index/" title="Python爬虫之为BeautifulSoup添加索引查找">http://ChenghaoQian.com/article/crawler-5-bs4index/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/crawler-4-selenium/" rel="next" title="使用Selenium驱动浏览器的爬虫">
+                <i class="fa fa-chevron-left"></i> 使用Selenium驱动浏览器的爬虫
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/efficient-frontier/" rel="prev" title="Python金融：投资组合分析 － 使用pandas分析有效边界">
+                Python金融：投资组合分析 － 使用pandas分析有效边界 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chenghao Qian" />
+            
+              <p class="site-author-name" itemprop="name">Chenghao Qian</p>
+              <p class="site-description motion-element" itemprop="description">其实一直在路上。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenghao Qian</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><img src="/images/Sign.png" style="width:100px;float:right;padding-right:20px"></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

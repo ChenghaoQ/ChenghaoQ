@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="上次读了这篇文章的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么都！是！封！面！。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python爬虫：二层爬虫之爬取整个相册">
+<meta property="og:url" content="http://ChenghaoQian.com/article/crawler-2/index.html">
+<meta property="og:site_name" content="Jalapeño">
+<meta property="og:description" content="上次读了这篇文章的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么都！是！封！面！。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-22T03:08:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python爬虫：二层爬虫之爬取整个相册">
+<meta name="twitter:description" content="上次读了这篇文章的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么都！是！封！面！。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ChenghaoQian.com/article/crawler-2/"/>
+
+
+
+
+
+  <title>Python爬虫：二层爬虫之爬取整个相册 | Jalapeño</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jalapeño</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一点我自己。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ChenghaoQian.com/article/crawler-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chenghao Qian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jalapeño">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python爬虫：二层爬虫之爬取整个相册</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-06T10:11:38+08:00">
+                2016-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上次读了<a href="">这篇文章</a>的之后的老司机们可能发现了一个问题，我们爬取的妹子图片怎么<strong>都！是！封！面！</strong>。那是因为我们爬取得的内容是列表页提供的，所以只有封面图片链接。这并不能满足广大爬友的喜好，要来就要来全套。于是我们试图让我们的爬虫,让它能够爬取每个相册并保存没个相册在一个新建的文件夹中。</p>
+<a id="more"></a>
+<h2 id="结构与模块分析"><a href="#结构与模块分析" class="headerlink" title="结构与模块分析"></a>结构与模块分析</h2><p>还记得上次我们的逻辑顺序是什么吗？</p>
+<blockquote>
+<p>加载列表页-&gt;获取图片地址-&gt;下载图片-&gt;页面跳转</p>
+</blockquote>
+<p>这次我们是一个两层的爬虫，所以要增加一些步骤</p>
+<blockquote>
+<p>加载列表页-&gt;获取所有相册首页地址（需要初步页面跳转）-&gt;判断相册所有页面地址-&gt;从地址解析图片地址-&gt;创建文件夹并保存-&gt;跳转至下一相册</p>
+</blockquote>
+<p>我们来拆开一步一步分析，首先来看我们的工具准备</p>
+<h2 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h2><pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">header = &#123;      <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip"</span>,</span><br><span class="line">				<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'</span>&#125;</span><br><span class="line">girl_entry = []</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>和上一次相比我们多了一个os模块，这个是后面创建文件夹所必需的</li>
+<li>我们把header变成全局变量，这是因为很多函数都需要调用这个变量。并且我们添加了gzip为可以接受的方式</li>
+<li>girl_entry 是相册热口链接的集合，每次<a href="7">worker</a>都会从里面取得一个链接</li>
+</ul>
+<p>好了，上车吧。</p>
+<h2 id="获取所有相册入口地址"><a href="#获取所有相册入口地址" class="headerlink" title="获取所有相册入口地址"></a>获取所有相册入口地址</h2><p>和我们上次的爬取过程一样，只不过我们爬取的内容不一样。上一次我们爬取的是图片链接，而这次我们爬取的是相册入口链接。这两者并没有特别大的区别，因为当你点击图片时就可以进入相册，这说明该链接和图片应该在同一个区块内（即你点击的其实是图片和链接的结合）。所以我们只需要更换我们的正则表达式就可以啦，下面这段代码是不是看着很眼熟呢，</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_entry_link</span><span class="params">()</span>:</span></span><br><span class="line">		<span class="keyword">global</span> girl_entry</span><br><span class="line">		pages = int(input(<span class="string">"Please enter the pages you want:"</span>))</span><br><span class="line">		page = <span class="number">1</span></span><br><span class="line">		<span class="keyword">while</span> page &lt;= pages:</span><br><span class="line">				url = <span class="string">"http://www.youmzi.com/xg/list_10_%d.html"</span>%page</span><br><span class="line">				requests = urllib.request.Request(url,headers =header)</span><br><span class="line">				opened = urllib.request.urlopen(requests)</span><br><span class="line">				<span class="comment">#UnicodeDecodeError</span></span><br><span class="line">				decompress = gzip.GzipFile(fileobj = opened)</span><br><span class="line">				content= decompress.read().decode(<span class="string">'gbk'</span>)</span><br><span class="line">				list_part_pattern=re.compile(<span class="string">r"&lt;/dl&gt;(.*?)&lt;/ul&gt;"</span>,re.S)</span><br><span class="line">				list_part = re.findall(list_part_pattern,content)</span><br><span class="line">				repattern = re.compile(<span class="string">r'&lt;li&gt;.*?&lt;a href="(.+?).html" title="(.+?)".*?&lt;p&gt;&lt;a href.*?&lt;/li&gt;'</span>,re.S)</span><br><span class="line">				girl_link_found = re.findall(repattern,list_part[<span class="number">0</span>])</span><br><span class="line">				<span class="keyword">for</span> each <span class="keyword">in</span> girl_link_found:</span><br><span class="line">						girl_entry.append(each)</span><br><span class="line">				page+= <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>尽管大部分内容一样，我们在这里还是做了一些细小的改变。</p>
+<ul>
+<li>由于这次我们将Gzip压缩的声明添加到了全局的header里面，所以服务器默认会给我们传输压缩后的数据，与上次不一样的是，我们在第10行添加了解压缩的操作过程。</li>
+<li>我们不难发现这段代码我们使用了两次正则表达式，因为如果只使用第14行的正则表达式的话，很容易将导航栏的li标签的内容和我们真正需要的内容混在一起，这时候我们需要对网页进行预先切片，先使用12,13行网页中的完整列表切出来再进行二次匹配可以提高精准度。要注意的是我们的list_part输出的内容是正则表达式输出的元组，所以第15行要使用[0]来表示其中的内容</li>
+<li>第二个正则表达式提取出来的内容有两个并以元组的方式展现 (一个去掉.html后缀的入口链接,一个标题)。入口链接是用在网页搜索中，标题名称是为我们创建的相册文件夹命名。</li>
+</ul>
+<h2 id="获取所有相册页面"><a href="#获取所有相册页面" class="headerlink" title="获取所有相册页面"></a>获取所有相册页面</h2><p>当我们满怀欣喜地点击进入相册后，你发现了几个问题：</p>
+<ul>
+<li>每一个网页只有一张图片,旁边还有温馨提示，“点击图片进行下一页”,<strong>而我们并不能知道这个相册有多少页</strong>。 要不我们一个一个试吧，这样很浪费时间，如果中途出错了的话会影响后面的爬取。</li>
+<li>第一页的网址链接和其他的不一样，第一页为/12345.html,而其他的网页/12345_x.html。如果我们像之前一样使用/12345_1.html来代表第一页的话会直接报错</li>
+</ul>
+<p>道高一尺魔高一丈，即便是这样我们仍然有办法:</p>
+<blockquote>
+<p>   创建一个空列表 -&gt; 先把第一页放进去（解决问题二）-&gt; 使用二分法搜索出尾页（解决问题一）-&gt; 生成所有页面地址并加入列表 -&gt; 返回列表</p>
+</blockquote>
+<p>这就是下面这段代码的整体逻辑结构：</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">series_link</span><span class="params">(url_base)</span>:</span></span><br><span class="line">			<span class="keyword">global</span> header</span><br><span class="line">			girl_series = []</span><br><span class="line">			girl_series.append(url_base+<span class="string">'.html'</span>)</span><br><span class="line">			begin = <span class="number">2</span></span><br><span class="line">			end = <span class="number">100</span></span><br><span class="line">			<span class="keyword">while</span> begin+<span class="number">1</span> &lt; end:</span><br><span class="line">					mid = (begin+end)//<span class="number">2</span></span><br><span class="line">					url = url_base+<span class="string">'_%d'</span>%mid+<span class="string">'.html'</span></span><br><span class="line">					<span class="keyword">try</span>:</span><br><span class="line">							a = urllib.request.Request(url,headers= header)</span><br><span class="line">							b = urllib.request.urlopen(a)</span><br><span class="line">							<span class="comment">###</span></span><br><span class="line">							begin = mid</span><br><span class="line">					<span class="keyword">except</span>:</span><br><span class="line">							end = mid</span><br><span class="line">			<span class="keyword">for</span> each <span class="keyword">in</span> range(<span class="number">2</span>,begin+<span class="number">1</span>):</span><br><span class="line">					tmp_url = url_base+<span class="string">'_%d'</span>%each+<span class="string">'.html'</span> </span><br><span class="line">					girl_series.append(tmp_url)</span><br><span class="line">			<span class="keyword">return</span> girl_series</span><br><span class="line">	```		</span><br><span class="line">- 首先我们要知道的是传入的入口链接并不是一个完整的链接，我们切除掉后缀是为了后面增加后缀时更加方便</span><br><span class="line">- 第<span class="number">3</span>行 ： 创建一个空列表</span><br><span class="line">- 第<span class="number">4</span>行 ： 先把第一页放进去（解决问题二）</span><br><span class="line">- 第<span class="number">5</span>－<span class="number">16</span>行是我们使用二分搜索的部分，由于有页码的页面从第二页开始，所以我们的起点是<span class="number">2</span>，而这个相册基本不可能超过一百页，所以我们使用<span class="number">100</span>作为上限。二分搜索的原理很简单，取起点终点的中间点，如果中间点在列表中，**说明起点到中间点的所有内容都在列表内**,这时我们已经可以排除掉一半了，反过来也是这样。所以我们使用这种方法可以提高效率节省资源。而测试中间点是否有效时使用<span class="keyword">try</span>...<span class="keyword">except</span>而不是<span class="keyword">if</span>..<span class="keyword">else</span>..因为当中间点使用urlopen方法打开时可能会报错。</span><br><span class="line">- 第<span class="number">18</span>行：将我们获得的数字添加到base后面生成链接</span><br><span class="line">- 最后一行返回一个链接集合列表</span><br><span class="line"></span><br><span class="line"><span class="comment">## 获取图片地址</span></span><br><span class="line"></span><br><span class="line">当然我们的最终目的还是要找到图片地址，有了我们之前的基础，这一步并不难实现。值得注意的是我们的这个函数作为一个图片链接搜索的整体</span><br><span class="line">	</span><br><span class="line">	获得入口地址 －&gt; 输出所有图片地址</span><br><span class="line">所以我们引入了上一个函数。图片地址搜寻的方式不是很难，只有一张图片，所以对正则表达式的要求也不是很高	</span><br><span class="line"></span><br><span class="line">	```Python</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">pic_seeker</span><span class="params">(entry_link)</span>:</span></span><br><span class="line">			link_pool = series_link(entry_link)</span><br><span class="line">			pic_links = []</span><br><span class="line">			num = <span class="number">0</span></span><br><span class="line">			<span class="keyword">for</span> link <span class="keyword">in</span> link_pool:</span><br><span class="line">					req = urllib.request.Request(link,headers =header)</span><br><span class="line">					oped = urllib.request.urlopen(req)</span><br><span class="line">					decomp = gzip.GzipFile(fileobj = oped)</span><br><span class="line">					cont = decomp.read().decode(<span class="string">'gbk'</span>)</span><br><span class="line">					pic_pattern = re.compile(<span class="string">r"&lt;div class=\"arpic\"&gt;.*?&lt;ul&gt;.*?&lt;li&gt;.*?&lt;img src='(.+?)'.*?&lt;/li&gt;.*?&lt;/ul&gt;"</span>,re.S)</span><br><span class="line">					pic_link = re.findall(pic_pattern,cont)</span><br><span class="line">					pic_links.append(pic_link[<span class="number">0</span>])</span><br><span class="line">					num+=<span class="number">1</span></span><br><span class="line">					print(pic_link[<span class="number">0</span>],num)</span><br><span class="line">			<span class="keyword">return</span> pic_links</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>第2行引入series_link(entry_link)函数获得相册所有地址</li>
+<li>第5－13行遍历所有地址并执行抓取操作</li>
+<li>最后返回相册所有图片链接，到了这一步我们获得了我们需要的内容，只剩下下载了</li>
+</ul>
+<h2 id="保存至本地文件夹"><a href="#保存至本地文件夹" class="headerlink" title="保存至本地文件夹"></a>保存至本地文件夹</h2><p>虽然到了简单的最后一步我们仍然不能掉以轻心，因为这里有一个陷阱：有的图片被压缩了，有的并没有被压缩。如果我们直接下载的话会下载到一些损坏的文件，而直接使用gzip会报错，所以我们要使用try..except..。另外我们还需要将我们的妹子图保存在一个文件夹中以免和其他的混在一起，直接上代码</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pic_downloader</span><span class="params">(pic_link_pool,series_name)</span>:</span></span><br><span class="line">		<span class="keyword">if</span> os.path.exists(os.path.join(os.path.dirname(__file__),<span class="string">'%s'</span>%series_name)):</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">				os.mkdir(os.path.join(os.path.dirname(__file__),<span class="string">'%s'</span>%series_name))</span><br><span class="line">		girl = <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> link <span class="keyword">in</span> pic_link_pool:</span><br><span class="line">				print(<span class="string">'---link'</span>)</span><br><span class="line">				a = open(<span class="string">'%s/'</span>%series_name+str(girl)+<span class="string">'.jpg'</span>,<span class="string">'wb'</span>)</span><br><span class="line">				<span class="keyword">try</span>:</span><br><span class="line">						b = urllib.request.Request(link,headers = header)</span><br><span class="line">						c = urllib.request.urlopen(b)</span><br><span class="line">						d = gzip.GzipFile(fileobj = c)</span><br><span class="line">						e = d.read()</span><br><span class="line">				<span class="keyword">except</span>:</span><br><span class="line">						b = urllib.request.Request(link,headers = header)</span><br><span class="line">						c = urllib.request.urlopen(b)</span><br><span class="line">						e = c.read()</span><br><span class="line">				a.write(e)</span><br><span class="line">				print(<span class="string">"No. %d Girl downloaded, - %s"</span>%(girl,series_name))</span><br><span class="line">				girl+=<span class="number">1</span></span><br><span class="line">				a.close()                </span><br><span class="line">				time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><ul>
+<li>第2-5行我们使用了os模块对系统进行一定的操作，判断当前目录下是否有这个文件夹，如果有的话就跳过，没有的话就创建一个新的文件夹。由于我们使用了os模块，在运行我们的程序时<strong>需要管理员权限</strong>才能对系统进行操作。</li>
+<li>第10-18行我们默认使用gzip，因为使用urlopen并不能识别是否被压缩而直接下载全部内容</li>
+</ul>
+<h2 id="对相册下载器进行封装"><a href="#对相册下载器进行封装" class="headerlink" title="对相册下载器进行封装"></a>对相册下载器进行封装</h2><p>其实有了之前的内容我们就已经可以完成我们的工作了，但是封装这一步并不是画蛇添足因为它的作用是减少代码的重复。这是一个很好的习惯，让一个函数完成一个完整的动作，这样我们在后面开发过程中调用更加方便。这里我们定义了一个worker，它整合了之前的几个函数，所以它可以接受一个入口链接并完成搜索下载的功能。这样做的好处是如果以后使用多线程的时候，每个线程添加一个worker就OK。</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span><span class="params">()</span>:</span></span><br><span class="line">       <span class="keyword">global</span> girl_entry</span><br><span class="line">       entry_base = girl_entry.pop(<span class="number">0</span>)</span><br><span class="line">       pic_link_pool=pic_seeker(entry_base[<span class="number">0</span>])</span><br><span class="line">       pic_downloader(pic_link_pool,entry_base[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+</code></pre><p>要注意的是第2行的pop方法，它的作用是将列表中的元素传递出去并从列表中删除。这个原理有点像枪把子弹发射出去一样，每发射出去一颗子弹弹夹里面便少一颗。</p>
+<h2 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h2><p>主函数逻辑简单，创建一个入口集合，从里面获取链接交给worker工作</p>
+<pre><code>```Python
+def main():
+        global girl_entry
+        get_entry_link()        
+        while girl_entry:
+            worker()
+```            
+</code></pre><p>作为最接近人类语言的编程语言，我打算把上面的python代码直接翻译。</p>
+<pre><code>```Python
+定义 主函数():
+    全局变量（引入） girl_entry 
+    （执行) get_entry_link() 
+    当 girl_entry(不是空的):
+        (反复执行) worker()
+```    
+</code></pre><p>怎么样，是不是有了更深入的了解呢</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Chenghao Qian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ChenghaoQian.com/article/crawler-2/" title="Python爬虫：二层爬虫之爬取整个相册">http://ChenghaoQian.com/article/crawler-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/flask-pagination/" rel="next" title="Flask分页方法">
+                <i class="fa fa-chevron-left"></i> Flask分页方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/crawler-3/" rel="prev" title="Python爬虫:多线程爬虫入门">
+                Python爬虫:多线程爬虫入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chenghao Qian" />
+            
+              <p class="site-author-name" itemprop="name">Chenghao Qian</p>
+              <p class="site-description motion-element" itemprop="description">其实一直在路上。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构与模块分析"><span class="nav-number">1.</span> <span class="nav-text">结构与模块分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具准备"><span class="nav-number">2.</span> <span class="nav-text">工具准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取所有相册入口地址"><span class="nav-number">3.</span> <span class="nav-text">获取所有相册入口地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取所有相册页面"><span class="nav-number">4.</span> <span class="nav-text">获取所有相册页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存至本地文件夹"><span class="nav-number">5.</span> <span class="nav-text">保存至本地文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对相册下载器进行封装"><span class="nav-number">6.</span> <span class="nav-text">对相册下载器进行封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主函数"><span class="nav-number">7.</span> <span class="nav-text">主函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenghao Qian</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><img src="/images/Sign.png" style="width:100px;float:right;padding-right:20px"></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

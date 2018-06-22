@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们来python3在导入不同目录的模块时是怎么做的 先来看一下我们的Project目录 |---myproject ├── __init__.py ├── settings.py ├── folderA │   └── testA.py ├── folderB │    ├── __init__.py │   ├── testB.py ├── test.py 在相同目录下我们现在在myproje">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3使用相对路径import">
+<meta property="og:url" content="http://ChenghaoQian.com/article/module-import/index.html">
+<meta property="og:site_name" content="Jalapeño">
+<meta property="og:description" content="我们来python3在导入不同目录的模块时是怎么做的 先来看一下我们的Project目录 |---myproject ├── __init__.py ├── settings.py ├── folderA │   └── testA.py ├── folderB │    ├── __init__.py │   ├── testB.py ├── test.py 在相同目录下我们现在在myproje">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-22T05:26:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python3使用相对路径import">
+<meta name="twitter:description" content="我们来python3在导入不同目录的模块时是怎么做的 先来看一下我们的Project目录 |---myproject ├── __init__.py ├── settings.py ├── folderA │   └── testA.py ├── folderB │    ├── __init__.py │   ├── testB.py ├── test.py 在相同目录下我们现在在myproje">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ChenghaoQian.com/article/module-import/"/>
+
+
+
+
+
+  <title>python3使用相对路径import | Jalapeño</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jalapeño</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一点我自己。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ChenghaoQian.com/article/module-import/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chenghao Qian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jalapeño">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python3使用相对路径import</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-29T23:54:47+08:00">
+                2016-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们来python3在导入不同目录的模块时是怎么做的</p>
+<p>先来看一下我们的Project目录</p>
+<pre><code>|---myproject
+├── __init__.py
+├── settings.py
+├── folderA
+│   └── testA.py
+├── folderB
+│    ├── __init__.py
+│   ├── testB.py
+├── test.py
+</code></pre><h2 id="在相同目录下"><a href="#在相同目录下" class="headerlink" title="在相同目录下"></a>在相同目录下</h2><p>我们现在在myproject/目录下</p>
+<p>在同一目录下，我们可以使用’.’来表示当前目录：<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> test.py</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>或者直接import<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> test.py</span><br></pre></td></tr></table></figure></p>
+<p>如果你想使用同目录下某一文件的内容，假设我们test.py内有一对象名为app<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .test <span class="keyword">import</span> app</span><br></pre></td></tr></table></figure></p>
+<h2 id="在上级目录中"><a href="#在上级目录中" class="headerlink" title="在上级目录中"></a>在上级目录中</h2><p>我们现在在folderA下</p>
+<p>对于调用上级目录的内容，我们可以使用’..’来表示返回上一级目录，假设我们现在要调用上一层的test. py<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .. <span class="keyword">import</span> test.py</span><br></pre></td></tr></table></figure></p>
+<p>如果你想使用上级目录下某一文件的内容，假设我们test.py内有一对象名为app<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ..test <span class="keyword">import</span> app</span><br></pre></td></tr></table></figure></p>
+<h2 id="在兄弟目录中"><a href="#在兄弟目录中" class="headerlink" title="在兄弟目录中"></a>在兄弟目录中</h2><p>现在我们仍然在folderA下</p>
+<p>我们可以看到，folderB是和folderA一样在myproject下面的目录，我们该怎么办呢？先返回上级目录调用，调用方法类似于上级目录下的某一文件.我们现在要调用folderB下的testB.py<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ..folderB <span class="keyword">import</span> testB</span><br></pre></td></tr></table></figure></p>
+<h2 id="init-py是什么"><a href="#init-py是什么" class="headerlink" title="init.py是什么"></a><strong><strong>init</strong>.py</strong>是什么</h2><p>当一个目录下有<strong><strong>init</strong>.py</strong>时，python将该目录认定为package。我们可以看到myproject/下面有一个<strong>init</strong>.py，这个时候myproject可以被当做package.<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> myproject</span><br></pre></td></tr></table></figure></p>
+<p>而如果没有<strong>init</strong>.py的话，myproject只是文件夹，不可以被调用。<strong>init</strong>.py通常为空，但是也可以放从其他文件import 一些参数，假设我们的<strong>init</strong>.py引入了test.py的app<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .test <span class="keyword">import</span> app</span><br></pre></td></tr></table></figure></p>
+<p>之后我们就可以直接通过包名来调用它<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> myproject <span class="keyword">import</span> app</span><br></pre></td></tr></table></figure></p>
+<h2 id="从顶层调用及子目录调用"><a href="#从顶层调用及子目录调用" class="headerlink" title="从顶层调用及子目录调用"></a>从顶层调用及子目录调用</h2><p>我们可以使用’.’或者’..’来调用同一级或上一级的模块和对象，但是如果你想跨过多层调用（上上级目录)，你需要从顶层调用,我们当前的根目录是myproject/，对于子目录的调用方法我们通常使用’.’来链接 -&gt; root.level1.level2</p>
+<p>我们现在的位置是folderA,假设我们需要调用folderB的testB.py,我们可以使用<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> myproject.folderB <span class="keyword">import</span> testB</span><br></pre></td></tr></table></figure></p>
+<p>那我们是不是也可以这样呢<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> myproject.folderA <span class="keyword">import</span> testA</span><br></pre></td></tr></table></figure></p>
+<p>很遗憾，是<strong>不能</strong>的。为什么会这样呢？因为仔细观察两个目录你可以发现folderA下并没有<strong>init</strong>.py，这样这个目录就只是文件夹而不是package，这意味着不能被import.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Chenghao Qian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ChenghaoQian.com/article/module-import/" title="python3使用相对路径import">http://ChenghaoQian.com/article/module-import/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/why-corporate-finance/" rel="next" title="为什么你要学公司财务（Corporate Finance)">
+                <i class="fa fa-chevron-left"></i> 为什么你要学公司财务（Corporate Finance)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/flask-blog/" rel="prev" title="使用Flask搭建个人静态博客">
+                使用Flask搭建个人静态博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chenghao Qian" />
+            
+              <p class="site-author-name" itemprop="name">Chenghao Qian</p>
+              <p class="site-description motion-element" itemprop="description">其实一直在路上。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在相同目录下"><span class="nav-number">1.</span> <span class="nav-text">在相同目录下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在上级目录中"><span class="nav-number">2.</span> <span class="nav-text">在上级目录中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在兄弟目录中"><span class="nav-number">3.</span> <span class="nav-text">在兄弟目录中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#init-py是什么"><span class="nav-number">4.</span> <span class="nav-text">init.py是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从顶层调用及子目录调用"><span class="nav-number">5.</span> <span class="nav-text">从顶层调用及子目录调用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenghao Qian</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><img src="/images/Sign.png" style="width:100px;float:right;padding-right:20px"></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
