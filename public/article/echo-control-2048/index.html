@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。  让我们开始吧！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Echosim语音控制2048">
+<meta property="og:url" content="http://ChenghaoQian.com/article/echo-control-2048/index.html">
+<meta property="og:site_name" content="Jalapeño">
+<meta property="og:description" content="前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。  让我们开始吧！">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://chenghaoqian.com/article/echo-control-2048/2048.png">
+<meta property="og:updated_time" content="2018-06-22T05:47:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Echosim语音控制2048">
+<meta name="twitter:description" content="前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。  让我们开始吧！">
+<meta name="twitter:image" content="http://chenghaoqian.com/article/echo-control-2048/2048.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://ChenghaoQian.com/article/echo-control-2048/"/>
+
+
+
+
+
+  <title>使用Echosim语音控制2048 | Jalapeño</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jalapeño</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一点我自己。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ChenghaoQian.com/article/echo-control-2048/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chenghao Qian">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jalapeño">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Echosim语音控制2048</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-06T10:50:35+08:00">
+                2016-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前一阵子去hackathon和队友体验了一把Amazon Echo特别爽。这个小玩意扩展能力很好，你可以通过它直接和你的电脑进行交互。这次我们使用python的Flask来通过Echosim操作2048，完成各个方向的滑动。</p>
+<p><img src="/article/echo-control-2048/2048.png" alt=""></p>
+<p>让我们开始吧！</p>
+<a id="more"></a>
+<p>##工具准备</p>
+<ul>
+<li>Flask </li>
+<li>Flask-Ask</li>
+<li>EchoSim</li>
+<li>ngrok</li>
+<li>Python3</li>
+<li><a href="https://github.com/yangshun/2048-python" target="_blank" rel="noopener">Python 2048</a></li>
+</ul>
+<h2 id="修改2048的输入源"><a href="#修改2048的输入源" class="headerlink" title="修改2048的输入源"></a>修改2048的输入源</h2><p>要使用Echo作为输入源，原理非常简单粗暴。只要把程序中的键盘输入源去掉-&gt;换成Echo输入源。具体来讲就是</p>
+<ul>
+<li>使用’left’,’right’字符串来代替键盘按键</li>
+<li>使用Echo生成’left,’right’字符串</li>
+</ul>
+<p>让我们先来看看2048程序里面的两个文件，其中puzzle部分包含了键盘输入部分，分为下面几个部分</p>
+<p>第一部分定义了2048以接受’wasd’字符的方式来操作<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   KEY_UP = <span class="string">"'w'"</span></span><br><span class="line">KEY_DOWN = <span class="string">"'s'"</span></span><br><span class="line">KEY_LEFT = <span class="string">"'a'"</span></span><br><span class="line">KEY_RIGHT = <span class="string">"'d'"</span></span><br></pre></td></tr></table></figure></p>
+<p>因为我们会对Echo说出具体方向，所以我们把它改成<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">KEY_UP = <span class="string">"up"</span></span><br><span class="line">KEY_DOWN = <span class="string">"down"</span></span><br><span class="line">KEY_LEFT = <span class="string">"left"</span></span><br><span class="line">KEY_RIGHT = <span class="string">"right"</span></span><br></pre></td></tr></table></figure></p>
+<p>现在我们要取消wasd与键盘上的wasd按键绑定，先删掉GameGrid类中<strong>init</strong>方法里面的<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.master.bind(<span class="string">"&lt;Key&gt;"</span>, self.key_down)</span><br></pre></td></tr></table></figure></p>
+<p>接着将key_down方法中的<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key = repr(event.char)</span><br></pre></td></tr></table></figure></p>
+<p>改成<br>    <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key = event</span><br></pre></td></tr></table></figure></p>
+<p>由于程序使用了tkinter的GUI，内部又一个封闭的循环我们不能通过python的交互指令来操作2048,所以我们需要先禁用这个初始化以及自动循环的过程，后面我们手动初始化，来到GameGrid类中的<strong>init</strong>方法，删除下面几行</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.mainloop()</span><br></pre></td></tr></table></figure>
+</code></pre><p>这个时候我们已经摆脱了了原来的操作方式，来python的交互界面试一下</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> puzzle <span class="keyword">import</span> *</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gamegrid = Gamegrid()</span><br><span class="line"><span class="comment">#操作</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gamegrid.key_down(<span class="string">'up'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>gamegrid.key_down(<span class="string">'down'</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><p>这个时候我们对puzzle.py的改造已经完成，我们需要一种类似input的方法来进行移动，接下来我们来使用Flask搭建和Echo沟通的桥梁</p>
+<h2 id="交互模型"><a href="#交互模型" class="headerlink" title="交互模型"></a>交互模型</h2><p>修改了原游戏之前，我们先来看交互模型，这为我们以后使用Flask-Ask构建了框架。在交互模型中我们要定义Intent（意图），和不同表达所对应的意图。</p>
+<h3 id="Intent-Schema"><a href="#Intent-Schema" class="headerlink" title="Intent Schema"></a>Intent Schema</h3><pre><code>{
+
+    &quot;intents&quot;: [
+
+      {
+
+    &quot;intent&quot;: &quot;YesIntent&quot;
+
+      }, 
+
+
+      {
+
+    &quot;intent&quot;: &quot;AnswerIntent&quot;,
+
+    &quot;slots&quot;: [
+    {
+        &quot;name&quot;: &quot;action&quot;,
+        &quot;type&quot;: &quot;LIST_OF_SIGNS&quot;
+    }
+        ]
+
+       }
+
+        ]
+
+}
+</code></pre><p>Amazon Echo 使用json格式来进行交互,上面这个交互模型主要包含了各个Intent,其中</p>
+<ul>
+<li>YesIntent: 当Echo询问是否开始游戏时，回答是时执行（启动游戏）</li>
+<li>AnswerIntent：启动游戏后，所有的指令都通过此条传输，此处定义Echo接收的变量名名称和类型，我们将使用slot来定义，名字为action,类型为自定义类型LIST_OF_SIGNS</li>
+</ul>
+<h3 id="Custom-Slot-Types"><a href="#Custom-Slot-Types" class="headerlink" title="Custom Slot Types"></a>Custom Slot Types</h3><p>在这里我们定义LIST_OF_SIGNS为 </p>
+<pre><code>up
+down
+left
+right
+</code></pre><h3 id="Sample-Utterance"><a href="#Sample-Utterance" class="headerlink" title="Sample Utterance"></a>Sample Utterance</h3><p>这里定义了识别方法，当你说yes/start/begin时会自动导向YesIntent,’{}’内是会被传输的变量</p>
+<pre><code>YesIntent start
+YesIntent begin
+YesIntent Yes
+
+AnswerIntent {action} 
+AnswerIntent turn {action}
+AnswerIntent go {action}
+</code></pre><p>##使用Flask-Ask搭建服务</p>
+<p>创建一个名为server.py的文件</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>引入我们的工具包，引入2048</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask_ask <span class="keyword">import</span> Ask,statement,question,session</span><br><span class="line"><span class="keyword">from</span> puzzle <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+</code></pre><p>对引入的内容进行初始化，因为游戏没有开始，我们设置状态为not_yet</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(\_\_name\_\_)</span><br><span class="line">ask = Ask(app,<span class="string">"/"</span>)</span><br><span class="line">gamegrid=<span class="keyword">None</span></span><br><span class="line">status = <span class="string">'not\_yet'</span></span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="欢迎界面"><a href="#欢迎界面" class="headerlink" title="欢迎界面"></a>欢迎界面</h3><p>欢迎界面就是当你命令Alexa(Echo)启动程序后，Echo的反应。我们在这里使用装饰器@ask.launch，并用字符串来表达Alexa要说的话，用question来发问。</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ask.launch</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">welcome</span><span class="params">()</span>:</span></span><br><span class="line">	welcome_msg = <span class="string">"welcome to 20 48,say yes to begin, say instruction for instruction "</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> question(welcome_msg)</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="启动游戏"><a href="#启动游戏" class="headerlink" title="启动游戏"></a>启动游戏</h3><p>欢迎界面过后我们要说yes来启动游戏，@ask.intent(‘YesIntent’)表示回答”YesIntent”后对应的操作，我们在这里初始化游戏（使用global表示游戏在主线程中，tkinter的GUI必须在主线程中)，修改当前状态（避免在游戏过程中被重复执行）</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ask.intent('YesIntent')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_instruction</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">global</span> status</span><br><span class="line">	<span class="keyword">global</span> gamegrid</span><br><span class="line">	<span class="keyword">if</span> status == <span class="string">'not_yet'</span>:</span><br><span class="line">		gamegrid =GameGrid()</span><br><span class="line">		ins_msg = <span class="string">"Please say the direction to move"</span></span><br><span class="line">		status = <span class="string">'in_game'</span></span><br><span class="line">		<span class="keyword">return</span> question(ins_msg)</span><br><span class="line">	<span class="keyword">return</span> question(<span class="string">"already in game"</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>启动游戏后，自动进入操作模式。这个时候我们使用定义好的AnswerIntent来接收指令，将action通过装饰器作为字符串变量传入函数中。</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ask.intent("AnswerIntent",convert =&#123;'action':str&#125;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">game</span><span class="params">(action)</span>:</span></span><br><span class="line">	<span class="keyword">global</span> direc</span><br><span class="line">	<span class="keyword">global</span> gamegrid</span><br><span class="line">	<span class="keyword">if</span> action <span class="keyword">in</span> [<span class="string">'left'</span>,<span class="string">'right'</span>,<span class="string">'up'</span>,<span class="string">'down'</span>]:</span><br><span class="line">		<span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">			gamegrid.key_down(action)</span><br><span class="line">			</span><br><span class="line">		<span class="keyword">except</span>:</span><br><span class="line">			<span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> question(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> question(<span class="string">'invalid action,please try again'</span>)</span><br></pre></td></tr></table></figure>
+</code></pre><p>如果action是有效的，我们的question是’’,即没有反馈，当遇到非法操作时才报错</p>
+<h3 id="question和statement"><a href="#question和statement" class="headerlink" title="question和statement"></a>question和statement</h3><p>每次通过ask.launch进入程序后，都有一个新的session,statement和question的作用都是将预先安排好的字符串作为语音反馈。但是有一个关键的区别:statement会结束掉当前Session(直接退出)，而question会保留当前Session,这是我们循环的根本。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>下载ngrok，并运行</p>
+<ul>
+<li><p>Unix/Mac</p>
+<p>  ./ngrok http 5000</p>
+</li>
+<li><p>Windows</p>
+<p>  ngrok.exe http 5000</p>
+</li>
+</ul>
+<p>接着同时运行你写好的server.py</p>
+<h3 id="Developer上创建新技能"><a href="#Developer上创建新技能" class="headerlink" title="Developer上创建新技能"></a>Developer上创建新技能</h3><p>登入你的Amazon Developer账户，点击Alexa －&gt;Alexa Skill Kit -&gt; Create a new skill进入设置页面</p>
+<ul>
+<li>Skill Information,为我们的程序起名字（启动口令），我们这里叫 twenty forty eight</li>
+</ul>
+<blockquote>
+<p>   “Alexa,Start Twenty forty eight”</p>
+</blockquote>
+<ul>
+<li>Interaction Model,将我们的交互模型放入即可</li>
+</ul>
+<ul>
+<li><p>Configuration，选择HTTPS,并将你的ngrok生成的https地址拷贝到上面</p>
+</li>
+<li><p>SSL Certificate下选择‘My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority’一项后，点击next,你的测试状态就变为可用了</p>
+</li>
+</ul>
+<h3 id="Echosim"><a href="#Echosim" class="headerlink" title="Echosim"></a>Echosim</h3><p>进入<a href="Echosim.io">Echosim.io</a>,用你的amazon developer账户登入即可测试</p>
+<h2 id="课后拓展"><a href="#课后拓展" class="headerlink" title="课后拓展"></a>课后拓展</h2><p>有兴趣的朋友可以完成以下任务来巩固所学知识</p>
+<ul>
+<li>添加一个StopIntent使其可以终止</li>
+<li>判断输赢，并报出结果</li>
+<li>通过口令重新启动游戏</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://github.com/yangshun/2048-python" target="_blank" rel="noopener">2048-python</a></li>
+<li><a href="https://flask-ask.readthedocs.io/" target="_blank" rel="noopener">Flask-Ask Document</a></li>
+<li><a href="https://developer.amazon.com/public/community/post/Tx14R0IYYGH3SKT/Flask-Ask-A-New-Python-Framework-for-Rapid-Alexa-Skills-Kit-Development" target="_blank" rel="noopener">Flask-Ask: A New Python Framework for Rapid Alexa Skills Kit Development</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Chenghao Qian
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://ChenghaoQian.com/article/echo-control-2048/" title="使用Echosim语音控制2048">http://ChenghaoQian.com/article/echo-control-2048/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/data-visualization-1/" rel="next" title="数据可视化（1）：使用Pylab进行净现值曲线分析">
+                <i class="fa fa-chevron-left"></i> 数据可视化（1）：使用Pylab进行净现值曲线分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/data-visualization-2/" rel="prev" title="数据可视化(2)：五种基本图形">
+                数据可视化(2)：五种基本图形 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Chenghao Qian" />
+            
+              <p class="site-author-name" itemprop="name">Chenghao Qian</p>
+              <p class="site-description motion-element" itemprop="description">其实一直在路上。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改2048的输入源"><span class="nav-number">1.</span> <span class="nav-text">修改2048的输入源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交互模型"><span class="nav-number">2.</span> <span class="nav-text">交互模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intent-Schema"><span class="nav-number">2.1.</span> <span class="nav-text">Intent Schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Custom-Slot-Types"><span class="nav-number">2.2.</span> <span class="nav-text">Custom Slot Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sample-Utterance"><span class="nav-number">2.3.</span> <span class="nav-text">Sample Utterance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">2.4.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欢迎界面"><span class="nav-number">2.5.</span> <span class="nav-text">欢迎界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动游戏"><span class="nav-number">2.6.</span> <span class="nav-text">启动游戏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作"><span class="nav-number">2.7.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#question和statement"><span class="nav-number">2.8.</span> <span class="nav-text">question和statement</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动服务"><span class="nav-number">3.1.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Developer上创建新技能"><span class="nav-number">3.2.</span> <span class="nav-text">Developer上创建新技能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Echosim"><span class="nav-number">3.3.</span> <span class="nav-text">Echosim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#课后拓展"><span class="nav-number">4.</span> <span class="nav-text">课后拓展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenghao Qian</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom"><img src="/images/Sign.png" style="width:100px;float:left;padding-left:20px"></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
